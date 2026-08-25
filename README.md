@@ -1,6 +1,20 @@
-# gangho_ilji
+# 강호일지
 
-A new Flutter project.
+로컬 저장 기반의 세로형 무협 방치형 RPG 알파입니다.
+
+## 웹 플레이
+
+GitHub Pages에서 배포되는 웹 버전은 모바일 세로 레이아웃을 기준으로 제작되었습니다.
+
+## 로컬 실행
+
+flutter pub get
+
+flutter run -d chrome
+
+## 릴리스 웹 빌드
+
+flutter build web --release
 
 ## Getting Started
 
