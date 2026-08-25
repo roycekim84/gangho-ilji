@@ -1,0 +1,23 @@
+[
+  {"id":"field_dog","name":"들개","areaId":"luoyang","hp":52,"attack":8,"defense":1,"exp":12,"silver":7},
+  {"id":"bandit_novice","name":"산적 견습","areaId":"luoyang","hp":58,"attack":9,"defense":2,"exp":13,"silver":8},
+  {"id":"black_assassin","name":"흑의 자객","areaId":"luoyang","hp":64,"attack":10,"defense":2,"exp":14,"silver":9},
+  {"id":"bamboo_monk","name":"죽엽승","areaId":"bamboo","hp":85,"attack":14,"defense":4,"exp":21,"silver":14},
+  {"id":"bamboo_snake","name":"청죽 독사","areaId":"bamboo","hp":75,"attack":16,"defense":2,"exp":20,"silver":15},
+  {"id":"forest_archer","name":"녹림 궁수","areaId":"bamboo","hp":78,"attack":17,"defense":3,"exp":22,"silver":16},
+  {"id":"wind_bandit","name":"흑풍 도적","areaId":"blackwind","hp":118,"attack":24,"defense":7,"exp":31,"silver":24},
+  {"id":"whipman","name":"채찍수","areaId":"blackwind","hp":105,"attack":27,"defense":5,"exp":32,"silver":25},
+  {"id":"thrower","name":"투척수","areaId":"blackwind","hp":110,"attack":26,"defense":6,"exp":33,"silver":25},
+  {"id":"horse_raider","name":"마적","areaId":"shanxi","hp":160,"attack":34,"defense":10,"exp":43,"silver":36},
+  {"id":"smuggler","name":"밀수꾼","areaId":"shanxi","hp":148,"attack":36,"defense":9,"exp":42,"silver":38},
+  {"id":"iron_spear","name":"철창수","areaId":"shanxi","hp":175,"attack":35,"defense":12,"exp":44,"silver":37},
+  {"id":"venom_swarm","name":"독충 떼","areaId":"yunnan","hp":210,"attack":46,"defense":12,"exp":55,"silver":52},
+  {"id":"miao_warrior","name":"묘족 전사","areaId":"yunnan","hp":235,"attack":44,"defense":16,"exp":57,"silver":50},
+  {"id":"snake_shaman","name":"독사술사","areaId":"yunnan","hp":195,"attack":51,"defense":11,"exp":58,"silver":54},
+  {"id":"blood_cultist","name":"혈교도","areaId":"blood","hp":290,"attack":61,"defense":19,"exp":70,"silver":70},
+  {"id":"yin_ghost","name":"음귀","areaId":"blood","hp":270,"attack":66,"defense":16,"exp":72,"silver":72},
+  {"id":"blood_swordsman","name":"혈도객","areaId":"blood","hp":310,"attack":64,"defense":22,"exp":74,"silver":73},
+  {"id":"demon_elite","name":"마교 정예","areaId":"demon","hp":390,"attack":82,"defense":28,"exp":90,"silver":95},
+  {"id":"dark_shadow","name":"암영","areaId":"demon","hp":340,"attack":90,"defense":23,"exp":92,"silver":98},
+  {"id":"demon_guard","name":"천마 친위","areaId":"demon","hp":420,"attack":85,"defense":31,"exp":95,"silver":100}
+]

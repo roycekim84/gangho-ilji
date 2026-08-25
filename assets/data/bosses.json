@@ -1,0 +1,9 @@
+[
+  {"id":"iron_mask","name":"철면 도적","areaId":"luoyang","hp":676,"attack":22,"defense":5,"rewardExp":96,"rewardSilver":84},
+  {"id":"bamboo_sword","name":"청죽 검객","areaId":"bamboo","hp":1040,"attack":34,"defense":10,"rewardExp":168,"rewardSilver":168},
+  {"id":"blackwind_lord","name":"흑풍 방주","areaId":"blackwind","hp":1400,"attack":50,"defense":16,"rewardExp":240,"rewardSilver":252},
+  {"id":"yellow_spear","name":"황토 창왕","areaId":"shanxi","hp":1800,"attack":68,"defense":24,"rewardExp":312,"rewardSilver":336},
+  {"id":"venom_witch","name":"독안 무녀","areaId":"yunnan","hp":2200,"attack":88,"defense":31,"rewardExp":384,"rewardSilver":420},
+  {"id":"blood_elder","name":"혈음 노인","areaId":"blood","hp":2600,"attack":110,"defense":40,"rewardExp":456,"rewardSilver":504},
+  {"id":"demon_echo","name":"천마 잔영","areaId":"demon","hp":3100,"attack":138,"defense":52,"rewardExp":528,"rewardSilver":588}
+]

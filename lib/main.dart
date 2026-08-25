@@ -150,6 +150,8 @@ class Game extends ChangeNotifier {
   final List<Area> areas = [];
   final List<Skill> skills = [];
   final List<StoryEvent> events = [];
+  List<Map<String, dynamic>> enemies = [];
+  List<Map<String, dynamic>> bossData = [];
   List<Gear> bag = [];
   List<Gear> worn = [];
   List<String> logs = ['강호에 발을 들일 준비가 되었습니다.'];
@@ -174,6 +176,7 @@ class Game extends ChangeNotifier {
   int maxHp = 120;
   int foeHp = 50;
   int foeMaxHp = 50;
+  int foeAttack = 8;
   int area = 0;
   int unlocked = 0;
   int points = 0;
@@ -214,9 +217,17 @@ class Game extends ChangeNotifier {
     final rawEvents =
         jsonDecode(await rootBundle.loadString('assets/data/events.json'))
             as List;
+    final rawEnemies =
+        jsonDecode(await rootBundle.loadString('assets/data/enemies.json'))
+            as List;
+    final rawBosses =
+        jsonDecode(await rootBundle.loadString('assets/data/bosses.json'))
+            as List;
     areas.addAll(rawAreas.map((x) => Area.fromJson(x)));
     skills.addAll(rawSkills.map((x) => Skill.fromJson(x)));
     events.addAll(rawEvents.map((x) => StoryEvent.fromJson(x)));
+    enemies = rawEnemies.map((x) => Map<String, dynamic>.from(x)).toList();
+    bossData = rawBosses.map((x) => Map<String, dynamic>.from(x)).toList();
     await _load();
     ready = true;
     offline = playing && DateTime.now().difference(lastSeen).inMinutes > 0;
@@ -309,8 +320,11 @@ class Game extends ChangeNotifier {
     foe = boss
         ? place.boss
         : place.enemies[random.nextInt(place.enemies.length)];
-    final factor = 1 + area * 0.52;
-    foeMaxHp = ((boss ? 676 : 52) * factor).round();
+    final data = boss
+        ? bossData.firstWhere((item) => item['name'] == foe)
+        : enemies.firstWhere((item) => item['name'] == foe);
+    foeMaxHp = data['hp'] as int;
+    foeAttack = data['attack'] as int;
     foeHp = foeMaxHp;
   }
 
@@ -324,7 +338,7 @@ class Game extends ChangeNotifier {
     if (dodged) {
       log(hero + '이(가) 공격을 흘려냈습니다.');
     } else {
-      final damage = max(1, 8 + area * 8 - defense ~/ 6);
+      final damage = max(1, foeAttack - defense ~/ 6);
       hp -= damage;
       log(foe + '의 공격, ' + damage.toString() + ' 피해.');
     }
