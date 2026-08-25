@@ -1,0 +1,9 @@
+[
+  {"id":"luoyang","name":"낙양 외곽","description":"낙양 성문 밖, 초보 무인이 첫발을 딛는 들판.","recommendedLevel":1,"enemies":["들개","산적 견습","흑의 자객"],"boss":"철면 도적","unlockBoss":false,"dropTier":0},
+  {"id":"bamboo","name":"청죽림","description":"대나무 잎이 칼날처럼 스치는 깊은 숲.","recommendedLevel":5,"enemies":["죽엽승","청죽 독사","녹림 궁수"],"boss":"청죽 검객","unlockBoss":true,"dropTier":1},
+  {"id":"blackwind","name":"흑풍채","description":"흑풍이 산채의 횃불을 삼키는 밤.","recommendedLevel":10,"enemies":["흑풍 도적","채찍수","투척수"],"boss":"흑풍 방주","unlockBoss":true,"dropTier":1},
+  {"id":"shanxi","name":"산서대로","description":"황토 길 위로 피 냄새가 감도는 대상로.","recommendedLevel":16,"enemies":["마적","밀수꾼","철창수"],"boss":"황토 창왕","unlockBoss":true,"dropTier":2},
+  {"id":"yunnan","name":"운남 독림","description":"안개와 독기가 뒤엉킨 남녘의 밀림.","recommendedLevel":23,"enemies":["독충 떼","묘족 전사","독사술사"],"boss":"독안 무녀","unlockBoss":true,"dropTier":2},
+  {"id":"blood","name":"혈음곡","description":"핏빛 메아리가 돌아오는 버려진 협곡.","recommendedLevel":31,"enemies":["혈교도","음귀","혈도객"],"boss":"혈음 노인","unlockBoss":true,"dropTier":3},
+  {"id":"demon","name":"천마봉","description":"강호의 끝, 검은 구름 위의 마도 성채.","recommendedLevel":40,"enemies":["마교 정예","암영","천마 친위"],"boss":"천마 잔영","unlockBoss":true,"dropTier":3}
+]

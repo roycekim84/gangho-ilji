@@ -1,0 +1,6 @@
+{
+  "realms": ["삼류", "이류", "일류", "절정"],
+  "offlineRewardCapMinutes": 480,
+  "levelReward": {"statPoints": 3, "meridianPoints": 1},
+  "breakthroughs": {"이류": "Lv10 + 첫 보스", "일류": "Lv24 + 보스 3명 + 내력 60", "절정": "Lv40 + 보스 6명 + 숙련 180"}
+}

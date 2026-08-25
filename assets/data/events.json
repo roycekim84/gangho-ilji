@@ -1,0 +1,22 @@
+[
+  {"id":"old_sword","areaId":"luoyang","title":"흙 속의 검","text":"길가의 반쯤 묻힌 낡은 검이 미세하게 울린다.","choices":[{"text":"검을 파낸다","effect":"item","value":1},{"text":"지나간다","effect":"silver","value":25}]},
+  {"id":"bamboo_sound","areaId":"bamboo","title":"대숲의 피리","text":"달빛 아래, 정체를 알 수 없는 피리 소리가 들린다.","choices":[{"text":"소리를 따른다","effect":"exp","value":80},{"text":"호흡을 가다듬는다","effect":"stat","value":1}]},
+  {"id":"poison_herb","areaId":"yunnan","title":"독초와 약초","text":"해독할 수 있을지 모를 붉은 풀을 발견했다.","choices":[{"text":"조심스레 채집한다","effect":"silver","value":180},{"text":"기운으로 시험한다","effect":"heal","value":40}]},
+  {"id":"lost_child","areaId":"luoyang","title":"길 잃은 아이","text":"해가 지기 전, 아이가 어머니를 찾고 있다.","choices":[{"text":"마을까지 데려다준다","effect":"exp","value":45},{"text":"여비를 건넨다","effect":"silver","value":35}]},
+  {"id":"old_monk","areaId":"bamboo","title":"늙은 승려","text":"대숲에 앉은 승려가 손짓으로 함께 차를 마시자 한다.","choices":[{"text":"차를 마신다","effect":"heal","value":55},{"text":"화두를 듣는다","effect":"stat","value":1}]},
+  {"id":"black_letter","areaId":"blackwind","title":"검은 서신","text":"산채의 봉인된 서신이 바람에 굴러왔다.","choices":[{"text":"봉인을 푼다","effect":"silver","value":95},{"text":"불태운다","effect":"exp","value":90}]},
+  {"id":"road_seller","areaId":"shanxi","title":"길 위의 상인","text":"수상한 상인이 낡은 옥패를 내민다.","choices":[{"text":"값을 치른다","effect":"item","value":1},{"text":"거절하고 떠난다","effect":"heal","value":35}]},
+  {"id":"wounded_horse","areaId":"shanxi","title":"다친 말","text":"마적의 화살을 맞은 말이 길가에서 신음한다.","choices":[{"text":"상처를 돌본다","effect":"stat","value":1},{"text":"약초를 판다","effect":"silver","value":110}]},
+  {"id":"mist_altar","areaId":"yunnan","title":"안개 제단","text":"밀림의 돌제단 위에 푸른 불꽃이 흔들린다.","choices":[{"text":"호흡을 맞춘다","effect":"exp","value":150},{"text":"거리를 둔다","effect":"heal","value":50}]},
+  {"id":"blood_echo","areaId":"blood","title":"피의 메아리","text":"협곡 벽에서 누군가의 절규가 되돌아온다.","choices":[{"text":"기운으로 맞선다","effect":"stat","value":1},{"text":"은밀히 물러난다","effect":"silver","value":180}]},
+  {"id":"old_manual","areaId":"blood","title":"찢긴 비급","text":"바위틈에서 반쪽짜리 비급을 발견했다.","choices":[{"text":"문장을 해독한다","effect":"exp","value":190},{"text":"종이를 감춘다","effect":"item","value":1}]},
+  {"id":"demon_flag","areaId":"demon","title":"마교의 깃발","text":"검은 깃발 아래에 남은 기운이 소용돌이친다.","choices":[{"text":"정면으로 부순다","effect":"exp","value":260},{"text":"기운을 흡수한다","effect":"heal","value":80}]},
+  {"id":"cloud_peak","areaId":"demon","title":"구름 위의 샘","text":"천마봉 절벽의 샘물이 은은한 빛을 낸다.","choices":[{"text":"샘물을 마신다","effect":"stat","value":1},{"text":"병에 담는다","effect":"silver","value":250}]},
+  {"id":"traveler","areaId":"luoyang","title":"낯선 나그네","text":"검집 없는 검을 든 나그네가 길을 묻는다.","choices":[{"text":"길을 가르쳐 준다","effect":"silver","value":40},{"text":"검담을 나눈다","effect":"exp","value":55}]},
+  {"id":"river_lantern","areaId":"bamboo","title":"강등","text":"대숲 밖 물가에 홀로 떠내려가는 등불이 있다.","choices":[{"text":"등불을 건진다","effect":"item","value":1},{"text":"소원을 빈다","effect":"heal","value":45}]},
+  {"id":"bandit_cache","areaId":"blackwind","title":"산적의 은닉처","text":"낡은 토담 뒤에 작은 상자가 숨겨져 있다.","choices":[{"text":"자물쇠를 연다","effect":"silver","value":130},{"text":"흔적을 남기지 않는다","effect":"exp","value":120}]},
+  {"id":"desert_singer","areaId":"shanxi","title":"황토의 노래","text":"바람 사이로 오래된 민요가 들려온다.","choices":[{"text":"노래를 따라간다","effect":"exp","value":140},{"text":"발걸음을 재촉한다","effect":"silver","value":125}]},
+  {"id":"snake_skin","areaId":"yunnan","title":"허물 벗은 독사","text":"거대한 뱀의 허물이 나무에 걸려 있다.","choices":[{"text":"가죽을 챙긴다","effect":"item","value":1},{"text":"독기를 피한다","effect":"heal","value":60}]},
+  {"id":"blood_flower","areaId":"blood","title":"혈화","text":"붉은 꽃이 협곡의 찬 바람 속에 피어 있다.","choices":[{"text":"꽃잎을 태운다","effect":"exp","value":210},{"text":"꽃을 꺾는다","effect":"silver","value":220}]},
+  {"id":"final_gate","areaId":"demon","title":"봉우리의 문","text":"마교의 마지막 문이 닫힌 채 당신을 기다린다.","choices":[{"text":"문에 손을 댄다","effect":"stat","value":1},{"text":"숨을 고른다","effect":"heal","value":100}]}
+]
