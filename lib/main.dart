@@ -4235,21 +4235,98 @@ class Ending extends StatelessWidget {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(Icons.local_fire_department, size: 58, color: gold),
-        const Text('강호일지 · 종장', style: TextStyle(fontSize: 25, color: gold)),
-        const SizedBox(height: 12),
+        Container(
+          width: 74,
+          height: 74,
+          decoration: BoxDecoration(
+            color: const Color(0xff3a2920),
+            border: Border.all(color: gold, width: 1.4),
+          ),
+          child: const Icon(Icons.local_fire_department, size: 48, color: gold),
+        ),
+        const SizedBox(height: 11),
+        const Text(
+          '강호일지 · 종장',
+          style: TextStyle(
+            fontSize: 24,
+            color: paper,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
+        ),
+        const SizedBox(height: 5),
+        const Text(
+          'THE LAST CHAPTER',
+          style: TextStyle(color: gold, fontSize: 9, letterSpacing: 2),
+        ),
+        const SizedBox(height: 14),
         Text(
           game.hero +
               '은(는) 천마봉의 검은 구름을 거두었습니다.\n무명으로 시작한 이름은 이제 강호의 바람 속에 남습니다.',
           textAlign: TextAlign.center,
+          style: const TextStyle(color: paper, fontSize: 13, height: 1.5),
         ),
         const SizedBox(height: 15),
-        FilledButton(
-          onPressed: game.closeEnding,
-          child: const Text('강호로 돌아간다'),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: _EndingStat(label: '최종 경지', value: game.realm),
+              ),
+              Expanded(
+                child: _EndingStat(label: '격파한 적', value: '${game.kills}명'),
+              ),
+              Expanded(
+                child: _EndingStat(
+                  label: '개방 지역',
+                  value: '${game.unlocked + 1}/7',
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          height: 42,
+          child: FilledButton(
+            onPressed: game.closeEnding,
+            child: const Text('강호로 돌아간다'),
+          ),
+        ),
+        const SizedBox(height: 6),
+        const Text(
+          '이 기록은 저장되었습니다.',
+          style: TextStyle(color: soft, fontSize: 10),
         ),
       ],
     ),
+  );
+}
+
+class _EndingStat extends StatelessWidget {
+  const _EndingStat({required this.label, required this.value});
+  final String label;
+  final String value;
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      Text(
+        value,
+        style: const TextStyle(
+          color: gold,
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 3),
+      Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+    ],
   );
 }
 
