@@ -22,6 +22,17 @@ String? areaArtwork(String id) => switch (id) {
   _ => null,
 };
 
+String? bossArtwork(String id) => switch (id) {
+  'luoyang' => 'assets/images/boss_luoyang.png',
+  'bamboo' => 'assets/images/boss_bamboo.png',
+  'blackwind' => 'assets/images/boss_blackwind.png',
+  'shanxi' => 'assets/images/boss_shanxi.png',
+  'yunnan' => 'assets/images/boss_yunnan.png',
+  'blood' => 'assets/images/boss_blood.png',
+  'demon' => 'assets/images/boss_demon.png',
+  _ => null,
+};
+
 void main() => runApp(const GanghoApp());
 
 class GanghoApp extends StatelessWidget {
@@ -3386,16 +3397,7 @@ class MainJianghu extends StatelessWidget {
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
     final progress = game.bosses.contains(game.place.id) ? 1.0 : 0.68;
-    final bossImage = switch (game.place.id) {
-      'luoyang' => 'assets/images/boss_luoyang.png',
-      'bamboo' => 'assets/images/boss_bamboo.png',
-      'blackwind' => 'assets/images/boss_blackwind.png',
-      'shanxi' => 'assets/images/boss_shanxi.png',
-      'yunnan' => 'assets/images/boss_yunnan.png',
-      'blood' => 'assets/images/boss_blood.png',
-      'demon' => 'assets/images/boss_demon.png',
-      _ => null,
-    };
+    final bossImage = bossArtwork(game.place.id);
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
       children: [
@@ -3881,6 +3883,7 @@ class MainJianghu extends StatelessWidget {
         final area = game.place;
         final cleared = game.bosses.contains(area.id);
         final areaImage = areaArtwork(area.id);
+        final bossImage = bossArtwork(area.id);
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 14, 14, 18),
@@ -3956,6 +3959,44 @@ class MainJianghu extends StatelessWidget {
                         '지역 보스  ·  ${area.boss}',
                         style: const TextStyle(color: paper, fontSize: 11),
                       ),
+                      if (bossImage != null) ...[
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: cleared
+                                      ? const Color(0xff9fc47d)
+                                      : const Color(0xffa45a42),
+                                ),
+                              ),
+                              child: ClipRect(
+                                child: Image.asset(
+                                  bossImage,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 9),
+                            Expanded(
+                              child: Text(
+                                cleared
+                                    ? '처치 기록이 강호록에 새겨졌습니다.'
+                                    : '이 수문장을 넘어야 다음 지역으로 향할 수 있습니다.',
+                                style: TextStyle(
+                                  color: cleared
+                                      ? const Color(0xff9fc47d)
+                                      : soft,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 6),
                       Text(
                         cleared
