@@ -4608,15 +4608,17 @@ class EventCard extends StatelessWidget {
                 const SizedBox(height: 12),
                 Container(
                   height: 116,
-                  decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(
+                  decoration: BoxDecoration(
+                    border: const Border.fromBorderSide(
                       BorderSide(color: Color(0xff665338)),
                     ),
                     image: DecorationImage(
                       image: AssetImage(
-                        'assets/images/event_mountain_letter.png',
+                        areaArtwork(game.place.id) ??
+                            'assets/images/event_mountain_letter.png',
                       ),
                       fit: BoxFit.cover,
+                      opacity: .72,
                     ),
                   ),
                 ),
