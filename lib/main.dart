@@ -59,6 +59,7 @@ String enemyArtwork(String id) => id == 'demon'
 String gearArtwork(String slot) => switch (slot) {
   '무기' => 'assets/images/item_sword.png',
   '머리' => 'assets/images/item_helmet.png',
+  '목걸이' || '옥패' => 'assets/images/item_jade_pendant.png',
   _ => 'assets/images/item_armor.png',
 };
 

@@ -37,6 +37,7 @@
 - `item_jade_talisman.png`: 기연 장비 보상 힌트
 - `item_treasure_chest.png`: 기연 장비 발견 보상 힌트 (Phase B 확장)
 - `item_helmet.png`: 머리 장비 슬롯 전용 아이콘 (Phase B 확장)
+- `item_jade_pendant.png`: 목걸이·옥패 장신구 슬롯 전용 아이콘 (Phase B 확장)
 - `skill_manual.png`: 무공 목록
 - `meridian_texture.png`: 경맥도 배경 질감
 - `chronicle_paper.png`: 강호록 기록 패널
