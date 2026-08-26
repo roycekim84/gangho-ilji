@@ -67,6 +67,62 @@ class GanghoApp extends StatelessWidget {
           surface: Color(0xff211f19),
           onSurface: paper,
         ),
+        dividerTheme: const DividerThemeData(
+          color: Color(0xff4f432f),
+          thickness: 1,
+          space: 1,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Color(0xff15140f),
+          hintStyle: TextStyle(color: soft),
+          labelStyle: TextStyle(color: soft),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff635239)),
+            borderRadius: BorderRadius.zero,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: gold),
+            borderRadius: BorderRadius.zero,
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: const MaterialStatePropertyAll<Color>(gold),
+            foregroundColor: const MaterialStatePropertyAll<Color>(ink),
+            shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+            textStyle: const MaterialStatePropertyAll<TextStyle>(
+              TextStyle(fontWeight: FontWeight.bold, letterSpacing: .2),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: const MaterialStatePropertyAll<Color>(paper),
+            side: const MaterialStatePropertyAll<BorderSide>(
+              BorderSide(color: Color(0xff806437)),
+            ),
+            shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: const MaterialStatePropertyAll<Color>(gold),
+            shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+          ),
+        ),
+        dialogTheme: const DialogThemeData(
+          backgroundColor: Color(0xff211f1a),
+          titleTextStyle: TextStyle(color: paper, fontSize: 20),
+          contentTextStyle: TextStyle(color: soft, fontSize: 13),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        ),
       ),
       home: const Shell(),
     ),
