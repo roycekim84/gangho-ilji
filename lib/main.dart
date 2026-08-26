@@ -3437,6 +3437,13 @@ class MainJianghu extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(0xff27231b),
             border: Border.all(color: const Color(0xff8a6b37)),
+            image: areaArtwork(game.place.id) == null
+                ? null
+                : DecorationImage(
+                    image: AssetImage(areaArtwork(game.place.id)!),
+                    fit: BoxFit.cover,
+                    opacity: .18,
+                  ),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 9, 12, 10),
