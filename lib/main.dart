@@ -2035,66 +2035,80 @@ class Meridian extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: InteractiveViewer(
-            minScale: .7,
-            maxScale: 2.8,
-            child: CustomPaint(
-              painter: MeridianLines(game.nodes),
-              child: SizedBox(
-                width: 500,
-                height: 600,
-                child: Stack(
-                  children: List.generate(90, (index) {
-                    final angle = (index % 15) * pi * 2 / 15;
-                    final ring = index ~/ 15;
-                    final x = 220 + cos(angle) * (55 + ring * 34);
-                    final y = 285 + sin(angle) * (55 + ring * 34);
-                    final opened = game.nodes.contains(index);
-                    final available = game.canOpen(index);
-                    return Positioned(
-                      left: x,
-                      top: y,
-                      child: GestureDetector(
-                        onTap: () => game.open(index),
-                        child: Tooltip(
-                          message: const [
-                            '외공',
-                            '내공',
-                            '검맥',
-                            '도맥',
-                            '권맥',
-                            '경공',
-                            '암기',
-                          ][index % 7],
-                          child: Container(
-                            width: index == 0 ? 35 : 24,
-                            height: index == 0 ? 35 : 24,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: opened
-                                  ? gold
-                                  : available
-                                  ? const Color(0xff67563e)
-                                  : const Color(0xff29271f),
-                              border: Border.all(color: opened ? paper : soft),
-                            ),
-                            child: Center(
-                              child: Text(
-                                index == 0 ? '정' : (index + 1).toString(),
-                                style: const TextStyle(
-                                  fontSize: 8,
-                                  color: paper,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Opacity(
+                opacity: .16,
+                child: Image.asset(
+                  'assets/images/meridian_texture.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              InteractiveViewer(
+                minScale: .7,
+                maxScale: 2.8,
+                child: CustomPaint(
+                  painter: MeridianLines(game.nodes),
+                  child: SizedBox(
+                    width: 500,
+                    height: 600,
+                    child: Stack(
+                      children: List.generate(90, (index) {
+                        final angle = (index % 15) * pi * 2 / 15;
+                        final ring = index ~/ 15;
+                        final x = 220 + cos(angle) * (55 + ring * 34);
+                        final y = 285 + sin(angle) * (55 + ring * 34);
+                        final opened = game.nodes.contains(index);
+                        final available = game.canOpen(index);
+                        return Positioned(
+                          left: x,
+                          top: y,
+                          child: GestureDetector(
+                            onTap: () => game.open(index),
+                            child: Tooltip(
+                              message: const [
+                                '외공',
+                                '내공',
+                                '검맥',
+                                '도맥',
+                                '권맥',
+                                '경공',
+                                '암기',
+                              ][index % 7],
+                              child: Container(
+                                width: index == 0 ? 35 : 24,
+                                height: index == 0 ? 35 : 24,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: opened
+                                      ? gold
+                                      : available
+                                      ? const Color(0xff67563e)
+                                      : const Color(0xff29271f),
+                                  border: Border.all(
+                                    color: opened ? paper : soft,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    index == 0 ? '정' : (index + 1).toString(),
+                                    style: const TextStyle(
+                                      fontSize: 8,
+                                      color: paper,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  }),
+                        );
+                      }),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],
