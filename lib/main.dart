@@ -2494,10 +2494,11 @@ class _GearEntry extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             )
-                          : Icon(
-                              equipped ? Icons.verified : Icons.shield,
-                              color: gradeColor(gear.grade),
-                              size: 21,
+                          : ClipRect(
+                              child: Image.asset(
+                                'assets/images/item_armor.png',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     ),
                     const SizedBox(width: 9),
