@@ -3467,6 +3467,18 @@ class EventCard extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 4),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              game.place.name + ' · 우연히 마주한 한 장면',
+              style: const TextStyle(
+                color: soft,
+                fontSize: 10,
+                letterSpacing: .4,
+              ),
+            ),
+          ),
           const SizedBox(height: 8),
           Container(height: 1, color: const Color(0xff755b35)),
           const SizedBox(height: 12),
@@ -3494,6 +3506,16 @@ class EventCard extends StatelessWidget {
           ...item.choices.asMap().entries.map((entry) {
             final choice = entry.value;
             final index = entry.key;
+            final effect = choice['effect'] as String;
+            final value = choice['value'] as int;
+            final reward = switch (effect) {
+              'silver' => '은자 $value 획득',
+              'exp' => '경험치 $value 획득',
+              'item' => '장비 발견 가능',
+              'heal' => '기혈 $value 회복',
+              'stat' => '능력치 +$value',
+              _ => '결과를 알 수 없음',
+            };
             return Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: SizedBox(
@@ -3509,9 +3531,22 @@ class EventCard extends StatelessWidget {
                   ),
                   label: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      choice['text'],
-                      style: const TextStyle(color: paper),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          choice['text'],
+                          style: const TextStyle(color: paper),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          reward,
+                          style: TextStyle(
+                            color: effect == 'item' ? gold : soft,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
