@@ -4463,13 +4463,20 @@ class Ending extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 74,
-          height: 74,
+          width: double.infinity,
+          height: 92,
           decoration: BoxDecoration(
             color: const Color(0xff3a2920),
-            border: Border.all(color: gold, width: 1.4),
+            border: Border.all(color: gold, width: 1.2),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/title_cover.png'),
+              fit: BoxFit.cover,
+              opacity: .35,
+            ),
           ),
-          child: const Icon(Icons.local_fire_department, size: 48, color: gold),
+          child: const Center(
+            child: Icon(Icons.local_fire_department, size: 48, color: gold),
+          ),
         ),
         const SizedBox(height: 11),
         const Text(
