@@ -1641,7 +1641,12 @@ class MainSkills extends StatelessWidget {
                     color: const Color(0xff403629),
                     border: Border.all(color: gold),
                   ),
-                  child: const Icon(Icons.auto_awesome, color: gold, size: 29),
+                  child: ClipRect(
+                    child: Image.asset(
+                      'assets/images/skill_manual.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 11),
                 Expanded(
@@ -1727,10 +1732,19 @@ class MainSkills extends StatelessWidget {
                           style: const TextStyle(color: soft, fontSize: 10),
                         ),
                       ),
-                      Icon(
-                        skill == null ? Icons.crop_square : Icons.flash_on,
-                        color: skill == null ? soft : gold,
-                        size: 20,
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: skill == null
+                            ? const Icon(
+                                Icons.crop_square,
+                                color: soft,
+                                size: 20,
+                              )
+                            : Image.asset(
+                                'assets/images/skill_manual.png',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
