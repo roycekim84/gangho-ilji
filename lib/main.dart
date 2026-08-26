@@ -3344,6 +3344,16 @@ class MainJianghu extends StatelessWidget {
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
     final progress = game.bosses.contains(game.place.id) ? 1.0 : 0.68;
+    final bossImage = switch (game.place.id) {
+      'luoyang' => 'assets/images/boss_luoyang.png',
+      'bamboo' => 'assets/images/boss_bamboo.png',
+      'blackwind' => 'assets/images/boss_blackwind.png',
+      'shanxi' => 'assets/images/boss_shanxi.png',
+      'yunnan' => 'assets/images/boss_yunnan.png',
+      'blood' => 'assets/images/boss_blood.png',
+      'demon' => 'assets/images/boss_demon.png',
+      _ => null,
+    };
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
       children: [
@@ -3496,9 +3506,7 @@ class MainJianghu extends StatelessWidget {
                         icon: game.fightingBoss ? Icons.whatshot : Icons.shield,
                         title: game.foe,
                         subtitle: game.fightingBoss ? '지역 보스' : '적대 세력',
-                        imageAsset: game.fightingBoss
-                            ? 'assets/images/boss_blackwind.png'
-                            : null,
+                        imageAsset: game.fightingBoss ? bossImage : null,
                       ),
                     ),
                   ],
