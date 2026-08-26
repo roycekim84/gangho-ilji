@@ -3943,39 +3943,55 @@ class MainJianghu extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.landscape, color: gold, size: 22),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        area.name,
-                        style: const TextStyle(
-                          color: paper,
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
+                Container(
+                  height: 128,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff29231a),
+                    border: Border.all(color: const Color(0xff8a6b37)),
+                    image: areaImage == null
+                        ? null
+                        : DecorationImage(
+                            image: AssetImage(areaImage),
+                            fit: BoxFit.cover,
+                            opacity: .72,
+                          ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(12, 24, 12, 10),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Color(0xcc15140f)],
                         ),
                       ),
-                    ),
-                    Text(
-                      '권장 Lv.${area.level}',
-                      style: const TextStyle(color: gold, fontSize: 11),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                if (areaImage != null)
-                  Container(
-                    height: 88,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff665338)),
-                      image: DecorationImage(
-                        image: AssetImage(areaImage),
-                        fit: BoxFit.cover,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.landscape, color: gold, size: 20),
+                          const SizedBox(width: 7),
+                          Expanded(
+                            child: Text(
+                              area.name,
+                              style: const TextStyle(
+                                color: paper,
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '권장 Lv.${area.level}',
+                            style: const TextStyle(color: gold, fontSize: 11),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                if (areaImage != null) const SizedBox(height: 8),
+                ),
+                const SizedBox(height: 9),
                 Text(
                   area.description,
                   style: const TextStyle(
@@ -4013,41 +4029,46 @@ class MainJianghu extends StatelessWidget {
                         style: const TextStyle(color: paper, fontSize: 11),
                       ),
                       if (bossImage != null) ...[
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Container(
-                              width: 44,
-                              height: 44,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: cleared
-                                      ? const Color(0xff9fc47d)
-                                      : const Color(0xffa45a42),
-                                ),
-                              ),
-                              child: ClipRect(
-                                child: Image.asset(
-                                  bossImage,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        const SizedBox(height: 9),
+                        Container(
+                          height: 82,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff201917),
+                            border: Border.all(
+                              color: cleared
+                                  ? const Color(0xff76945c)
+                                  : const Color(0xffa45a42),
                             ),
-                            const SizedBox(width: 9),
-                            Expanded(
-                              child: Text(
-                                cleared
-                                    ? '처치 기록이 강호록에 새겨졌습니다.'
-                                    : '이 수문장을 넘어야 다음 지역으로 향할 수 있습니다.',
-                                style: TextStyle(
-                                  color: cleared
-                                      ? const Color(0xff9fc47d)
-                                      : soft,
-                                  fontSize: 10,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 82,
+                                height: 82,
+                                child: ClipRect(
+                                  child: Image.asset(
+                                    bossImage,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  cleared
+                                      ? '처치 기록이 강호록에 새겨졌습니다.'
+                                      : '이 수문장을 넘어야 다음 지역으로 향할 수 있습니다.',
+                                  style: TextStyle(
+                                    color: cleared
+                                        ? const Color(0xff9fc47d)
+                                        : soft,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                          ),
                         ),
                       ],
                       const SizedBox(height: 6),
