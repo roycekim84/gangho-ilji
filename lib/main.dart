@@ -2365,134 +2365,296 @@ class _GearEntry extends StatelessWidget {
     final delta = current == null ? 0 : gear.score - current.score;
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: const Color(0xff211f1a),
-          border: Border.all(
-            color: equipped ? const Color(0xff8a6b37) : const Color(0xff514431),
+      child: GestureDetector(
+        onTap: () => _showGearDetail(context, game, gear),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(
+              color: equipped
+                  ? const Color(0xff8a6b37)
+                  : const Color(0xff514431),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(9, 8, 7, 7),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 39,
-                    height: 39,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff302a20),
-                      border: Border.all(color: gradeColor(gear.grade)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(9, 8, 7, 7),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 39,
+                      height: 39,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff302a20),
+                        border: Border.all(color: gradeColor(gear.grade)),
+                      ),
+                      child: Icon(
+                        equipped ? Icons.verified : Icons.shield,
+                        color: gradeColor(gear.grade),
+                        size: 21,
+                      ),
                     ),
-                    child: Icon(
-                      equipped ? Icons.verified : Icons.shield,
-                      color: gradeColor(gear.grade),
-                      size: 21,
-                    ),
-                  ),
-                  const SizedBox(width: 9),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                gear.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: gradeColor(gear.grade),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
+                    const SizedBox(width: 9),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  gear.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: gradeColor(gear.grade),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              gear.grade,
-                              style: TextStyle(
-                                color: gradeColor(gear.grade),
-                                fontSize: 10,
+                              const SizedBox(width: 6),
+                              Text(
+                                gear.grade,
+                                style: TextStyle(
+                                  color: gradeColor(gear.grade),
+                                  fontSize: 10,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            gear.slot +
+                                '  ·  품질 ' +
+                                gear.quality.toString() +
+                                '%  ·  전투 점수 ' +
+                                gear.score.toString(),
+                            style: const TextStyle(color: soft, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (equipped)
+                      const Text(
+                        '장착 중',
+                        style: TextStyle(
+                          color: Color(0xff9fc47d),
+                          fontSize: 10,
                         ),
-                        const SizedBox(height: 3),
-                        Text(
-                          gear.slot +
-                              '  ·  품질 ' +
-                              gear.quality.toString() +
-                              '%  ·  전투 점수 ' +
-                              gear.score.toString(),
-                          style: const TextStyle(color: soft, fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (equipped)
-                    const Text(
-                      '장착 중',
-                      style: TextStyle(color: Color(0xff9fc47d), fontSize: 10),
-                    ),
-                ],
-              ),
-              if (!equipped && current != null)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 48, top: 4),
-                    child: Text(
-                      '현재 장비 대비 ' + (delta >= 0 ? '+' : '') + delta.toString(),
-                      style: TextStyle(
-                        color: delta >= 0
-                            ? const Color(0xff9fc47d)
-                            : const Color(0xffd07860),
-                        fontSize: 10,
                       ),
-                    ),
-                  ),
-                ),
-              if (!equipped)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => game.equip(gear),
-                      style: TextButton.styleFrom(
-                        foregroundColor: gold,
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      child: const Text('장착'),
-                    ),
-                    TextButton(
-                      onPressed: () => game.lock(gear),
-                      style: TextButton.styleFrom(
-                        foregroundColor: soft,
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      child: Text(gear.locked ? '잠금 해제' : '잠금'),
-                    ),
-                    TextButton(
-                      onPressed: gear.locked
-                          ? null
-                          : () => game.breakGear(gear),
-                      style: TextButton.styleFrom(
-                        foregroundColor: const Color(0xffc2765c),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      child: const Text('분해'),
-                    ),
                   ],
                 ),
-            ],
+                if (!equipped && current != null)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 48, top: 4),
+                      child: Text(
+                        '현재 장비 대비 ' +
+                            (delta >= 0 ? '+' : '') +
+                            delta.toString(),
+                        style: TextStyle(
+                          color: delta >= 0
+                              ? const Color(0xff9fc47d)
+                              : const Color(0xffd07860),
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                  ),
+                if (!equipped)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => game.equip(gear),
+                        style: TextButton.styleFrom(
+                          foregroundColor: gold,
+                          visualDensity: VisualDensity.compact,
+                        ),
+                        child: const Text('장착'),
+                      ),
+                      TextButton(
+                        onPressed: () => game.lock(gear),
+                        style: TextButton.styleFrom(
+                          foregroundColor: soft,
+                          visualDensity: VisualDensity.compact,
+                        ),
+                        child: Text(gear.locked ? '잠금 해제' : '잠금'),
+                      ),
+                      TextButton(
+                        onPressed: gear.locked
+                            ? null
+                            : () => game.breakGear(gear),
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xffc2765c),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                        child: const Text('분해'),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+void _showGearDetail(BuildContext context, Game game, Gear gear) {
+  final equipped = game.worn.any((item) => item.id == gear.id);
+  final current = game.worn.where((item) => item.slot == gear.slot).firstOrNull;
+  final delta = current == null ? 0 : gear.score - current.score;
+  final gradeColor = gear.grade == '보물'
+      ? const Color(0xffdfb35e)
+      : gear.grade == '명품'
+      ? const Color(0xffae8bc2)
+      : gear.grade == '양품'
+      ? const Color(0xff86aeb0)
+      : soft;
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: const Color(0xff181611),
+    builder: (_) => SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 16, 14, 18),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff302a20),
+                    border: Border.all(color: gradeColor),
+                  ),
+                  child: Icon(
+                    equipped ? Icons.verified : Icons.shield,
+                    color: gradeColor,
+                    size: 27,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        gear.name,
+                        style: TextStyle(
+                          color: gradeColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '${gear.grade} · ${gear.slot} · 품질 ${gear.quality}%',
+                        style: const TextStyle(color: soft, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  '점수 ${gear.score}',
+                  style: const TextStyle(color: gold, fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(11),
+              decoration: BoxDecoration(
+                color: const Color(0xff29231a),
+                border: Border.all(color: const Color(0xff665338)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '장비 옵션',
+                    style: TextStyle(
+                      color: gold,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    '공격력  +${gear.attack}',
+                    style: const TextStyle(color: paper, fontSize: 12),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '방어력  +${gear.defense}',
+                    style: const TextStyle(color: paper, fontSize: 12),
+                  ),
+                  if (current != null && !equipped) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      '현재 ${current.name} 대비  ${delta >= 0 ? '+' : ''}$delta',
+                      style: TextStyle(
+                        color: delta >= 0
+                            ? const Color(0xff9fc47d)
+                            : const Color(0xffd07860),
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: equipped
+                        ? null
+                        : () {
+                            game.equip(gear);
+                            Navigator.pop(context);
+                          },
+                    child: Text(equipped ? '장착 중' : '장착'),
+                  ),
+                ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      game.lock(gear);
+                      Navigator.pop(context);
+                    },
+                    child: Text(gear.locked ? '잠금 해제' : '잠금'),
+                  ),
+                ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: gear.locked
+                        ? null
+                        : () {
+                            game.breakGear(gear);
+                            Navigator.pop(context);
+                          },
+                    child: const Text('분해'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class MainChronicle extends StatefulWidget {
