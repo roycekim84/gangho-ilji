@@ -3813,7 +3813,11 @@ class MainJianghu extends StatelessWidget {
         final area = game.place;
         final cleared = game.bosses.contains(area.id);
         final areaImage = switch (area.id) {
+          'luoyang' => 'assets/images/area_luoyang.png',
           'bamboo' => 'assets/images/area_bamboo.png',
+          'blackwind' => 'assets/images/area_blackwind.png',
+          'shanxi' => 'assets/images/area_shanxi.png',
+          'yunnan' => 'assets/images/area_yunnan.png',
           'blood' => 'assets/images/area_blood.png',
           'demon' => 'assets/images/area_demon.png',
           _ => null,
