@@ -3812,6 +3812,12 @@ class MainJianghu extends StatelessWidget {
       builder: (context, game, _) {
         final area = game.place;
         final cleared = game.bosses.contains(area.id);
+        final areaImage = switch (area.id) {
+          'bamboo' => 'assets/images/area_bamboo.png',
+          'blood' => 'assets/images/area_blood.png',
+          'demon' => 'assets/images/area_demon.png',
+          _ => null,
+        };
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 14, 14, 18),
@@ -3839,18 +3845,18 @@ class MainJianghu extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
-                if (area.id == 'bamboo')
+                if (areaImage != null)
                   Container(
                     height: 88,
                     decoration: BoxDecoration(
                       border: Border.all(color: const Color(0xff665338)),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/area_bamboo.png'),
+                      image: DecorationImage(
+                        image: AssetImage(areaImage),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                if (area.id == 'bamboo') const SizedBox(height: 8),
+                if (areaImage != null) const SizedBox(height: 8),
                 Text(
                   area.description,
                   style: const TextStyle(
@@ -4218,6 +4224,19 @@ class EventCard extends StatelessWidget {
           const SizedBox(height: 8),
           Container(height: 1, color: const Color(0xff755b35)),
           const SizedBox(height: 12),
+          Container(
+            height: 92,
+            decoration: const BoxDecoration(
+              border: Border.fromBorderSide(
+                BorderSide(color: Color(0xff665338)),
+              ),
+              image: DecorationImage(
+                image: AssetImage('assets/images/event_mountain_letter.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
