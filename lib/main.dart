@@ -3089,6 +3089,57 @@ class MainJianghu extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 9),
+        if (game.fightingBoss) ...[
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: const Color(0xff34201b),
+              border: Border.all(color: const Color(0xffa45a42)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(11, 9, 11, 9),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.whatshot,
+                    color: Color(0xffd1785d),
+                    size: 22,
+                  ),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '지역 보스전',
+                          style: TextStyle(
+                            color: Color(0xffe0a077),
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${game.place.boss} · 수문장을 쓰러뜨리면 다음 길이 열립니다.',
+                          style: const TextStyle(color: paper, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    '${max(0, game.foeHp)}',
+                    style: const TextStyle(
+                      color: Color(0xffd1785d),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 9),
+        ],
         DecoratedBox(
           decoration: BoxDecoration(
             color: const Color(0xff211f1a),
