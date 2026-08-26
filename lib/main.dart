@@ -4538,87 +4538,122 @@ class Ending extends StatelessWidget {
   const Ending({super.key, required this.game});
   final Game game;
   @override
-  Widget build(BuildContext context) => Overlay(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: double.infinity,
-          height: 92,
+  Widget build(BuildContext context) => Material(
+    color: const Color(0xcc0b0b08),
+    child: Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(18),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
           decoration: BoxDecoration(
-            color: const Color(0xff3a2920),
+            color: const Color(0xff1c1914),
             border: Border.all(color: gold, width: 1.2),
-            image: const DecorationImage(
-              image: AssetImage('assets/images/title_cover.png'),
-              fit: BoxFit.cover,
-              opacity: .35,
-            ),
+            boxShadow: const [
+              BoxShadow(color: Colors.black87, blurRadius: 18, spreadRadius: 2),
+            ],
           ),
-          child: const Center(
-            child: Icon(Icons.local_fire_department, size: 48, color: gold),
-          ),
-        ),
-        const SizedBox(height: 11),
-        const Text(
-          '강호일지 · 종장',
-          style: TextStyle(
-            fontSize: 24,
-            color: paper,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-          ),
-        ),
-        const SizedBox(height: 5),
-        const Text(
-          'THE LAST CHAPTER',
-          style: TextStyle(color: gold, fontSize: 9, letterSpacing: 2),
-        ),
-        const SizedBox(height: 14),
-        Text(
-          game.hero +
-              '은(는) 천마봉의 검은 구름을 거두었습니다.\n무명으로 시작한 이름은 이제 강호의 바람 속에 남습니다.',
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: paper, fontSize: 13, height: 1.5),
-        ),
-        const SizedBox(height: 15),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xff211f1a),
-            border: Border.all(color: const Color(0xff635239)),
-          ),
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: _EndingStat(label: '최종 경지', value: game.realm),
-              ),
-              Expanded(
-                child: _EndingStat(label: '격파한 적', value: '${game.kills}명'),
-              ),
-              Expanded(
-                child: _EndingStat(
-                  label: '개방 지역',
-                  value: '${game.unlocked + 1}/7',
+              Container(
+                width: double.infinity,
+                height: 142,
+                decoration: BoxDecoration(
+                  color: const Color(0xff3a2920),
+                  border: Border.all(color: gold, width: 1.2),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/boss_demon.png'),
+                    fit: BoxFit.cover,
+                    opacity: .5,
+                  ),
                 ),
+                child: const Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      '천마봉 · 마지막 장',
+                      style: TextStyle(
+                        color: paper,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                        shadows: [Shadow(color: Colors.black, blurRadius: 6)],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 11),
+              const Text(
+                '강호일지 · 종장',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: paper,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                'THE LAST CHAPTER',
+                style: TextStyle(color: gold, fontSize: 9, letterSpacing: 2),
+              ),
+              const SizedBox(height: 14),
+              Text(
+                game.hero +
+                    '은(는) 천마봉의 검은 구름을 거두었습니다.\n무명으로 시작한 이름은 이제 강호의 바람 속에 남습니다.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: paper, fontSize: 13, height: 1.5),
+              ),
+              const SizedBox(height: 15),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xff211f1a),
+                  border: Border.all(color: const Color(0xff635239)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _EndingStat(label: '최종 경지', value: game.realm),
+                    ),
+                    Expanded(
+                      child: _EndingStat(
+                        label: '격파한 적',
+                        value: '${game.kills}명',
+                      ),
+                    ),
+                    Expanded(
+                      child: _EndingStat(
+                        label: '개방 지역',
+                        value: '${game.unlocked + 1}/7',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 42,
+                child: FilledButton(
+                  onPressed: game.closeEnding,
+                  child: const Text('강호로 돌아간다'),
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                '이 기록은 저장되었습니다.',
+                style: TextStyle(color: soft, fontSize: 10),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          height: 42,
-          child: FilledButton(
-            onPressed: game.closeEnding,
-            child: const Text('강호로 돌아간다'),
-          ),
-        ),
-        const SizedBox(height: 6),
-        const Text(
-          '이 기록은 저장되었습니다.',
-          style: TextStyle(color: soft, fontSize: 10),
-        ),
-      ],
+      ),
     ),
   );
 }
