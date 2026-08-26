@@ -694,7 +694,7 @@ class _HomeState extends State<Home> {
     final game = context.watch<Game>();
     final pages = [
       const MainJianghu(),
-      const Warrior(),
+      const MainWarrior(),
       const Martial(),
       const Bag(),
       const Chronicle(),
@@ -1113,6 +1113,357 @@ class Warrior extends StatelessWidget {
       ],
     );
   }
+}
+
+class MainWarrior extends StatelessWidget {
+  const MainWarrior({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final game = context.watch<Game>();
+    final stats = <List<Object>>[
+      ['근력', game.strength, '공격'],
+      ['근골', game.bone, '방어'],
+      ['민첩', game.agility, '회피'],
+      ['오성', game.insight, '치명'],
+      ['기혈', game.vitality, '생명'],
+      ['내력', game.energy, '무공'],
+    ];
+    final slotNames = ['무기', '머리', '의복', '손', '신발', '허리띠', '목걸이', '옥패'];
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.person, color: gold, size: 18),
+            SizedBox(width: 7),
+            Text(
+              '무인 기록',
+              style: TextStyle(
+                color: paper,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Text(
+              'PROFILE 01',
+              style: TextStyle(color: soft, fontSize: 9, letterSpacing: 1.2),
+            ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff27231b),
+            border: Border.all(color: const Color(0xff8a6b37)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(11),
+            child: Row(
+              children: [
+                Container(
+                  width: 73,
+                  height: 84,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff403629),
+                    border: Border.all(color: gold),
+                  ),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person, color: paper, size: 47),
+                      Text('無名武人', style: TextStyle(color: gold, fontSize: 9)),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        game.hero,
+                        style: const TextStyle(
+                          color: paper,
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        game.realm + ' · 제 ' + game.level.toString() + ' 경지',
+                        style: const TextStyle(color: gold, fontSize: 12),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          const Text(
+                            '수련',
+                            style: TextStyle(color: soft, fontSize: 10),
+                          ),
+                          const SizedBox(width: 7),
+                          Expanded(
+                            child: MainMeter(
+                              value: game.exp / game.need,
+                              color: const Color(0xff6f966b),
+                              label:
+                                  game.exp.toString() +
+                                  ' / ' +
+                                  game.need.toString(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text(
+                      '전투력',
+                      style: TextStyle(color: soft, fontSize: 10),
+                    ),
+                    Text(
+                      (game.attack * 4 + game.defense * 2).toString(),
+                      style: const TextStyle(
+                        color: gold,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '능력점 ' + game.points.toString(),
+                      style: const TextStyle(
+                        color: Color(0xff9fc47d),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        _SectionLabel(
+          title: '기본 능력',
+          trailing: 'POINT ' + game.points.toString(),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              childAspectRatio: 3.4,
+              mainAxisSpacing: 3,
+              crossAxisSpacing: 8,
+              children: stats.map((item) {
+                final title = item[0] as String;
+                return Row(
+                  children: [
+                    Container(
+                      width: 3,
+                      height: 25,
+                      color: title == '기혈' || title == '내력'
+                          ? const Color(0xff668e87)
+                          : gold,
+                    ),
+                    const SizedBox(width: 7),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            title + '  ' + (item[1] as int).toString(),
+                            style: const TextStyle(
+                              color: paper,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            item[2] as String,
+                            style: const TextStyle(color: soft, fontSize: 9),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: game.points > 0 ? () => game.stat(title) : null,
+                      child: Icon(
+                        Icons.add_circle_outline,
+                        size: 19,
+                        color: game.points > 0 ? gold : const Color(0xff514b3e),
+                      ),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        _SectionLabel(title: '전투 능력', trailing: 'BUILD SUMMARY'),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _CombatValue(
+                  label: '공격력',
+                  value: game.attack.toString(),
+                  color: const Color(0xffd08b62),
+                ),
+                _CombatValue(
+                  label: '방어력',
+                  value: game.defense.toString(),
+                  color: const Color(0xff8db8a7),
+                ),
+                _CombatValue(
+                  label: '치명타',
+                  value: game.critical.toString() + '%',
+                  color: gold,
+                ),
+                _CombatValue(
+                  label: '숙련도',
+                  value: game.mastery.toString(),
+                  color: const Color(0xff9fc47d),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        _SectionLabel(
+          title: '장비',
+          trailing: game.worn.length.toString() + ' / 8',
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: slotNames.map((slot) {
+                final item = game.worn
+                    .where((gear) => gear.slot == slot)
+                    .firstOrNull;
+                return Container(
+                  width: 78,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff302a20),
+                    border: Border.all(color: const Color(0xff514431)),
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        item == null ? Icons.crop_square : Icons.shield,
+                        color: item == null ? soft : gold,
+                        size: 20,
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        slot,
+                        style: const TextStyle(color: soft, fontSize: 9),
+                      ),
+                      Text(
+                        item == null ? '비어 있음' : item.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: item == null ? const Color(0xff645e50) : paper,
+                          fontSize: 9,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.title, required this.trailing});
+  final String title;
+  final String trailing;
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: 5, left: 2),
+    child: Row(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: gold,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            letterSpacing: .5,
+          ),
+        ),
+        const Spacer(),
+        Text(
+          trailing,
+          style: const TextStyle(color: soft, fontSize: 9, letterSpacing: .7),
+        ),
+      ],
+    ),
+  );
+}
+
+class _CombatValue extends StatelessWidget {
+  const _CombatValue({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+  final String label;
+  final String value;
+  final Color color;
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      Text(
+        value,
+        style: TextStyle(
+          color: color,
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 2),
+      Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+    ],
+  );
 }
 
 class Martial extends StatefulWidget {
