@@ -697,7 +697,7 @@ class _HomeState extends State<Home> {
       const MainWarrior(),
       const MainMartial(),
       const MainBag(),
-      const Chronicle(),
+      const MainChronicle(),
     ];
     return Stack(
       children: [
@@ -2384,6 +2384,356 @@ class _GearEntry extends StatelessWidget {
       ),
     );
   }
+}
+
+class MainChronicle extends StatefulWidget {
+  const MainChronicle({super.key});
+  @override
+  State<MainChronicle> createState() => _MainChronicleState();
+}
+
+class _MainChronicleState extends State<MainChronicle> {
+  int section = 0;
+  static const labels = ['행적', '무공록', '병기록', '인물록', '기연록'];
+  static const icons = [
+    Icons.auto_stories,
+    Icons.menu_book,
+    Icons.shield,
+    Icons.people_alt,
+    Icons.auto_awesome,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final game = context.watch<Game>();
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 18),
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Expanded(
+              child: Text(
+                '강호록',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: paper,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 2,
+                ),
+              ),
+            ),
+            Text(
+              'THE CHRONICLE',
+              style: TextStyle(
+                color: gold.withOpacity(.8),
+                fontSize: 9,
+                letterSpacing: 1.4,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          '지나온 길은 기록이 되어 다음 여정의 길잡이가 된다.',
+          style: TextStyle(color: soft, fontSize: 11),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xff211e17),
+            border: Border.all(color: const Color(0xff72552d)),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.history_edu, color: gold, size: 28),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      game.hero + '의 강호행',
+                      style: const TextStyle(
+                        color: paper,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Lv.${game.level} · ${game.realm} · ${game.kills}명 격파',
+                      style: const TextStyle(color: soft, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Text(
+                    '완성도',
+                    style: TextStyle(color: soft, fontSize: 10),
+                  ),
+                  Text(
+                    '${(game.unlocked + 1) * 10 + game.bosses.length * 3}%',
+                    style: const TextStyle(
+                      color: gold,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 66,
+          child: Row(
+            children: List.generate(
+              labels.length,
+              (i) => Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: i == labels.length - 1 ? 0 : 5,
+                  ),
+                  child: GestureDetector(
+                    onTap: () => setState(() => section = i),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: section == i
+                            ? const Color(0xff473822)
+                            : const Color(0xff1b1a15),
+                        border: Border.all(
+                          color: section == i ? gold : const Color(0xff4b4030),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            icons[i],
+                            color: section == i ? gold : soft,
+                            size: 20,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            labels[i],
+                            style: TextStyle(
+                              color: section == i ? paper : soft,
+                              fontSize: 10,
+                              fontWeight: section == i
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        _chronicleBody(game),
+      ],
+    );
+  }
+
+  Widget _chronicleBody(Game game) {
+    switch (section) {
+      case 1:
+        return _recordPanel(
+          '무공록 · 익힌 무공',
+          game.skills.map((skill) {
+            final active = game.activeSkills.contains(skill.id);
+            return _recordRow(
+              Icons.menu_book,
+              skill.name,
+              '${skill.school} · ${skill.grade}',
+              active ? '장착 중 · 숙련 ${game.mastery}' : skill.description,
+              active ? gold : soft,
+            );
+          }).toList(),
+        );
+      case 2:
+        return _recordPanel(
+          '병기록 · 장비의 흔적',
+          game.bag
+              .take(12)
+              .map(
+                (gear) => _recordRow(
+                  Icons.gavel,
+                  gear.name,
+                  '${gear.grade} · ${gear.slot}',
+                  '공격 ${gear.attack}  방어 ${gear.defense}  품질 ${gear.quality}%',
+                  gold,
+                ),
+              )
+              .toList(),
+        );
+      case 3:
+        return _recordPanel(
+          '인물록 · 마주한 적들',
+          game.areas
+              .map(
+                (area) => _recordRow(
+                  Icons.person_search,
+                  area.boss,
+                  area.name,
+                  game.bosses.contains(area.id)
+                      ? '격파 완료 · 지역의 수문장'
+                      : '아직 기록되지 않은 강적',
+                  game.bosses.contains(area.id)
+                      ? const Color(0xff9fc47d)
+                      : soft,
+                ),
+              )
+              .toList(),
+        );
+      case 4:
+        return _recordPanel('기연록 · 운명의 갈림길', [
+          _recordRow(
+            Icons.auto_awesome,
+            '기연의 흔적',
+            '강호 곳곳에 잠든 인연',
+            game.event == null ? '아직 마주하지 않은 기연이 남아 있습니다.' : '현재 기연이 진행 중입니다.',
+            gold,
+          ),
+          _recordRow(
+            Icons.nightlight,
+            '미완의 기록',
+            '선택은 발자국이 된다',
+            '전투 중 낮은 확률로 새로운 기록이 추가됩니다.',
+            soft,
+          ),
+        ]);
+      default:
+        return Column(
+          children: [
+            _recordPanel('행적 · 강호의 발자국', [
+              _recordRow(
+                Icons.flag,
+                '도달한 지역',
+                '${game.unlocked + 1} / ${game.areas.length}',
+                game.place.name + '에서 수련 중',
+                gold,
+              ),
+              _recordRow(
+                Icons.gavel,
+                '쓰러뜨린 적',
+                '${game.kills}명',
+                '검 끝에 이름 없는 승리가 쌓입니다.',
+                const Color(0xffd9b071),
+              ),
+              _recordRow(
+                Icons.workspace_premium,
+                '지역 보스',
+                '${game.bosses.length} / ${game.areas.length}',
+                game.ending ? '천마의 잔영까지 물리쳤습니다.' : '아직 닫힌 장이 남아 있습니다.',
+                const Color(0xff9fc47d),
+              ),
+            ]),
+            const SizedBox(height: 10),
+            _recordPanel('경지 돌파 기록', [
+              _recordRow(
+                Icons.arrow_upward,
+                '이류',
+                'Lv.10 · 첫 보스',
+                game.level >= 10 ? '조건을 달성했습니다.' : '아직 수련이 필요합니다.',
+                game.level >= 10 ? const Color(0xff9fc47d) : soft,
+              ),
+              _recordRow(
+                Icons.arrow_upward,
+                '일류',
+                'Lv.24 · 3보스 · 내력 60',
+                game.realm == '일류' || game.realm == '절정'
+                    ? '돌파 완료'
+                    : '다음 경지를 향해',
+                gold,
+              ),
+            ]),
+          ],
+        );
+    }
+  }
+
+  Widget _recordPanel(String title, List<Widget> rows) => Container(
+    padding: const EdgeInsets.fromLTRB(12, 11, 12, 6),
+    decoration: BoxDecoration(
+      color: const Color(0xff211e17),
+      border: Border.all(color: const Color(0xff4f432f)),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: gold,
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 6),
+        ...rows,
+      ],
+    ),
+  );
+
+  Widget _recordRow(
+    IconData icon,
+    String title,
+    String meta,
+    String detail,
+    Color color,
+  ) => Container(
+    padding: const EdgeInsets.symmetric(vertical: 9),
+    decoration: const BoxDecoration(
+      border: Border(bottom: BorderSide(color: Color(0xff3a3327))),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: 9),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: color == gold ? paper : color,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(meta, style: const TextStyle(color: soft, fontSize: 10)),
+                ],
+              ),
+              const SizedBox(height: 3),
+              Text(
+                detail,
+                style: const TextStyle(color: soft, fontSize: 10),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class Chronicle extends StatelessWidget {
