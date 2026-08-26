@@ -1867,10 +1867,20 @@ class Meridian extends StatelessWidget {
               IconButton(onPressed: back, icon: const Icon(Icons.arrow_back)),
               Expanded(
                 child: Text(
-                  '경맥도 · 남은 경맥점 ' + game.nodePoints.toString(),
-                  style: const TextStyle(fontSize: 19, color: gold),
+                  '경맥도',
+                  style: const TextStyle(
+                    fontSize: 21,
+                    color: paper,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
                 ),
               ),
+              Text(
+                '경맥점 ${game.nodePoints}',
+                style: const TextStyle(color: gold, fontSize: 11),
+              ),
+              const SizedBox(width: 5),
               TextButton(onPressed: game.resetNodes, child: const Text('초기화')),
             ],
           ),
@@ -1878,6 +1888,53 @@ class Meridian extends StatelessWidget {
         const Text(
           '노드를 열어 외공·내공·경공의 기초를 단련합니다.',
           style: TextStyle(color: soft, fontSize: 12),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+            decoration: BoxDecoration(
+              color: const Color(0xff211f1a),
+              border: Border.all(color: const Color(0xff635239)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _MeridianStat(
+                    label: '개방 노드',
+                    value: '${game.nodes.length} / 90',
+                    color: gold,
+                  ),
+                ),
+                Expanded(
+                  child: _MeridianStat(
+                    label: '남은 점수',
+                    value: game.nodePoints.toString(),
+                    color: const Color(0xff9fc47d),
+                  ),
+                ),
+                Expanded(
+                  child: _MeridianStat(
+                    label: '빌드 보너스',
+                    value: '+${game.nodes.length * 2}%',
+                    color: const Color(0xff75aaa4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: Wrap(
+            spacing: 6,
+            runSpacing: 5,
+            children: const [
+              _MeridianLegend(color: gold, label: '개방'),
+              _MeridianLegend(color: Color(0xff67563e), label: '개방 가능'),
+              _MeridianLegend(color: Color(0xff29271f), label: '잠김'),
+            ],
+          ),
         ),
         Expanded(
           child: InteractiveViewer(
@@ -1945,6 +2002,58 @@ class Meridian extends StatelessWidget {
       ],
     );
   }
+}
+
+class _MeridianStat extends StatelessWidget {
+  const _MeridianStat({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+  final String label;
+  final String value;
+  final Color color;
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      Text(
+        value,
+        style: TextStyle(
+          color: color,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 2),
+      Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+    ],
+  );
+}
+
+class _MeridianLegend extends StatelessWidget {
+  const _MeridianLegend({required this.color, required this.label});
+  final Color color;
+  final String label;
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+    decoration: BoxDecoration(
+      color: const Color(0xff211f1a),
+      border: Border.all(color: const Color(0xff4b4437)),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+        ),
+        const SizedBox(width: 5),
+        Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+      ],
+    ),
+  );
 }
 
 class MeridianLines extends CustomPainter {
