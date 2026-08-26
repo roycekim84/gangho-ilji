@@ -33,6 +33,10 @@ String? bossArtwork(String id) => switch (id) {
   _ => null,
 };
 
+String enemyArtwork(String id) => id == 'demon'
+    ? 'assets/images/enemy_shadow.png'
+    : 'assets/images/enemy_bandit.png';
+
 void main() => runApp(const GanghoApp());
 
 class GanghoApp extends StatelessWidget {
@@ -3580,7 +3584,7 @@ class MainJianghu extends StatelessWidget {
                         subtitle: game.fightingBoss ? '지역 보스' : '적대 세력',
                         imageAsset: game.fightingBoss
                             ? bossImage
-                            : 'assets/images/enemy_bandit.png',
+                            : enemyArtwork(game.place.id),
                       ),
                     ),
                   ],
