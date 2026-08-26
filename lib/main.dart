@@ -56,6 +56,12 @@ String enemyArtwork(String id) => id == 'demon'
     ? 'assets/images/enemy_luoyang.png'
     : 'assets/images/enemy_bandit.png';
 
+String gearArtwork(String slot) => switch (slot) {
+  '무기' => 'assets/images/item_sword.png',
+  '머리' => 'assets/images/item_helmet.png',
+  _ => 'assets/images/item_armor.png',
+};
+
 void main() => runApp(const GanghoApp());
 
 class GanghoApp extends StatelessWidget {
@@ -1554,12 +1560,7 @@ class MainWarrior extends StatelessWidget {
                         height: 28,
                         child: item == null
                             ? Icon(Icons.crop_square, color: soft, size: 20)
-                            : Image.asset(
-                                slot == '무기'
-                                    ? 'assets/images/item_sword.png'
-                                    : 'assets/images/item_armor.png',
-                                fit: BoxFit.cover,
-                              ),
+                            : Image.asset(gearArtwork(slot), fit: BoxFit.cover),
                       ),
                       const SizedBox(height: 3),
                       Text(
@@ -2609,13 +2610,13 @@ class _GearEntry extends StatelessWidget {
                       child: gear.slot == '무기'
                           ? ClipRect(
                               child: Image.asset(
-                                'assets/images/item_sword.png',
+                                gearArtwork(gear.slot),
                                 fit: BoxFit.cover,
                               ),
                             )
                           : ClipRect(
                               child: Image.asset(
-                                'assets/images/item_armor.png',
+                                gearArtwork(gear.slot),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -2756,9 +2757,7 @@ void _showGearDetail(BuildContext context, Game game, Gear gear) {
                 ArtworkFrame(
                   width: 50,
                   height: 50,
-                  asset: gear.slot == '무기'
-                      ? 'assets/images/item_sword.png'
-                      : 'assets/images/item_armor.png',
+                  asset: gearArtwork(gear.slot),
                   borderColor: gradeColor,
                 ),
                 const SizedBox(width: 10),
