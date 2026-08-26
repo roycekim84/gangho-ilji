@@ -696,7 +696,7 @@ class _HomeState extends State<Home> {
       const MainJianghu(),
       const MainWarrior(),
       const Martial(),
-      const Bag(),
+      const MainBag(),
       const Chronicle(),
     ];
     return Stack(
@@ -1764,6 +1764,316 @@ class Bag extends StatelessWidget {
           );
         }),
       ],
+    );
+  }
+}
+
+class MainBag extends StatefulWidget {
+  const MainBag({super.key});
+
+  @override
+  State<MainBag> createState() => _MainBagState();
+}
+
+class _MainBagState extends State<MainBag> {
+  int filter = 0;
+  final filters = const ['전체', '무기', '방어구', '장신구'];
+
+  @override
+  Widget build(BuildContext context) {
+    final game = context.watch<Game>();
+    final all = [...game.worn, ...game.bag];
+    final visible = all.where((gear) {
+      if (filter == 0) return true;
+      if (filter == 1) return gear.slot == '무기';
+      if (filter == 2)
+        return ['머리', '의복', '손', '신발', '허리띠'].contains(gear.slot);
+      return ['목걸이', '옥패'].contains(gear.slot);
+    }).toList();
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.inventory_2, color: gold, size: 18),
+            SizedBox(width: 7),
+            Text(
+              '행낭',
+              style: TextStyle(
+                color: paper,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Text(
+              'EQUIPMENT ARCHIVE',
+              style: TextStyle(color: soft, fontSize: 9, letterSpacing: .8),
+            ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff27231b),
+            border: Border.all(color: const Color(0xff8a6b37)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(11),
+            child: Row(
+              children: [
+                Container(
+                  width: 55,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff403629),
+                    border: Border.all(color: gold),
+                  ),
+                  child: const Icon(Icons.inventory_2, color: gold, size: 29),
+                ),
+                const SizedBox(width: 11),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '무인의 행낭',
+                        style: TextStyle(
+                          color: paper,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '장착 ' +
+                            game.worn.length.toString() +
+                            ' / 8  ·  보관 ' +
+                            game.bag.length.toString() +
+                            '개',
+                        style: const TextStyle(color: soft, fontSize: 11),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MainMeter(
+                              value: game.worn.length / 8,
+                              color: gold,
+                              label: '장비 슬롯',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            ...List.generate(
+              filters.length,
+              (index) => Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: index == filters.length - 1 ? 0 : 5,
+                  ),
+                  child: OutlinedButton(
+                    onPressed: () => setState(() => filter = index),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: filter == index ? ink : soft,
+                      backgroundColor: filter == index
+                          ? gold
+                          : const Color(0xff211f1a),
+                      side: BorderSide(
+                        color: filter == index ? gold : const Color(0xff635239),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 7),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      textStyle: const TextStyle(fontSize: 11),
+                    ),
+                    child: Text(filters[index]),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        if (visible.isEmpty)
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              color: Color(0xff211f1a),
+              border: Border.fromBorderSide(
+                BorderSide(color: Color(0xff635239)),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: Text('이 분류의 장비가 없습니다.', style: TextStyle(color: soft)),
+              ),
+            ),
+          ),
+        ...visible.map((gear) => _GearEntry(game: game, gear: gear)),
+      ],
+    );
+  }
+}
+
+class _GearEntry extends StatelessWidget {
+  const _GearEntry({required this.game, required this.gear});
+  final Game game;
+  final Gear gear;
+
+  Color gradeColor(String grade) {
+    if (grade == '보물') return const Color(0xffdfb35e);
+    if (grade == '명품') return const Color(0xffae8bc2);
+    if (grade == '양품') return const Color(0xff86aeb0);
+    return soft;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final equipped = game.worn.any((item) => item.id == gear.id);
+    final current = game.worn
+        .where((item) => item.slot == gear.slot)
+        .firstOrNull;
+    final delta = current == null ? 0 : gear.score - current.score;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 7),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xff211f1a),
+          border: Border.all(
+            color: equipped ? const Color(0xff8a6b37) : const Color(0xff514431),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(9, 8, 7, 7),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 39,
+                    height: 39,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff302a20),
+                      border: Border.all(color: gradeColor(gear.grade)),
+                    ),
+                    child: Icon(
+                      equipped ? Icons.verified : Icons.shield,
+                      color: gradeColor(gear.grade),
+                      size: 21,
+                    ),
+                  ),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                gear.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: gradeColor(gear.grade),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              gear.grade,
+                              style: TextStyle(
+                                color: gradeColor(gear.grade),
+                                fontSize: 10,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          gear.slot +
+                              '  ·  품질 ' +
+                              gear.quality.toString() +
+                              '%  ·  전투 점수 ' +
+                              gear.score.toString(),
+                          style: const TextStyle(color: soft, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (equipped)
+                    const Text(
+                      '장착 중',
+                      style: TextStyle(color: Color(0xff9fc47d), fontSize: 10),
+                    ),
+                ],
+              ),
+              if (!equipped && current != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 48, top: 4),
+                    child: Text(
+                      '현재 장비 대비 ' + (delta >= 0 ? '+' : '') + delta.toString(),
+                      style: TextStyle(
+                        color: delta >= 0
+                            ? const Color(0xff9fc47d)
+                            : const Color(0xffd07860),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
+              if (!equipped)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => game.equip(gear),
+                      style: TextButton.styleFrom(
+                        foregroundColor: gold,
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      child: const Text('장착'),
+                    ),
+                    TextButton(
+                      onPressed: () => game.lock(gear),
+                      style: TextButton.styleFrom(
+                        foregroundColor: soft,
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      child: Text(gear.locked ? '잠금 해제' : '잠금'),
+                    ),
+                    TextButton(
+                      onPressed: gear.locked
+                          ? null
+                          : () => game.breakGear(gear),
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xffc2765c),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      child: const Text('분해'),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
