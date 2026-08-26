@@ -2753,21 +2753,13 @@ void _showGearDetail(BuildContext context, Game game, Gear gear) {
           children: [
             Row(
               children: [
-                Container(
+                ArtworkFrame(
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff302a20),
-                    border: Border.all(color: gradeColor),
-                  ),
-                  child: ClipRect(
-                    child: Image.asset(
-                      gear.slot == '무기'
-                          ? 'assets/images/item_sword.png'
-                          : 'assets/images/item_armor.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  asset: gear.slot == '무기'
+                      ? 'assets/images/item_sword.png'
+                      : 'assets/images/item_armor.png',
+                  borderColor: gradeColor,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -4171,15 +4163,13 @@ class MainJianghu extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              SizedBox(
+                              ArtworkFrame(
                                 width: 82,
                                 height: 82,
-                                child: ClipRect(
-                                  child: Image.asset(
-                                    bossImage,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                asset: bossImage,
+                                borderColor: cleared
+                                    ? const Color(0xff76945c)
+                                    : const Color(0xffa45a42),
                               ),
                               const SizedBox(width: 10),
                               Expanded(
