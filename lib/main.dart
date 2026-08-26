@@ -1724,18 +1724,31 @@ class MainSkills extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(9, 8, 8, 8),
                   child: Row(
                     children: [
-                      Icon(
-                        equipped
-                            ? Icons.check_circle
-                            : known
-                            ? Icons.menu_book
-                            : Icons.lock,
-                        color: equipped
-                            ? gold
-                            : known
-                            ? tint
-                            : const Color(0xff514b3e),
-                        size: 21,
+                      Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff302a20),
+                          border: Border.all(
+                            color: equipped
+                                ? gold
+                                : known
+                                ? tint
+                                : const Color(0xff514b3e),
+                          ),
+                        ),
+                        child: known
+                            ? ClipRect(
+                                child: Image.asset(
+                                  'assets/images/skill_manual.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.lock,
+                                color: Color(0xff514b3e),
+                                size: 18,
+                              ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -2441,11 +2454,18 @@ class _GearEntry extends StatelessWidget {
                         color: const Color(0xff302a20),
                         border: Border.all(color: gradeColor(gear.grade)),
                       ),
-                      child: Icon(
-                        equipped ? Icons.verified : Icons.shield,
-                        color: gradeColor(gear.grade),
-                        size: 21,
-                      ),
+                      child: gear.slot == '무기'
+                          ? ClipRect(
+                              child: Image.asset(
+                                'assets/images/item_sword.png',
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Icon(
+                              equipped ? Icons.verified : Icons.shield,
+                              color: gradeColor(gear.grade),
+                              size: 21,
+                            ),
                     ),
                     const SizedBox(width: 9),
                     Expanded(
