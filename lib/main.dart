@@ -695,7 +695,7 @@ class _HomeState extends State<Home> {
     final pages = [
       const MainJianghu(),
       const MainWarrior(),
-      const Martial(),
+      const MainMartial(),
       const MainBag(),
       const Chronicle(),
     ];
@@ -1463,6 +1463,314 @@ class _CombatValue extends StatelessWidget {
       const SizedBox(height: 2),
       Text(label, style: const TextStyle(color: soft, fontSize: 9)),
     ],
+  );
+}
+
+class MainMartial extends StatefulWidget {
+  const MainMartial({super.key});
+  @override
+  State<MainMartial> createState() => _MainMartialState();
+}
+
+class _MainMartialState extends State<MainMartial> {
+  bool showMeridian = false;
+  @override
+  Widget build(BuildContext context) => showMeridian
+      ? Meridian(back: () => setState(() => showMeridian = false))
+      : MainSkills(openMeridian: () => setState(() => showMeridian = true));
+}
+
+class MainSkills extends StatelessWidget {
+  const MainSkills({super.key, required this.openMeridian});
+  final VoidCallback openMeridian;
+  @override
+  Widget build(BuildContext context) {
+    final game = context.watch<Game>();
+    final active = game.skills
+        .where((skill) => game.activeSkills.contains(skill.id))
+        .toList();
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.auto_awesome, color: gold, size: 18),
+            SizedBox(width: 7),
+            Text(
+              '무도',
+              style: TextStyle(
+                color: paper,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Text(
+              'MARTIAL ARCHIVE',
+              style: TextStyle(color: soft, fontSize: 9, letterSpacing: .8),
+            ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff27231b),
+            border: Border.all(color: const Color(0xff8a6b37)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(11),
+            child: Row(
+              children: [
+                Container(
+                  width: 55,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff403629),
+                    border: Border.all(color: gold),
+                  ),
+                  child: const Icon(Icons.auto_awesome, color: gold, size: 29),
+                ),
+                const SizedBox(width: 11),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '무공 세팅',
+                        style: TextStyle(
+                          color: paper,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '장착 초식 ' +
+                            active.length.toString() +
+                            ' / 5  ·  숙련도 ' +
+                            game.mastery.toString(),
+                        style: const TextStyle(color: soft, fontSize: 11),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        '현재 전투 위력 ' + game.attack.toString(),
+                        style: const TextStyle(color: gold, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: OutlinedButton(
+                    onPressed: openMeridian,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: gold,
+                      side: const BorderSide(color: Color(0xff8a6b37)),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 9),
+                      textStyle: const TextStyle(fontSize: 10),
+                    ),
+                    child: const Text('경맥도'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        const _MartialLabel(title: '장착 슬롯', trailing: '전투 중 자동 발동'),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: List.generate(5, (index) {
+                final skill = index < active.length ? active[index] : null;
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 9,
+                    vertical: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff302a20),
+                    border: Border.all(
+                      color: skill == null
+                          ? const Color(0xff514431)
+                          : const Color(0xff806536),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 27,
+                        child: Text(
+                          '제' + (index + 1).toString(),
+                          style: const TextStyle(color: soft, fontSize: 10),
+                        ),
+                      ),
+                      Icon(
+                        skill == null ? Icons.crop_square : Icons.flash_on,
+                        color: skill == null ? soft : gold,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          skill == null ? '비어 있는 초식 슬롯' : skill.name,
+                          style: TextStyle(
+                            color: skill == null ? soft : paper,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      if (skill != null)
+                        Text(
+                          'x' + skill.multiplier.toString(),
+                          style: const TextStyle(color: gold, fontSize: 11),
+                        ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        const _MartialLabel(title: '보유 무공', trailing: '습득 가능한 초식'),
+        ...game.skills.map((skill) {
+          final equipped = game.activeSkills.contains(skill.id);
+          final known =
+              equipped || game.level >= 5 + game.skills.indexOf(skill) * 3;
+          final tint = skill.grade == '보물'
+              ? const Color(0xffdfb35e)
+              : skill.grade == '명품'
+              ? const Color(0xffae8bc2)
+              : skill.grade == '양품'
+              ? const Color(0xff86aeb0)
+              : soft;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color(0xff211f1a),
+                border: Border.all(
+                  color: equipped
+                      ? const Color(0xff8a6b37)
+                      : const Color(0xff514431),
+                ),
+              ),
+              child: InkWell(
+                onTap: known ? () => game.skill(skill.id) : null,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(9, 8, 8, 8),
+                  child: Row(
+                    children: [
+                      Icon(
+                        equipped
+                            ? Icons.check_circle
+                            : known
+                            ? Icons.menu_book
+                            : Icons.lock,
+                        color: equipped
+                            ? gold
+                            : known
+                            ? tint
+                            : const Color(0xff514b3e),
+                        size: 21,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    skill.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: known ? tint : soft,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  skill.school + ' · ' + skill.grade,
+                                  style: const TextStyle(
+                                    color: soft,
+                                    fontSize: 9,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              skill.description +
+                                  '  ·  위력 x' +
+                                  skill.multiplier.toString() +
+                                  '  ·  재사용 ' +
+                                  skill.cooldown.toString() +
+                                  '초',
+                              style: const TextStyle(color: soft, fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        equipped
+                            ? '장착'
+                            : known
+                            ? '세팅'
+                            : '미습득',
+                        style: TextStyle(
+                          color: equipped ? const Color(0xff9fc47d) : soft,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+}
+
+class _MartialLabel extends StatelessWidget {
+  const _MartialLabel({required this.title, required this.trailing});
+  final String title;
+  final String trailing;
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: 5, left: 2),
+    child: Row(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: gold,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Spacer(),
+        Text(trailing, style: const TextStyle(color: soft, fontSize: 9)),
+      ],
+    ),
   );
 }
 
