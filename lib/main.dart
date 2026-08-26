@@ -3933,29 +3933,145 @@ class Offline extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.nightlight_round, size: 55, color: gold),
+          Container(
+            width: 68,
+            height: 68,
+            decoration: BoxDecoration(
+              color: const Color(0xff302a20),
+              border: Border.all(color: gold),
+            ),
+            child: const Icon(Icons.nightlight_round, size: 40, color: gold),
+          ),
+          const SizedBox(height: 11),
           const Text(
             '객잔의 밤이 지났습니다',
-            style: TextStyle(fontSize: 23, color: gold),
+            style: TextStyle(
+              fontSize: 21,
+              color: paper,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
+            ),
           ),
           const SizedBox(height: 8),
-          Text(minutes.toString() + '분 동안 ' + game.place.name + '에서 수련했습니다.'),
           Text(
-            '예상 보상: 경험치 ' +
-                (minutes * unit ~/ 2).toString() +
-                ' · 은자 ' +
-                (minutes * unit).toString(),
-            style: const TextStyle(color: soft),
+            '$minutes분 동안 ${game.place.name}에서 수련했습니다.',
+            style: const TextStyle(color: soft, fontSize: 12),
           ),
-          const SizedBox(height: 16),
-          FilledButton(
-            onPressed: game.claimOffline,
-            child: const Text('모두 받기'),
+          const SizedBox(height: 13),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 11, 10, 8),
+            decoration: BoxDecoration(
+              color: const Color(0xff211f1a),
+              border: Border.all(color: const Color(0xff635239)),
+            ),
+            child: Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '귀환 보고서',
+                    style: TextStyle(
+                      color: gold,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 9),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _OfflineMetric(
+                        icon: Icons.gavel,
+                        label: '처치',
+                        value: '${minutes * unit}명',
+                        color: const Color(0xffd08b62),
+                      ),
+                    ),
+                    Expanded(
+                      child: _OfflineMetric(
+                        icon: Icons.auto_awesome,
+                        label: '경험치',
+                        value: '+${minutes * unit ~/ 2}',
+                        color: const Color(0xff9fc47d),
+                      ),
+                    ),
+                    Expanded(
+                      child: _OfflineMetric(
+                        icon: Icons.monetization_on,
+                        label: '은자',
+                        value: '+${minutes * unit}',
+                        color: gold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: _OfflineMetric(
+                        icon: Icons.inventory_2,
+                        label: '장비',
+                        value: '획득 가능',
+                        color: Color(0xff86aeb0),
+                      ),
+                    ),
+                    Expanded(
+                      child: _OfflineMetric(
+                        icon: Icons.auto_awesome,
+                        label: '기연',
+                        value: '미확인',
+                        color: Color(0xffae8bc2),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            height: 42,
+            child: FilledButton(
+              onPressed: game.claimOffline,
+              child: const Text('모두 받기'),
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class _OfflineMetric extends StatelessWidget {
+  const _OfflineMetric({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      Icon(icon, color: color, size: 17),
+      const SizedBox(height: 3),
+      Text(
+        value,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+    ],
+  );
 }
 
 class EventCard extends StatelessWidget {
