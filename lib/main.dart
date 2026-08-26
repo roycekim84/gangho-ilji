@@ -11,6 +11,17 @@ const paper = Color(0xffe4d6bc);
 const gold = Color(0xffc89a4e);
 const soft = Color(0xff9c927f);
 
+String? areaArtwork(String id) => switch (id) {
+  'luoyang' => 'assets/images/area_luoyang.png',
+  'bamboo' => 'assets/images/area_bamboo.png',
+  'blackwind' => 'assets/images/area_blackwind.png',
+  'shanxi' => 'assets/images/area_shanxi.png',
+  'yunnan' => 'assets/images/area_yunnan.png',
+  'blood' => 'assets/images/area_blood.png',
+  'demon' => 'assets/images/area_demon.png',
+  _ => null,
+};
+
 void main() => runApp(const GanghoApp());
 
 class GanghoApp extends StatelessWidget {
@@ -3751,6 +3762,7 @@ class MainJianghu extends StatelessWidget {
               final available = index <= game.unlocked;
               final cleared = game.bosses.contains(item.id);
               final current = index == game.area;
+              final artwork = areaArtwork(item.id);
               return GestureDetector(
                 onTap: available
                     ? () {
@@ -3774,14 +3786,31 @@ class MainJianghu extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        available
-                            ? (cleared ? Icons.verified : Icons.place)
-                            : Icons.lock,
-                        color: available
-                            ? (cleared ? const Color(0xff9fc47d) : gold)
-                            : soft,
-                        size: 22,
+                      Container(
+                        width: 42,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff302a20),
+                          border: Border.all(
+                            color: available
+                                ? (cleared ? const Color(0xff9fc47d) : gold)
+                                : soft,
+                          ),
+                          image: artwork == null
+                              ? null
+                              : DecorationImage(
+                                  image: AssetImage(artwork),
+                                  fit: BoxFit.cover,
+                                  opacity: available ? 1 : .35,
+                                ),
+                        ),
+                        child: artwork == null
+                            ? Icon(
+                                available ? Icons.place : Icons.lock,
+                                color: available ? gold : soft,
+                                size: 20,
+                              )
+                            : null,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -3851,16 +3880,7 @@ class MainJianghu extends StatelessWidget {
       builder: (context, game, _) {
         final area = game.place;
         final cleared = game.bosses.contains(area.id);
-        final areaImage = switch (area.id) {
-          'luoyang' => 'assets/images/area_luoyang.png',
-          'bamboo' => 'assets/images/area_bamboo.png',
-          'blackwind' => 'assets/images/area_blackwind.png',
-          'shanxi' => 'assets/images/area_shanxi.png',
-          'yunnan' => 'assets/images/area_yunnan.png',
-          'blood' => 'assets/images/area_blood.png',
-          'demon' => 'assets/images/area_demon.png',
-          _ => null,
-        };
+        final areaImage = areaArtwork(area.id);
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 14, 14, 18),
