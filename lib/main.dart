@@ -693,7 +693,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
     final pages = [
-      const Jianghu(),
+      const MainJianghu(),
       const Warrior(),
       const Martial(),
       const Bag(),
@@ -703,38 +703,11 @@ class _HomeState extends State<Home> {
       children: [
         Column(
           children: [
-            Status(game: game),
+            MainStatus(game: game),
             Expanded(child: pages[tab]),
-            NavigationBar(
+            GameNav(
               selectedIndex: tab,
               onDestinationSelected: (value) => setState(() => tab = value),
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
-                  label: '강호',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_outline),
-                  selectedIcon: Icon(Icons.person),
-                  label: '무인',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.account_tree_outlined),
-                  selectedIcon: Icon(Icons.account_tree),
-                  label: '무도',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.inventory_2_outlined),
-                  selectedIcon: Icon(Icons.inventory_2),
-                  label: '행낭',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.menu_book_outlined),
-                  selectedIcon: Icon(Icons.menu_book),
-                  label: '강호록',
-                ),
-              ],
             ),
           ],
         ),
@@ -1502,6 +1475,587 @@ class Chronicle extends StatelessWidget {
       ],
     );
   }
+}
+
+/// First-screen-specific visual language. It intentionally composes the existing
+/// Game state without introducing a second source of truth.
+class MainStatus extends StatelessWidget {
+  const MainStatus({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    final energyNow = game.energy * 22;
+    final energyMax = energyNow + 180;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 11),
+      decoration: const BoxDecoration(
+        color: Color(0xff1b1a15),
+        border: Border(bottom: BorderSide(color: Color(0xff73582e), width: 1)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 56,
+            height: 64,
+            decoration: BoxDecoration(
+              color: const Color(0xff403629),
+              border: Border.all(color: gold, width: 1.2),
+              boxShadow: const [
+                BoxShadow(color: Colors.black54, blurRadius: 4),
+              ],
+            ),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person, color: paper, size: 34),
+                Text('無名', style: TextStyle(color: gold, fontSize: 9)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 11),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        game.hero,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: paper,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      game.realm + ' · Lv.' + game.level.toString(),
+                      style: const TextStyle(color: gold, fontSize: 12),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 7),
+                MainMeter(
+                  value: game.hp / game.maxHp,
+                  color: const Color(0xffa9473e),
+                  label:
+                      'HP  ' +
+                      game.hp.toString() +
+                      ' / ' +
+                      game.maxHp.toString(),
+                ),
+                const SizedBox(height: 5),
+                MainMeter(
+                  value: energyNow / energyMax,
+                  color: const Color(0xff4f8c87),
+                  label:
+                      '내력  ' +
+                      energyNow.toString() +
+                      ' / ' +
+                      energyMax.toString(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 9),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Text('은자', style: TextStyle(color: soft, fontSize: 10)),
+              Text(
+                game.silver.toString(),
+                style: const TextStyle(
+                  color: gold,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '전투력 ' + (game.attack * 4 + game.defense * 2).toString(),
+                style: const TextStyle(color: soft, fontSize: 9),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MainMeter extends StatelessWidget {
+  const MainMeter({
+    super.key,
+    required this.value,
+    required this.color,
+    required this.label,
+  });
+  final double value;
+  final Color color;
+  final String label;
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 17,
+    child: Stack(
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff0d0d0a),
+            border: Border.all(color: const Color(0xff52432d)),
+          ),
+          child: const SizedBox.expand(),
+        ),
+        FractionallySizedBox(
+          widthFactor: value.clamp(0, 1),
+          child: DecoratedBox(decoration: BoxDecoration(color: color)),
+        ),
+        Positioned.fill(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 9,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class GameNav extends StatelessWidget {
+  const GameNav({
+    super.key,
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+  static const entries = [
+    [Icons.home, '강호'],
+    [Icons.person, '무인'],
+    [Icons.auto_awesome, '무도'],
+    [Icons.inventory_2, '행낭'],
+    [Icons.menu_book, '강호록'],
+  ];
+  @override
+  Widget build(BuildContext context) => Container(
+    decoration: const BoxDecoration(
+      color: Color(0xff181712),
+      border: Border(top: BorderSide(color: Color(0xff73582e))),
+    ),
+    padding: const EdgeInsets.only(top: 4, bottom: 3),
+    child: Row(
+      children: List.generate(entries.length, (index) {
+        final selected = index == selectedIndex;
+        return Expanded(
+          child: InkWell(
+            onTap: () => onDestinationSelected(index),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  entries[index][0] as IconData,
+                  size: 19,
+                  color: selected ? gold : soft,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  entries[index][1] as String,
+                  style: TextStyle(
+                    color: selected ? gold : soft,
+                    fontSize: 10,
+                    fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 150),
+                  height: 2,
+                  width: selected ? 24 : 0,
+                  color: gold,
+                ),
+              ],
+            ),
+          ),
+        );
+      }),
+    ),
+  );
+}
+
+class MainJianghu extends StatelessWidget {
+  const MainJianghu({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final game = context.watch<Game>();
+    final progress = game.bosses.contains(game.place.id) ? 1.0 : 0.68;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff27231b),
+            border: Border.all(color: const Color(0xff8a6b37)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 9, 12, 10),
+            child: Row(
+              children: [
+                const Icon(Icons.location_on, color: gold, size: 18),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: Text(
+                    game.place.name,
+                    style: const TextStyle(
+                      color: paper,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  '진행도 ' + (progress * 100).round().toString() + '%',
+                  style: const TextStyle(color: soft, fontSize: 11),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: 28,
+                  child: OutlinedButton(
+                    onPressed: () => _showMap(context),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: gold,
+                      side: const BorderSide(color: Color(0xff8a6b37)),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 9),
+                      textStyle: const TextStyle(fontSize: 11),
+                    ),
+                    child: const Text('지역 변경'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff211f1a),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: _FighterBadge(
+                        icon: Icons.person,
+                        title: game.hero,
+                        subtitle: game.realm + ' · ' + game.level.toString(),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 7),
+                      child: Text(
+                        'VS',
+                        style: TextStyle(
+                          color: gold,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: _FighterBadge(
+                        icon: game.fightingBoss ? Icons.whatshot : Icons.shield,
+                        title: game.foe,
+                        subtitle: game.fightingBoss ? '지역 보스' : '적대 세력',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                MainMeter(
+                  value: game.foeHp / game.foeMaxHp,
+                  color: const Color(0xff7e3d36),
+                  label:
+                      '적 기혈  ' +
+                      max(0, game.foeHp).toString() +
+                      ' / ' +
+                      game.foeMaxHp.toString(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff1e1c17),
+            border: Border.all(color: const Color(0xff635239)),
+          ),
+          child: SizedBox(
+            height: 268,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(11, 9, 11, 7),
+                  child: Row(
+                    children: [
+                      Icon(Icons.menu_book, size: 16, color: gold),
+                      SizedBox(width: 6),
+                      Text(
+                        '전투 기록',
+                        style: TextStyle(
+                          color: gold,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Spacer(),
+                      Text('실시간', style: TextStyle(color: soft, fontSize: 10)),
+                    ],
+                  ),
+                ),
+                const Divider(height: 1, color: Color(0xff5b4930)),
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    padding: const EdgeInsets.fromLTRB(11, 7, 11, 7),
+                    itemCount: min(game.logs.length, 18),
+                    itemBuilder: (_, index) {
+                      final line = game.logs[index];
+                      final gain =
+                          line.contains('획득') ||
+                          line.contains('격파') ||
+                          line.contains('돌파');
+                      final critical = line.contains('치명타');
+                      final dodge = line.contains('흘려냈') || line.contains('회피');
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '› ',
+                              style: TextStyle(
+                                color: critical
+                                    ? const Color(0xffbd6650)
+                                    : gold,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                line,
+                                style: TextStyle(
+                                  color: critical
+                                      ? const Color(0xffd77b61)
+                                      : gain
+                                      ? const Color(0xff9fc47d)
+                                      : dodge
+                                      ? const Color(0xff75aaa4)
+                                      : paper,
+                                  fontSize: 11,
+                                  height: 1.15,
+                                  fontWeight: critical
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: const Color(0xff27231b),
+            border: Border.all(color: const Color(0xff8a6b37)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(11, 8, 7, 8),
+            child: Row(
+              children: [
+                Icon(
+                  game.auto ? Icons.circle : Icons.pause_circle,
+                  color: game.auto
+                      ? const Color(0xff8dbf70)
+                      : const Color(0xffbf765a),
+                  size: 13,
+                ),
+                const SizedBox(width: 7),
+                Text(
+                  game.auto ? '자동전투 중' : '전투 정지',
+                  style: const TextStyle(
+                    color: paper,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  child: OutlinedButton(
+                    onPressed: game.toggleAuto,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: game.auto
+                          ? const Color(0xffd08e73)
+                          : const Color(0xff9fc47d),
+                      side: BorderSide(
+                        color: game.auto
+                            ? const Color(0xff87503d)
+                            : const Color(0xff657b4f),
+                      ),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                    ),
+                    child: Text(game.auto ? '정지' : '재개'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (game.fightingBoss) ...[
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 30,
+            child: OutlinedButton(
+              onPressed: game.auto ? null : game.toggleAuto,
+              style: OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+              ),
+              child: Text(game.place.boss + ' · 보스전'),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  void _showMap(BuildContext context) => showModalBottomSheet(
+    context: context,
+    backgroundColor: const Color(0xff211f1a),
+    builder: (_) => Consumer<Game>(
+      builder: (context, game, _) => SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(12),
+          shrinkWrap: true,
+          children: [
+            const Text('강호 지도', style: TextStyle(fontSize: 20, color: gold)),
+            ...List.generate(game.areas.length, (index) {
+              final item = game.areas[index];
+              final available = index <= game.unlocked;
+              return Card(
+                color: const Color(0xff302b22),
+                margin: const EdgeInsets.only(top: 5),
+                child: ListTile(
+                  enabled: available,
+                  leading: Icon(
+                    available ? Icons.place : Icons.lock,
+                    color: available ? gold : soft,
+                  ),
+                  title: Text(item.name),
+                  subtitle: Text(
+                    '권장 Lv.' +
+                        item.level.toString() +
+                        ' · ' +
+                        (game.bosses.contains(item.id) ? '보스 격파' : '진행 중'),
+                  ),
+                  trailing: index == game.area
+                      ? const Text('현재', style: TextStyle(color: gold))
+                      : null,
+                  onTap: available
+                      ? () {
+                          game.goArea(index);
+                          Navigator.pop(context);
+                        }
+                      : null,
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+class _FighterBadge extends StatelessWidget {
+  const _FighterBadge({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 6),
+    decoration: BoxDecoration(
+      color: const Color(0xff302a20),
+      border: Border.all(color: const Color(0xff59472f)),
+    ),
+    child: Row(
+      children: [
+        Icon(icon, color: gold, size: 28),
+        const SizedBox(width: 7),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: paper,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                subtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: soft, fontSize: 9),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class Offline extends StatelessWidget {
