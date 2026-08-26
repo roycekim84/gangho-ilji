@@ -35,6 +35,8 @@ String? bossArtwork(String id) => switch (id) {
 
 String enemyArtwork(String id) => id == 'demon'
     ? 'assets/images/enemy_shadow.png'
+    : id == 'yunnan'
+    ? 'assets/images/enemy_poisoner.png'
     : 'assets/images/enemy_bandit.png';
 
 void main() => runApp(const GanghoApp());
