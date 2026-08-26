@@ -2842,6 +2842,10 @@ class _MainChronicleState extends State<MainChronicle> {
   @override
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
+    final completion = min(
+      100,
+      (game.unlocked + 1) * 10 + game.bosses.length * 3,
+    );
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 18),
       children: [
@@ -2918,7 +2922,7 @@ class _MainChronicleState extends State<MainChronicle> {
                     style: TextStyle(color: soft, fontSize: 10),
                   ),
                   Text(
-                    '${(game.unlocked + 1) * 10 + game.bosses.length * 3}%',
+                    '$completion%',
                     style: const TextStyle(
                       color: gold,
                       fontSize: 17,
@@ -2928,6 +2932,15 @@ class _MainChronicleState extends State<MainChronicle> {
                 ],
               ),
             ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        ClipRect(
+          child: LinearProgressIndicator(
+            minHeight: 3,
+            value: completion / 100,
+            backgroundColor: const Color(0xff15140f),
+            valueColor: const AlwaysStoppedAnimation<Color>(gold),
           ),
         ),
         const SizedBox(height: 12),
