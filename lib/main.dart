@@ -4409,12 +4409,27 @@ class EventCard extends StatelessWidget {
                           style: const TextStyle(color: paper),
                         ),
                         const SizedBox(height: 3),
-                        Text(
-                          reward,
-                          style: TextStyle(
-                            color: effect == 'item' ? gold : soft,
-                            fontSize: 10,
-                          ),
+                        Row(
+                          children: [
+                            if (effect == 'item') ...[
+                              SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: Image.asset(
+                                  'assets/images/item_jade_talisman.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                            ],
+                            Text(
+                              reward,
+                              style: TextStyle(
+                                color: effect == 'item' ? gold : soft,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
