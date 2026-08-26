@@ -3539,6 +3539,7 @@ class MainJianghu extends StatelessWidget {
                         icon: Icons.person,
                         title: game.hero,
                         subtitle: game.realm + ' · ' + game.level.toString(),
+                        imageAsset: 'assets/images/hero_wanderer.png',
                       ),
                     ),
                     const Padding(
