@@ -1418,7 +1418,7 @@ class MainWarrior extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 9),
-        _SectionLabel(
+        GameSectionHeader(
           title: '기본 능력',
           trailing: 'POINT ' + game.points.toString(),
         ),
@@ -1483,7 +1483,7 @@ class MainWarrior extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 9),
-        _SectionLabel(title: '전투 능력', trailing: 'BUILD SUMMARY'),
+        GameSectionHeader(title: '전투 능력', trailing: 'BUILD SUMMARY'),
         DecoratedBox(
           decoration: BoxDecoration(
             color: const Color(0xff211f1a),
@@ -1519,7 +1519,7 @@ class MainWarrior extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 9),
-        _SectionLabel(
+        GameSectionHeader(
           title: '장비',
           trailing: game.worn.length.toString() + ' / 8',
         ),
@@ -1587,8 +1587,12 @@ class MainWarrior extends StatelessWidget {
   }
 }
 
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel({required this.title, required this.trailing});
+class GameSectionHeader extends StatelessWidget {
+  const GameSectionHeader({
+    super.key,
+    required this.title,
+    required this.trailing,
+  });
   final String title;
   final String trailing;
   @override
@@ -1612,6 +1616,18 @@ class _SectionLabel extends StatelessWidget {
         ),
       ],
     ),
+  );
+}
+
+class GameButton extends StatelessWidget {
+  const GameButton({super.key, required this.label, required this.onPressed});
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 30,
+    child: OutlinedButton(onPressed: onPressed, child: Text(label)),
   );
 }
 
@@ -1739,28 +1755,13 @@ class MainSkills extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                  child: OutlinedButton(
-                    onPressed: openMeridian,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: gold,
-                      side: const BorderSide(color: Color(0xff8a6b37)),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 9),
-                      textStyle: const TextStyle(fontSize: 10),
-                    ),
-                    child: const Text('경맥도'),
-                  ),
-                ),
+                GameButton(label: '경맥도', onPressed: openMeridian),
               ],
             ),
           ),
         ),
         const SizedBox(height: 10),
-        const _MartialLabel(title: '장착 슬롯', trailing: '전투 중 자동 발동'),
+        const GameSectionHeader(title: '장착 슬롯', trailing: '전투 중 자동 발동'),
         DecoratedBox(
           decoration: BoxDecoration(
             color: const Color(0xff211f1a),
@@ -1832,7 +1833,7 @@ class MainSkills extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const _MartialLabel(title: '보유 무공', trailing: '습득 가능한 초식'),
+        const GameSectionHeader(title: '보유 무공', trailing: '습득 가능한 초식'),
         ...game.skills.map((skill) {
           final equipped = game.activeSkills.contains(skill.id);
           final known =
