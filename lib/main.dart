@@ -10,6 +10,13 @@ const ink = Color(0xff14140f);
 const paper = Color(0xffe4d6bc);
 const gold = Color(0xffc89a4e);
 const soft = Color(0xff9c927f);
+// Shared visual tokens used by panels and status feedback across every screen.
+const panelBackground = Color(0xff211f1a);
+const panelBorder = Color(0xff635239);
+const accentRed = Color(0xffa9473e);
+const hpColor = Color(0xffa9473e);
+const innerEnergyColor = Color(0xff4f8c87);
+const successGreen = Color(0xff9fc47d);
 
 String? areaArtwork(String id) => switch (id) {
   'luoyang' => 'assets/images/area_luoyang.png',
@@ -997,9 +1004,8 @@ class Panel extends StatelessWidget {
     width: double.infinity,
     padding: padding,
     decoration: BoxDecoration(
-      color: const Color(0xff211f1a),
-      border: Border.all(color: const Color(0xff635239)),
-      borderRadius: BorderRadius.circular(8),
+      color: panelBackground,
+      border: Border.all(color: panelBorder),
     ),
     child: child,
   );
@@ -3371,7 +3377,7 @@ class MainStatus extends StatelessWidget {
                 const SizedBox(height: 7),
                 MainMeter(
                   value: game.hp / game.maxHp,
-                  color: const Color(0xffa9473e),
+                  color: hpColor,
                   label:
                       'HP  ' +
                       game.hp.toString() +
@@ -3381,7 +3387,7 @@ class MainStatus extends StatelessWidget {
                 const SizedBox(height: 5),
                 MainMeter(
                   value: energyNow / energyMax,
-                  color: const Color(0xff4f8c87),
+                  color: innerEnergyColor,
                   label:
                       '내력  ' +
                       energyNow.toString() +
@@ -4377,7 +4383,7 @@ class Offline extends StatelessWidget {
                         icon: Icons.auto_awesome,
                         label: '경험치',
                         value: '+${minutes * unit ~/ 2}',
-                        color: const Color(0xff9fc47d),
+                        color: successGreen,
                       ),
                     ),
                     Expanded(
