@@ -4250,6 +4250,35 @@ class MainJianghu extends StatelessWidget {
   );
 }
 
+class ArtworkFrame extends StatelessWidget {
+  const ArtworkFrame({
+    super.key,
+    required this.width,
+    required this.height,
+    this.asset,
+    this.icon = Icons.image,
+    this.borderColor = gold,
+  });
+  final double width;
+  final double height;
+  final String? asset;
+  final IconData icon;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: width,
+    height: height,
+    decoration: BoxDecoration(
+      color: const Color(0xff403629),
+      border: Border.all(color: borderColor),
+    ),
+    child: asset == null
+        ? Icon(icon, color: borderColor, size: height * .55)
+        : ClipRect(child: Image.asset(asset!, fit: BoxFit.cover)),
+  );
+}
+
 class _FighterBadge extends StatelessWidget {
   const _FighterBadge({
     required this.icon,
@@ -4270,17 +4299,7 @@ class _FighterBadge extends StatelessWidget {
     ),
     child: Row(
       children: [
-        Container(
-          width: 34,
-          height: 38,
-          decoration: BoxDecoration(
-            color: const Color(0xff403629),
-            border: Border.all(color: gold),
-          ),
-          child: imageAsset == null
-              ? Icon(icon, color: gold, size: 22)
-              : ClipRect(child: Image.asset(imageAsset!, fit: BoxFit.cover)),
-        ),
+        ArtworkFrame(width: 34, height: 38, asset: imageAsset, icon: icon),
         const SizedBox(width: 7),
         Expanded(
           child: Column(
