@@ -3290,35 +3290,118 @@ class MainJianghu extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           shrinkWrap: true,
           children: [
-            const Text('강호 지도', style: TextStyle(fontSize: 20, color: gold)),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    '강호 지도',
+                    style: TextStyle(
+                      fontSize: 21,
+                      color: paper,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+                Text(
+                  '${game.unlocked + 1} / ${game.areas.length} 개방',
+                  style: const TextStyle(color: gold, fontSize: 10),
+                ),
+              ],
+            ),
+            const SizedBox(height: 3),
+            const Text(
+              '보스의 문을 열면 다음 여정이 이어집니다.',
+              style: TextStyle(color: soft, fontSize: 10),
+            ),
             ...List.generate(game.areas.length, (index) {
               final item = game.areas[index];
               final available = index <= game.unlocked;
-              return Card(
-                color: const Color(0xff302b22),
-                margin: const EdgeInsets.only(top: 5),
-                child: ListTile(
-                  enabled: available,
-                  leading: Icon(
-                    available ? Icons.place : Icons.lock,
-                    color: available ? gold : soft,
+              final cleared = game.bosses.contains(item.id);
+              final current = index == game.area;
+              return GestureDetector(
+                onTap: available
+                    ? () {
+                        game.goArea(index);
+                        Navigator.pop(context);
+                      }
+                    : null,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 7),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 9,
                   ),
-                  title: Text(item.name),
-                  subtitle: Text(
-                    '권장 Lv.' +
-                        item.level.toString() +
-                        ' · ' +
-                        (game.bosses.contains(item.id) ? '보스 격파' : '진행 중'),
+                  decoration: BoxDecoration(
+                    color: current
+                        ? const Color(0xff493823)
+                        : const Color(0xff28231c),
+                    border: Border.all(
+                      color: current ? gold : const Color(0xff514431),
+                    ),
                   ),
-                  trailing: index == game.area
-                      ? const Text('현재', style: TextStyle(color: gold))
-                      : null,
-                  onTap: available
-                      ? () {
-                          game.goArea(index);
-                          Navigator.pop(context);
-                        }
-                      : null,
+                  child: Row(
+                    children: [
+                      Icon(
+                        available
+                            ? (cleared ? Icons.verified : Icons.place)
+                            : Icons.lock,
+                        color: available
+                            ? (cleared ? const Color(0xff9fc47d) : gold)
+                            : soft,
+                        size: 22,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item.name,
+                                    style: TextStyle(
+                                      color: available ? paper : soft,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                if (current)
+                                  const Text(
+                                    '현재',
+                                    style: TextStyle(color: gold, fontSize: 10),
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              '권장 경지 Lv.${item.level} · ${cleared
+                                  ? '보스 격파'
+                                  : available
+                                  ? '탐사 가능'
+                                  : '이전 지역 보스 필요'}',
+                              style: const TextStyle(color: soft, fontSize: 10),
+                            ),
+                            const SizedBox(height: 6),
+                            LinearProgressIndicator(
+                              value: cleared
+                                  ? 1
+                                  : current
+                                  ? .68
+                                  : 0,
+                              minHeight: 3,
+                              backgroundColor: const Color(0xff15140f),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                cleared ? const Color(0xff76945c) : gold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }),
