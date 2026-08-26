@@ -3558,7 +3558,9 @@ class MainJianghu extends StatelessWidget {
                         icon: game.fightingBoss ? Icons.whatshot : Icons.shield,
                         title: game.foe,
                         subtitle: game.fightingBoss ? '지역 보스' : '적대 세력',
-                        imageAsset: game.fightingBoss ? bossImage : null,
+                        imageAsset: game.fightingBoss
+                            ? bossImage
+                            : 'assets/images/enemy_bandit.png',
                       ),
                     ),
                   ],
