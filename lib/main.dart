@@ -4644,7 +4644,7 @@ class EventCard extends StatelessWidget {
                                       width: 16,
                                       height: 16,
                                       child: Image.asset(
-                                        'assets/images/item_jade_talisman.png',
+                                  'assets/images/item_treasure_chest.png',
                                         fit: BoxFit.cover,
                                       ),
                                     ),
