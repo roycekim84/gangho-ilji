@@ -3324,22 +3324,11 @@ class MainStatus extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          ArtworkFrame(
             width: 56,
             height: 64,
-            decoration: BoxDecoration(
-              color: const Color(0xff403629),
-              border: Border.all(color: gold, width: 1.2),
-              boxShadow: const [
-                BoxShadow(color: Colors.black54, blurRadius: 4),
-              ],
-            ),
-            child: ClipRect(
-              child: Image.asset(
-                'assets/images/hero_wanderer.png',
-                fit: BoxFit.cover,
-              ),
-            ),
+            asset: 'assets/images/hero_wanderer.png',
+            borderColor: gold,
           ),
           const SizedBox(width: 11),
           Expanded(
