@@ -4149,6 +4149,34 @@ class MainJianghu extends StatelessWidget {
                         '지역 보스  ·  ${area.boss}',
                         style: const TextStyle(color: paper, fontSize: 11),
                       ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        '주요 드랍',
+                        style: TextStyle(
+                          color: gold,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: const [
+                          _DropPreview(
+                            asset: 'assets/images/item_sword.png',
+                            label: '무기',
+                          ),
+                          SizedBox(width: 7),
+                          _DropPreview(
+                            asset: 'assets/images/item_armor.png',
+                            label: '방어구',
+                          ),
+                          SizedBox(width: 7),
+                          _DropPreview(
+                            asset: 'assets/images/item_treasure_chest.png',
+                            label: '보물',
+                          ),
+                        ],
+                      ),
                       if (bossImage != null) ...[
                         const SizedBox(height: 9),
                         Container(
@@ -4266,6 +4294,23 @@ class ArtworkFrame extends StatelessWidget {
     child: asset == null
         ? Icon(icon, color: borderColor, size: height * .55)
         : ClipRect(child: Image.asset(asset!, fit: BoxFit.cover)),
+  );
+}
+
+class _DropPreview extends StatelessWidget {
+  const _DropPreview({required this.asset, required this.label});
+  final String asset;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+    child: Column(
+      children: [
+        ArtworkFrame(width: 38, height: 38, asset: asset, borderColor: gold),
+        const SizedBox(height: 3),
+        Text(label, style: const TextStyle(color: soft, fontSize: 9)),
+      ],
+    ),
   );
 }
 
@@ -4644,7 +4689,7 @@ class EventCard extends StatelessWidget {
                                       width: 16,
                                       height: 16,
                                       child: Image.asset(
-                                  'assets/images/item_treasure_chest.png',
+                                        'assets/images/item_treasure_chest.png',
                                         fit: BoxFit.cover,
                                       ),
                                     ),
