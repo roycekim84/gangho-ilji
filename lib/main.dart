@@ -4359,176 +4359,206 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = game.event!;
-    return Overlay(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 34,
-                height: 34,
-                decoration: BoxDecoration(
-                  color: const Color(0xff4b3025),
-                  border: Border.all(color: gold),
+    return Material(
+      color: const Color(0xcc0b0b08),
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+            decoration: BoxDecoration(
+              color: const Color(0xff1c1914),
+              border: Border.all(color: const Color(0xff806437)),
+              boxShadow: const [
+                BoxShadow(color: Colors.black87, blurRadius: 18),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff4b3025),
+                        border: Border.all(color: gold),
+                      ),
+                      child: const Icon(
+                        Icons.auto_awesome,
+                        color: gold,
+                        size: 21,
+                      ),
+                    ),
+                    const SizedBox(width: 9),
+                    const Expanded(
+                      child: Text(
+                        '기연 · 운명의 갈림길',
+                        style: TextStyle(
+                          color: soft,
+                          fontSize: 10,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'EVENT',
+                      style: TextStyle(
+                        color: gold.withOpacity(.75),
+                        fontSize: 9,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ],
                 ),
-                child: const Icon(Icons.auto_awesome, color: gold, size: 21),
-              ),
-              const SizedBox(width: 9),
-              const Expanded(
-                child: Text(
-                  '기연 · 운명의 갈림길',
-                  style: TextStyle(color: soft, fontSize: 10, letterSpacing: 1),
-                ),
-              ),
-              Text(
-                'EVENT',
-                style: TextStyle(
-                  color: gold.withOpacity(.75),
-                  fontSize: 9,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              item.title,
-              style: const TextStyle(
-                fontSize: 23,
-                color: paper,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              game.place.name + ' · 우연히 마주한 한 장면',
-              style: const TextStyle(
-                color: soft,
-                fontSize: 10,
-                letterSpacing: .4,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(height: 1, color: const Color(0xff755b35)),
-          const SizedBox(height: 12),
-          Container(
-            height: 92,
-            decoration: const BoxDecoration(
-              border: Border.fromBorderSide(
-                BorderSide(color: Color(0xff665338)),
-              ),
-              image: DecorationImage(
-                image: AssetImage('assets/images/event_mountain_letter.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(
-              color: Color(0xff181711),
-              border: Border(left: BorderSide(color: gold, width: 3)),
-            ),
-            child: Text(
-              '“${item.text}”',
-              style: const TextStyle(color: paper, fontSize: 14, height: 1.45),
-            ),
-          ),
-          const SizedBox(height: 15),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '어떤 선택을 하시겠습니까?',
-              style: TextStyle(color: soft, fontSize: 11),
-            ),
-          ),
-          const SizedBox(height: 7),
-          ...item.choices.asMap().entries.map((entry) {
-            final choice = entry.value;
-            final index = entry.key;
-            final effect = choice['effect'] as String;
-            final value = choice['value'] as int;
-            final reward = switch (effect) {
-              'silver' => '은자 $value 획득',
-              'exp' => '경험치 $value 획득',
-              'item' => '장비 발견 가능',
-              'heal' => '기혈 $value 회복',
-              'stat' => '능력치 +$value',
-              _ => '결과를 알 수 없음',
-            };
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () => game.resolve(choice),
-                  icon: Text(
-                    '${index + 1}',
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    item.title,
                     style: const TextStyle(
-                      color: gold,
+                      fontSize: 23,
+                      color: paper,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  label: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          choice['text'],
-                          style: const TextStyle(color: paper),
-                        ),
-                        const SizedBox(height: 3),
-                        Row(
-                          children: [
-                            if (effect == 'item') ...[
-                              SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: Image.asset(
-                                  'assets/images/item_jade_talisman.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                            ],
-                            Text(
-                              reward,
-                              style: TextStyle(
-                                color: effect == 'item' ? gold : soft,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xff806437)),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 11,
-                    ),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
+                      letterSpacing: 1,
                     ),
                   ),
                 ),
-              ),
-            );
-          }),
-        ],
+                const SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    game.place.name + ' · 우연히 마주한 한 장면',
+                    style: const TextStyle(
+                      color: soft,
+                      fontSize: 10,
+                      letterSpacing: .4,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(height: 1, color: const Color(0xff755b35)),
+                const SizedBox(height: 12),
+                Container(
+                  height: 116,
+                  decoration: const BoxDecoration(
+                    border: Border.fromBorderSide(
+                      BorderSide(color: Color(0xff665338)),
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/event_mountain_letter.png',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: const BoxDecoration(
+                    color: Color(0xff181711),
+                    border: Border(left: BorderSide(color: gold, width: 3)),
+                  ),
+                  child: Text(
+                    '“${item.text}”',
+                    style: const TextStyle(
+                      color: paper,
+                      fontSize: 14,
+                      height: 1.45,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '어떤 선택을 하시겠습니까?',
+                    style: TextStyle(color: soft, fontSize: 11),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                ...item.choices.asMap().entries.map((entry) {
+                  final choice = entry.value;
+                  final index = entry.key;
+                  final effect = choice['effect'] as String;
+                  final value = choice['value'] as int;
+                  final reward = switch (effect) {
+                    'silver' => '은자 $value 획득',
+                    'exp' => '경험치 $value 획득',
+                    'item' => '장비 발견 가능',
+                    'heal' => '기혈 $value 회복',
+                    'stat' => '능력치 +$value',
+                    _ => '결과를 알 수 없음',
+                  };
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () => game.resolve(choice),
+                        icon: Text(
+                          '${index + 1}',
+                          style: const TextStyle(
+                            color: gold,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        label: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                choice['text'],
+                                style: const TextStyle(color: paper),
+                              ),
+                              const SizedBox(height: 3),
+                              Row(
+                                children: [
+                                  if (effect == 'item') ...[
+                                    SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: Image.asset(
+                                        'assets/images/item_jade_talisman.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                  ],
+                                  Text(
+                                    reward,
+                                    style: TextStyle(
+                                      color: effect == 'item' ? gold : soft,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Color(0xff806437)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 11,
+                          ),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
