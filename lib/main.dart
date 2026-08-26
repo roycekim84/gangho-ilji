@@ -3426,26 +3426,108 @@ class EventCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.auto_awesome, color: gold, size: 48),
-          Text(
-            '기연 · ' + item.title,
-            style: const TextStyle(fontSize: 22, color: gold),
+          Row(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: const Color(0xff4b3025),
+                  border: Border.all(color: gold),
+                ),
+                child: const Icon(Icons.auto_awesome, color: gold, size: 21),
+              ),
+              const SizedBox(width: 9),
+              const Expanded(
+                child: Text(
+                  '기연 · 운명의 갈림길',
+                  style: TextStyle(color: soft, fontSize: 10, letterSpacing: 1),
+                ),
+              ),
+              Text(
+                'EVENT',
+                style: TextStyle(
+                  color: gold.withOpacity(.75),
+                  fontSize: 9,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
-          Text(item.text, textAlign: TextAlign.center),
-          const SizedBox(height: 14),
-          ...item.choices.map(
-            (choice) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => game.resolve(choice),
-                  child: Text(choice['text']),
-                ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              item.title,
+              style: const TextStyle(
+                fontSize: 23,
+                color: paper,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
               ),
             ),
           ),
+          const SizedBox(height: 8),
+          Container(height: 1, color: const Color(0xff755b35)),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
+              color: Color(0xff181711),
+              border: Border(left: BorderSide(color: gold, width: 3)),
+            ),
+            child: Text(
+              '“${item.text}”',
+              style: const TextStyle(color: paper, fontSize: 14, height: 1.45),
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '어떤 선택을 하시겠습니까?',
+              style: TextStyle(color: soft, fontSize: 11),
+            ),
+          ),
+          const SizedBox(height: 7),
+          ...item.choices.asMap().entries.map((entry) {
+            final choice = entry.value;
+            final index = entry.key;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => game.resolve(choice),
+                  icon: Text(
+                    '${index + 1}',
+                    style: const TextStyle(
+                      color: gold,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  label: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      choice['text'],
+                      style: const TextStyle(color: paper),
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xff806437)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 11,
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );
