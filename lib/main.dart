@@ -37,6 +37,8 @@ String enemyArtwork(String id) => id == 'demon'
     ? 'assets/images/enemy_shadow.png'
     : id == 'yunnan'
     ? 'assets/images/enemy_poisoner.png'
+    : id == 'blood'
+    ? 'assets/images/enemy_bloodcult.png'
     : 'assets/images/enemy_bandit.png';
 
 void main() => runApp(const GanghoApp());
