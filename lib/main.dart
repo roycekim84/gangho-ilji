@@ -3513,17 +3513,36 @@ class MainJianghu extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xff34201b),
               border: Border.all(color: const Color(0xffa45a42)),
+              image: bossImage == null
+                  ? null
+                  : DecorationImage(
+                      image: AssetImage(bossImage),
+                      fit: BoxFit.cover,
+                      opacity: .16,
+                    ),
             ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(11, 9, 11, 9),
+              padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.whatshot,
-                    color: Color(0xffd1785d),
-                    size: 22,
-                  ),
-                  const SizedBox(width: 9),
+                  if (bossImage != null)
+                    Container(
+                      width: 58,
+                      height: 58,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xffb36a50)),
+                      ),
+                      child: ClipRect(
+                        child: Image.asset(bossImage, fit: BoxFit.cover),
+                      ),
+                    )
+                  else
+                    const Icon(
+                      Icons.whatshot,
+                      color: Color(0xffd1785d),
+                      size: 22,
+                    ),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -3542,15 +3561,13 @@ class MainJianghu extends StatelessWidget {
                           '${game.place.boss} · 수문장을 쓰러뜨리면 다음 길이 열립니다.',
                           style: const TextStyle(color: paper, fontSize: 11),
                         ),
+                        const SizedBox(height: 6),
+                        MainMeter(
+                          value: game.foeHp / game.foeMaxHp,
+                          color: const Color(0xffb45745),
+                          label: '기혈 ${max(0, game.foeHp)} / ${game.foeMaxHp}',
+                        ),
                       ],
-                    ),
-                  ),
-                  Text(
-                    '${max(0, game.foeHp)}',
-                    style: const TextStyle(
-                      color: Color(0xffd1785d),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
