@@ -1260,6 +1260,11 @@ class MainWarrior extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(0xff27231b),
             border: Border.all(color: const Color(0xff8a6b37)),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/chronicle_paper.png'),
+              fit: BoxFit.cover,
+              opacity: .08,
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.all(11),
@@ -1482,10 +1487,17 @@ class MainWarrior extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Icon(
-                        item == null ? Icons.crop_square : Icons.shield,
-                        color: item == null ? soft : gold,
-                        size: 20,
+                      SizedBox(
+                        width: 28,
+                        height: 28,
+                        child: item == null
+                            ? Icon(Icons.crop_square, color: soft, size: 20)
+                            : Image.asset(
+                                slot == '무기'
+                                    ? 'assets/images/item_sword.png'
+                                    : 'assets/images/item_armor.png',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(height: 3),
                       Text(
