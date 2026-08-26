@@ -3054,6 +3054,23 @@ class MainJianghu extends StatelessWidget {
                 SizedBox(
                   height: 28,
                   child: OutlinedButton(
+                    onPressed: () => _showAreaDetail(context),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: paper,
+                      side: const BorderSide(color: Color(0xff665338)),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      textStyle: const TextStyle(fontSize: 11),
+                    ),
+                    child: const Text('상세'),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                SizedBox(
+                  height: 28,
+                  child: OutlinedButton(
                     onPressed: () => _showMap(context),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: gold,
@@ -3408,6 +3425,126 @@ class MainJianghu extends StatelessWidget {
           ],
         ),
       ),
+    ),
+  );
+
+  void _showAreaDetail(BuildContext context) => showModalBottomSheet(
+    context: context,
+    backgroundColor: const Color(0xff181611),
+    isScrollControlled: true,
+    builder: (_) => Consumer<Game>(
+      builder: (context, game, _) {
+        final area = game.place;
+        final cleared = game.bosses.contains(area.id);
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 18),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.landscape, color: gold, size: 22),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        area.name,
+                        style: const TextStyle(
+                          color: paper,
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '권장 Lv.${area.level}',
+                      style: const TextStyle(color: gold, fontSize: 11),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  area.description,
+                  style: const TextStyle(
+                    color: soft,
+                    fontSize: 12,
+                    height: 1.35,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(11),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff29231a),
+                    border: Border.all(color: const Color(0xff665338)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '지역 기록',
+                        style: TextStyle(
+                          color: gold,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '등장 적  ·  ${area.enemies.join(' · ')}',
+                        style: const TextStyle(color: paper, fontSize: 11),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        '지역 보스  ·  ${area.boss}',
+                        style: const TextStyle(color: paper, fontSize: 11),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        cleared
+                            ? '보스 격파 완료 · 다음 길이 열렸습니다.'
+                            : '보스를 쓰러뜨리면 다음 지역이 해금됩니다.',
+                        style: TextStyle(
+                          color: cleared ? const Color(0xff9fc47d) : soft,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 42,
+                  child: OutlinedButton.icon(
+                    onPressed: cleared
+                        ? null
+                        : () {
+                            Navigator.pop(context);
+                            game.challenge();
+                          },
+                    icon: Icon(
+                      cleared ? Icons.verified : Icons.shield,
+                      size: 18,
+                    ),
+                    label: Text(cleared ? '지역 보스 격파 완료' : '${area.boss}에게 도전'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: cleared ? soft : gold,
+                      side: BorderSide(
+                        color: cleared
+                            ? const Color(0xff4d493e)
+                            : const Color(0xff8a6b37),
+                      ),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     ),
   );
 }
