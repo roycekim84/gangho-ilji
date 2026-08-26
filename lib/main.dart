@@ -2697,10 +2697,13 @@ void _showGearDetail(BuildContext context, Game game, Gear gear) {
                     color: const Color(0xff302a20),
                     border: Border.all(color: gradeColor),
                   ),
-                  child: Icon(
-                    equipped ? Icons.verified : Icons.shield,
-                    color: gradeColor,
-                    size: 27,
+                  child: ClipRect(
+                    child: Image.asset(
+                      gear.slot == '무기'
+                          ? 'assets/images/item_sword.png'
+                          : 'assets/images/item_armor.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
