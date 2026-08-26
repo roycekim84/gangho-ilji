@@ -3148,12 +3148,11 @@ class MainStatus extends StatelessWidget {
                 BoxShadow(color: Colors.black54, blurRadius: 4),
               ],
             ),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person, color: paper, size: 34),
-                Text('無名', style: TextStyle(color: gold, fontSize: 9)),
-              ],
+            child: ClipRect(
+              child: Image.asset(
+                'assets/images/hero_wanderer.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 11),
@@ -3497,6 +3496,9 @@ class MainJianghu extends StatelessWidget {
                         icon: game.fightingBoss ? Icons.whatshot : Icons.shield,
                         title: game.foe,
                         subtitle: game.fightingBoss ? '지역 보스' : '적대 세력',
+                        imageAsset: game.fightingBoss
+                            ? 'assets/images/boss_blackwind.png'
+                            : null,
                       ),
                     ),
                   ],
@@ -3837,6 +3839,18 @@ class MainJianghu extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
+                if (area.id == 'bamboo')
+                  Container(
+                    height: 88,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff665338)),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/area_bamboo.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                if (area.id == 'bamboo') const SizedBox(height: 8),
                 Text(
                   area.description,
                   style: const TextStyle(
@@ -3928,10 +3942,12 @@ class _FighterBadge extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.imageAsset,
   });
   final IconData icon;
   final String title;
   final String subtitle;
+  final String? imageAsset;
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 6),
@@ -3941,7 +3957,17 @@ class _FighterBadge extends StatelessWidget {
     ),
     child: Row(
       children: [
-        Icon(icon, color: gold, size: 28),
+        Container(
+          width: 34,
+          height: 38,
+          decoration: BoxDecoration(
+            color: const Color(0xff403629),
+            border: Border.all(color: gold),
+          ),
+          child: imageAsset == null
+              ? Icon(icon, color: gold, size: 22)
+              : ClipRect(child: Image.asset(imageAsset!, fit: BoxFit.cover)),
+        ),
         const SizedBox(width: 7),
         Expanded(
           child: Column(
