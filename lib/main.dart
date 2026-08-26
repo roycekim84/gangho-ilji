@@ -2835,6 +2835,11 @@ class _MainChronicleState extends State<MainChronicle> {
           decoration: BoxDecoration(
             color: const Color(0xff211e17),
             border: Border.all(color: const Color(0xff72552d)),
+            image: const DecorationImage(
+              image: AssetImage('assets/images/chronicle_paper.png'),
+              fit: BoxFit.cover,
+              opacity: .18,
+            ),
           ),
           child: Row(
             children: [
