@@ -617,101 +617,113 @@ class _StartState extends State<Start> {
   final controller = TextEditingController(text: '독고진');
   @override
   Widget build(BuildContext context) => InkPaper(
-    child: Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 112,
-            height: 112,
-            decoration: BoxDecoration(
-              color: const Color(0xff302a20),
-              border: Border.all(color: gold, width: 1.4),
-              boxShadow: const [
-                BoxShadow(color: Colors.black54, blurRadius: 12),
-              ],
-            ),
-            child: const Icon(Icons.landscape, size: 68, color: gold),
+    child: Stack(
+      fit: StackFit.expand,
+      children: [
+        Opacity(
+          opacity: .22,
+          child: Image.asset(
+            'assets/images/title_cover.png',
+            fit: BoxFit.cover,
           ),
-          const SizedBox(height: 15),
-          const Text(
-            '강호일지',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: paper,
-              letterSpacing: 4,
-            ),
-          ),
-          const Text(
-            '江 湖 日 誌  ·  무협 방치형 RPG',
-            style: TextStyle(color: gold, fontSize: 11, letterSpacing: 1),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            '이름 없는 무인이 강호의 끝을 향해 걷습니다.',
-            style: TextStyle(color: soft, fontSize: 11),
-          ),
-          const SizedBox(height: 34),
-          Container(
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-            decoration: BoxDecoration(
-              color: const Color(0xff211f1a),
-              border: Border.all(color: const Color(0xff635239)),
-            ),
-            child: Column(
-              children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '새로운 무인의 이름',
-                    style: TextStyle(
-                      color: gold,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 112,
+                height: 112,
+                decoration: BoxDecoration(
+                  color: const Color(0xff302a20),
+                  border: Border.all(color: gold, width: 1.4),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black54, blurRadius: 12),
+                  ],
+                ),
+                child: const Icon(Icons.landscape, size: 68, color: gold),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                '강호일지',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: paper,
+                  letterSpacing: 4,
+                ),
+              ),
+              const Text(
+                '江 湖 日 誌  ·  무협 방치형 RPG',
+                style: TextStyle(color: gold, fontSize: 11, letterSpacing: 1),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                '이름 없는 무인이 강호의 끝을 향해 걷습니다.',
+                style: TextStyle(color: soft, fontSize: 11),
+              ),
+              const SizedBox(height: 34),
+              Container(
+                padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+                decoration: BoxDecoration(
+                  color: const Color(0xff211f1a),
+                  border: Border.all(color: const Color(0xff635239)),
+                ),
+                child: Column(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '새로운 무인의 이름',
+                        style: TextStyle(
+                          color: gold,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                TextField(
-                  controller: controller,
-                  style: const TextStyle(color: paper),
-                  decoration: const InputDecoration(
-                    hintText: '이름을 새긴다',
-                    filled: true,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
+                    const SizedBox(height: 7),
+                    TextField(
+                      controller: controller,
+                      style: const TextStyle(color: paper),
+                      decoration: const InputDecoration(
+                        hintText: '이름을 새긴다',
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 11),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 42,
+                      child: FilledButton(
+                        onPressed: () =>
+                            context.read<Game>().start(controller.text),
+                        child: const Text('새로운 강호를 시작한다'),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 11),
-                SizedBox(
-                  width: double.infinity,
-                  height: 42,
-                  child: FilledButton(
-                    onPressed: () =>
-                        context.read<Game>().start(controller.text),
-                    child: const Text('새로운 강호를 시작한다'),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton(
+                onPressed: () =>
+                    showDialog(context: context, builder: (_) => const Guide()),
+                child: const Text('강호의 법도  ·  플레이 안내'),
+              ),
+              const Spacer(),
+              const Text(
+                '로컬 완성판 알파 · 모든 기록은 이 기기에 저장됩니다.',
+                style: TextStyle(fontSize: 11, color: soft),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          OutlinedButton(
-            onPressed: () =>
-                showDialog(context: context, builder: (_) => const Guide()),
-            child: const Text('강호의 법도  ·  플레이 안내'),
-          ),
-          const Spacer(),
-          const Text(
-            '로컬 완성판 알파 · 모든 기록은 이 기기에 저장됩니다.',
-            style: TextStyle(fontSize: 11, color: soft),
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
@@ -1222,12 +1234,11 @@ class MainWarrior extends StatelessWidget {
                     color: const Color(0xff403629),
                     border: Border.all(color: gold),
                   ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.person, color: paper, size: 47),
-                      Text('無名武人', style: TextStyle(color: gold, fontSize: 9)),
-                    ],
+                  child: ClipRect(
+                    child: Image.asset(
+                      'assets/images/hero_wanderer.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
