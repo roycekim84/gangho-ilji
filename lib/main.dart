@@ -3962,31 +3962,15 @@ class MainJianghu extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Container(
+                      ArtworkFrame(
                         width: 42,
                         height: 48,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff302a20),
-                          border: Border.all(
-                            color: available
-                                ? (cleared ? const Color(0xff9fc47d) : gold)
-                                : soft,
-                          ),
-                          image: artwork == null
-                              ? null
-                              : DecorationImage(
-                                  image: AssetImage(artwork),
-                                  fit: BoxFit.cover,
-                                  opacity: available ? 1 : .35,
-                                ),
-                        ),
-                        child: artwork == null
-                            ? Icon(
-                                available ? Icons.place : Icons.lock,
-                                color: available ? gold : soft,
-                                size: 20,
-                              )
-                            : null,
+                        asset: artwork,
+                        icon: available ? Icons.place : Icons.lock,
+                        borderColor: available
+                            ? (cleared ? const Color(0xff9fc47d) : gold)
+                            : soft,
+                        opacity: available ? 1 : .35,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -4276,12 +4260,14 @@ class ArtworkFrame extends StatelessWidget {
     this.asset,
     this.icon = Icons.image,
     this.borderColor = gold,
+    this.opacity = 1,
   });
   final double width;
   final double height;
   final String? asset;
   final IconData icon;
   final Color borderColor;
+  final double opacity;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -4293,7 +4279,10 @@ class ArtworkFrame extends StatelessWidget {
     ),
     child: asset == null
         ? Icon(icon, color: borderColor, size: height * .55)
-        : ClipRect(child: Image.asset(asset!, fit: BoxFit.cover)),
+        : Opacity(
+            opacity: opacity,
+            child: ClipRect(child: Image.asset(asset!, fit: BoxFit.cover)),
+          ),
   );
 }
 
