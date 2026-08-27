@@ -3616,36 +3616,51 @@ class MainJianghu extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
               child: Row(
                 children: [
-                  if (bossImage != null)
-                    Container(
-                      width: 58,
-                      height: 58,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xffb36a50)),
-                      ),
-                      child: ClipRect(
-                        child: Image.asset(bossImage, fit: BoxFit.cover),
-                      ),
-                    )
-                  else
-                    const Icon(
-                      Icons.whatshot,
-                      color: Color(0xffd1785d),
-                      size: 22,
-                    ),
+                  ArtworkFrame(
+                    width: 58,
+                    height: 58,
+                    asset: bossImage,
+                    icon: Icons.whatshot,
+                    borderColor: const Color(0xffb36a50),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          '지역 보스전',
-                          style: TextStyle(
-                            color: Color(0xffe0a077),
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                '지역 보스전',
+                                style: TextStyle(
+                                  color: Color(0xffe0a077),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xff542d25),
+                                border: Border.all(
+                                  color: const Color(0xffa45a42),
+                                ),
+                              ),
+                              child: const Text(
+                                '교전 중',
+                                style: TextStyle(
+                                  color: Color(0xffe0a077),
+                                  fontSize: 9,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 2),
                         Text(
