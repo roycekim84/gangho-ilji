@@ -3199,7 +3199,7 @@ class _MainChronicleState extends State<MainChronicle> {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: color, size: 20),
+        ArtworkFrame(width: 28, height: 28, icon: icon, borderColor: color),
         const SizedBox(width: 9),
         Expanded(
           child: Column(
