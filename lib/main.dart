@@ -740,17 +740,11 @@ class _StartState extends State<Start> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              ArtworkFrame(
                 width: 112,
                 height: 112,
-                decoration: BoxDecoration(
-                  color: const Color(0xff302a20),
-                  border: Border.all(color: gold, width: 1.4),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black54, blurRadius: 12),
-                  ],
-                ),
-                child: const Icon(Icons.landscape, size: 68, color: gold),
+                asset: 'assets/images/title_cover.png',
+                borderColor: gold,
               ),
               const SizedBox(height: 15),
               const Text(
