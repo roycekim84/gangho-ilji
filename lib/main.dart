@@ -3410,38 +3410,42 @@ class MainMeter extends StatelessWidget {
   final Color color;
   final String label;
   @override
-  Widget build(BuildContext context) => SizedBox(
-    height: 17,
-    child: Stack(
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: const Color(0xff0d0d0a),
-            border: Border.all(color: const Color(0xff52432d)),
+  Widget build(BuildContext context) => Semantics(
+    label: label,
+    value: label,
+    child: SizedBox(
+      height: 17,
+      child: Stack(
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: const Color(0xff0d0d0a),
+              border: Border.all(color: const Color(0xff52432d)),
+            ),
+            child: const SizedBox.expand(),
           ),
-          child: const SizedBox.expand(),
-        ),
-        FractionallySizedBox(
-          widthFactor: value.clamp(0, 1),
-          child: DecoratedBox(decoration: BoxDecoration(color: color)),
-        ),
-        Positioned.fill(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
+          FractionallySizedBox(
+            widthFactor: value.clamp(0, 1),
+            child: DecoratedBox(decoration: BoxDecoration(color: color)),
+          ),
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
