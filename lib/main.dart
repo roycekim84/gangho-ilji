@@ -2148,15 +2148,13 @@ class Meridian extends StatelessWidget {
                     height: 600,
                     child: Stack(
                       children: List.generate(90, (index) {
-                        final angle = (index % 15) * pi * 2 / 15;
-                        final ring = index ~/ 15;
-                        final x = 220 + cos(angle) * (55 + ring * 34);
-                        final y = 285 + sin(angle) * (55 + ring * 34);
+                        final center = _meridianNodeCenter(index);
+                        final nodeSize = index == 0 ? 35.0 : 24.0;
                         final opened = game.nodes.contains(index);
                         final available = game.canOpen(index);
                         return Positioned(
-                          left: x,
-                          top: y,
+                          left: center.dx - nodeSize / 2,
+                          top: center.dy - nodeSize / 2,
                           child: GestureDetector(
                             onTap: () => game.open(index),
                             child: Tooltip(
@@ -2170,8 +2168,8 @@ class Meridian extends StatelessWidget {
                                 '암기',
                               ][index % 7],
                               child: Container(
-                                width: index == 0 ? 35 : 24,
-                                height: index == 0 ? 35 : 24,
+                                width: nodeSize,
+                                height: nodeSize,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: opened
@@ -2207,6 +2205,15 @@ class Meridian extends StatelessWidget {
       ],
     );
   }
+}
+
+Offset _meridianNodeCenter(int index) {
+  if (index == 0) return const Offset(220, 285);
+  final ringIndex = index - 1;
+  final angle = (ringIndex % 15) * pi * 2 / 15;
+  final ring = ringIndex ~/ 15;
+  final radius = 55 + ring * 34;
+  return Offset(220 + cos(angle) * radius, 285 + sin(angle) * radius);
 }
 
 class _MeridianStat extends StatelessWidget {
@@ -2268,20 +2275,13 @@ class MeridianLines extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final brush = Paint()..strokeWidth = 1;
     for (var index = 1; index < 90; index++) {
-      final child = index - 1;
-      final parent = (index - 1) ~/ 3;
-      final childX =
-          232 + cos((child % 15) * pi * 2 / 15) * (67 + (child ~/ 15) * 34);
-      final childY =
-          297 + sin((child % 15) * pi * 2 / 15) * (67 + (child ~/ 15) * 34);
-      final parentX =
-          232 + cos((parent % 15) * pi * 2 / 15) * (67 + (parent ~/ 15) * 34);
-      final parentY =
-          297 + sin((parent % 15) * pi * 2 / 15) * (67 + (parent ~/ 15) * 34);
+      final parent = index == 1 ? 0 : (index - 1) ~/ 3;
+      final childCenter = _meridianNodeCenter(index);
+      final parentCenter = _meridianNodeCenter(parent);
       brush.color = opened.contains(index) && opened.contains(parent)
           ? gold
           : const Color(0xff4b4437);
-      canvas.drawLine(Offset(childX, childY), Offset(parentX, parentY), brush);
+      canvas.drawLine(childCenter, parentCenter, brush);
     }
   }
 
