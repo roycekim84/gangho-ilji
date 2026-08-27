@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gangho_ilji/main.dart' as app;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
   test('content artwork mappings cover all seven areas', () {
     const areas = [
       'luoyang',
@@ -59,5 +61,33 @@ void main() {
     expect(game.bosses, contains('a0'));
     expect(game.unlocked, 1);
     expect(game.fightingBoss, isFalse);
+  });
+
+  test('equipment replacement and lock state protect inventory items', () {
+    final game = app.Game();
+    final first = app.Gear('first', '낡은 검', '무기', '범품', 80, 5, 1);
+    final upgrade = app.Gear('upgrade', '청강검', '무기', '양품', 92, 12, 3);
+    game.playing = true;
+    game.bag.addAll([first, upgrade]);
+
+    game.equip(first);
+    expect(game.worn.single.id, 'first');
+    expect(game.bag.any((item) => item.id == 'first'), isFalse);
+
+    game.equip(upgrade);
+    expect(game.worn.single.id, 'upgrade');
+    expect(game.bag.any((item) => item.id == 'first'), isTrue);
+
+    final protectedGear = game.bag.singleWhere((item) => item.id == 'first');
+    game.lock(protectedGear);
+    final silverBefore = game.silver;
+    game.breakGear(protectedGear);
+    expect(game.bag.any((item) => item.id == 'first'), isTrue);
+    expect(game.silver, silverBefore);
+
+    game.lock(protectedGear);
+    game.breakGear(protectedGear);
+    expect(game.bag.any((item) => item.id == 'first'), isFalse);
+    expect(game.silver, greaterThan(silverBefore));
   });
 }
