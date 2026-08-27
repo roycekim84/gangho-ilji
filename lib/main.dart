@@ -772,6 +772,17 @@ class _StartState extends State<Start> {
                 '이름 없는 무인이 강호의 끝을 향해 걷습니다.',
                 style: TextStyle(color: soft, fontSize: 11),
               ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Expanded(child: Divider(color: Color(0xff665338))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 9),
+                    child: Icon(Icons.star, color: gold, size: 11),
+                  ),
+                  const Expanded(child: Divider(color: Color(0xff665338))),
+                ],
+              ),
               const SizedBox(height: 34),
               Container(
                 padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
@@ -819,10 +830,17 @@ class _StartState extends State<Start> {
                 ),
               ),
               const SizedBox(height: 12),
-              OutlinedButton(
-                onPressed: () =>
-                    showDialog(context: context, builder: (_) => const Guide()),
-                child: const Text('강호의 법도  ·  플레이 안내'),
+              SizedBox(
+                width: double.infinity,
+                height: 36,
+                child: OutlinedButton.icon(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (_) => const Guide(),
+                  ),
+                  icon: const Icon(Icons.menu_book, size: 15),
+                  label: const Text('강호의 법도  ·  플레이 안내'),
+                ),
               ),
               const Spacer(),
               const Text(
