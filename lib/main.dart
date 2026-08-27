@@ -88,6 +88,22 @@ class GanghoApp extends StatelessWidget {
           surface: Color(0xff211f19),
           onSurface: paper,
         ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: paper, fontSize: 14, height: 1.25),
+          bodyMedium: TextStyle(color: paper, fontSize: 12, height: 1.25),
+          bodySmall: TextStyle(color: soft, fontSize: 10, height: 1.2),
+          titleMedium: TextStyle(
+            color: paper,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          labelLarge: TextStyle(
+            color: paper,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            letterSpacing: .2,
+          ),
+        ),
         dividerTheme: const DividerThemeData(
           color: Color(0xff4f432f),
           thickness: 1,
