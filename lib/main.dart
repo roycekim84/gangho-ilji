@@ -2173,12 +2173,16 @@ class Meridian extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: opened
-                                      ? gold
+                                      ? (index == 0
+                                            ? gold
+                                            : _meridianBranchColor(index))
                                       : available
                                       ? const Color(0xff67563e)
                                       : const Color(0xff29271f),
                                   border: Border.all(
-                                    color: opened ? paper : soft,
+                                    color: opened
+                                        ? _meridianBranchColor(index)
+                                        : soft,
                                   ),
                                 ),
                                 child: Center(
@@ -2215,6 +2219,16 @@ Offset _meridianNodeCenter(int index) {
   final radius = 55 + ring * 34;
   return Offset(220 + cos(angle) * radius, 285 + sin(angle) * radius);
 }
+
+Color _meridianBranchColor(int index) => switch (index % 7) {
+  0 => const Color(0xffd0a554),
+  1 => const Color(0xff75aaa4),
+  2 => const Color(0xffb88461),
+  3 => const Color(0xffa987bd),
+  4 => const Color(0xffc2775f),
+  5 => const Color(0xff8aaa78),
+  _ => const Color(0xff9a9b72),
+};
 
 class _MeridianStat extends StatelessWidget {
   const _MeridianStat({
@@ -2279,7 +2293,7 @@ class MeridianLines extends CustomPainter {
       final childCenter = _meridianNodeCenter(index);
       final parentCenter = _meridianNodeCenter(parent);
       brush.color = opened.contains(index) && opened.contains(parent)
-          ? gold
+          ? (index == 0 ? gold : _meridianBranchColor(index))
           : const Color(0xff4b4437);
       canvas.drawLine(childCenter, parentCenter, brush);
     }
