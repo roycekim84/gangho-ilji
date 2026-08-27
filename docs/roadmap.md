@@ -10,3 +10,5 @@
 시안 수준의 UI 완성도 달성 계획은 [`ui_completion_roadmap.md`](ui_completion_roadmap.md)에 별도로 정리한다.
 
 시안 대비 현재 출시 전 완성도 평가는 [`ui_readiness_assessment.md`](ui_readiness_assessment.md)에서 관리한다.
+
+기능·시각·품질을 통합한 100% 근접 실행 계획은 [`production_completion_roadmap.md`](production_completion_roadmap.md)에서 관리한다.
