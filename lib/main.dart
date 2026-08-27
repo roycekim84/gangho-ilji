@@ -63,6 +63,13 @@ String gearArtwork(String slot) => switch (slot) {
   _ => 'assets/images/item_armor.png',
 };
 
+Color gearGradeColor(String grade) => switch (grade) {
+  '보물' => const Color(0xffdfb35e),
+  '명품' => const Color(0xffae8bc2),
+  '양품' => const Color(0xff86aeb0),
+  _ => soft,
+};
+
 void main() => runApp(const GanghoApp());
 
 class GanghoApp extends StatelessWidget {
@@ -1530,6 +1537,9 @@ class MainWarrior extends StatelessWidget {
                 final item = game.worn
                     .where((gear) => gear.slot == slot)
                     .firstOrNull;
+                final slotColor = item == null
+                    ? const Color(0xff514431)
+                    : gearGradeColor(item.grade);
                 return Container(
                   width: 78,
                   padding: const EdgeInsets.symmetric(
@@ -1538,16 +1548,21 @@ class MainWarrior extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xff302a20),
-                    border: Border.all(color: const Color(0xff514431)),
+                    border: Border.all(color: slotColor),
                   ),
                   child: Column(
                     children: [
                       SizedBox(
-                        width: 28,
-                        height: 28,
+                        width: 36,
+                        height: 36,
                         child: item == null
                             ? Icon(Icons.crop_square, color: soft, size: 20)
-                            : Image.asset(gearArtwork(slot), fit: BoxFit.cover),
+                            : ArtworkFrame(
+                                width: 36,
+                                height: 36,
+                                asset: gearArtwork(slot),
+                                borderColor: slotColor,
+                              ),
                       ),
                       const SizedBox(height: 3),
                       Text(
@@ -1563,6 +1578,11 @@ class MainWarrior extends StatelessWidget {
                           fontSize: 9,
                         ),
                       ),
+                      if (item != null)
+                        Text(
+                          item.grade,
+                          style: TextStyle(color: slotColor, fontSize: 8),
+                        ),
                     ],
                   ),
                 );
