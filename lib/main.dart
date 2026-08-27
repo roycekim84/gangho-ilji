@@ -707,7 +707,10 @@ class Shell extends StatelessWidget {
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
     if (!game.ready)
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        backgroundColor: ink,
+        body: Center(child: GameStatusPanel.loading()),
+      );
     return Scaffold(
       backgroundColor: ink,
       body: SafeArea(
@@ -2336,7 +2339,12 @@ class Bag extends StatelessWidget {
         ),
         const Text('장비를 비교하고 장착하거나 분해합니다.', style: TextStyle(color: soft)),
         const SizedBox(height: 10),
-        if (all.isEmpty) const Panel(child: Text('아직 얻은 장비가 없습니다.')),
+        if (all.isEmpty)
+          const GameStatusPanel(
+            icon: Icons.inventory_2,
+            title: '행낭이 비어 있습니다',
+            message: '자동 전투를 이어가면 장비가 기록됩니다.',
+          ),
         ...all.map((gear) {
           final equipped = game.worn.any((item) => item.id == gear.id);
           final same = game.worn
@@ -2568,11 +2576,10 @@ class _MainBagState extends State<MainBag> {
                 BorderSide(color: Color(0xff635239)),
               ),
             ),
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Center(
-                child: Text('이 분류의 장비가 없습니다.', style: TextStyle(color: soft)),
-              ),
+            child: GameStatusPanel(
+              icon: Icons.search_off,
+              title: '기록된 장비가 없습니다',
+              message: '다른 분류를 살피거나 강호로 돌아가십시오.',
             ),
           ),
         ...visible.map((gear) => _GearEntry(game: game, gear: gear)),
@@ -4382,6 +4389,69 @@ class ArtworkFrame extends StatelessWidget {
             opacity: opacity,
             child: ClipRect(child: Image.asset(asset!, fit: BoxFit.cover)),
           ),
+  );
+}
+
+class GameStatusPanel extends StatelessWidget {
+  const GameStatusPanel({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.message,
+  }) : loading = false;
+
+  const GameStatusPanel.loading({super.key})
+    : icon = Icons.hourglass_top,
+      title = '강호의 기록을 불러오는 중',
+      message = '잠시만 기다려 주십시오.',
+      loading = true;
+
+  final IconData icon;
+  final String title;
+  final String message;
+  final bool loading;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
+    decoration: BoxDecoration(
+      color: const Color(0xff211f1a),
+      border: Border.all(color: const Color(0xff635239)),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ArtworkFrame(width: 44, height: 44, icon: icon, borderColor: gold),
+        const SizedBox(height: 10),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: paper,
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: soft, fontSize: 10),
+        ),
+        if (loading) ...[
+          const SizedBox(height: 12),
+          const SizedBox(
+            width: 100,
+            child: LinearProgressIndicator(
+              minHeight: 3,
+              backgroundColor: Color(0xff15140f),
+              valueColor: AlwaysStoppedAnimation<Color>(gold),
+            ),
+          ),
+        ],
+      ],
+    ),
   );
 }
 
