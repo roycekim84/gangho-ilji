@@ -131,4 +131,29 @@ void main() {
     game.open(2);
     expect(game.critical, criticalBefore + 2);
   });
+
+  test('offline rewards clamp to the one-minute and eight-hour boundaries', () {
+    final game = app.Game();
+    game.areas.add(
+      app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '수문장', 0),
+    );
+    game.playing = true;
+    game.area = 0;
+    game.offline = true;
+    game.lastSeen = DateTime.now().subtract(const Duration(minutes: 600));
+    final silverBefore = game.silver;
+    final expBefore = game.exp;
+
+    game.claimOffline();
+
+    expect(game.offline, isFalse);
+    expect(game.silver, silverBefore + 480 * 4);
+    expect(game.exp, expBefore + (480 * 4 ~/ 2));
+
+    game.offline = true;
+    game.lastSeen = DateTime.now();
+    final silverAtMinimum = game.silver;
+    game.claimOffline();
+    expect(game.silver, silverAtMinimum + 4);
+  });
 }
