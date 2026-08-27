@@ -4614,18 +4614,11 @@ class EventCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Container(
+                    const ArtworkFrame(
                       width: 34,
                       height: 34,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff4b3025),
-                        border: Border.all(color: gold),
-                      ),
-                      child: const Icon(
-                        Icons.auto_awesome,
-                        color: gold,
-                        size: 21,
-                      ),
+                      icon: Icons.auto_awesome,
+                      borderColor: gold,
                     ),
                     const SizedBox(width: 9),
                     const Expanded(
@@ -4676,21 +4669,14 @@ class EventCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Container(height: 1, color: const Color(0xff755b35)),
                 const SizedBox(height: 12),
-                Container(
+                ArtworkFrame(
+                  width: double.infinity,
                   height: 116,
-                  decoration: BoxDecoration(
-                    border: const Border.fromBorderSide(
-                      BorderSide(color: Color(0xff665338)),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        areaArtwork(game.place.id) ??
-                            'assets/images/event_mountain_letter.png',
-                      ),
-                      fit: BoxFit.cover,
-                      opacity: .72,
-                    ),
-                  ),
+                  asset:
+                      areaArtwork(game.place.id) ??
+                      'assets/images/event_mountain_letter.png',
+                  borderColor: const Color(0xff665338),
+                  opacity: .72,
                 ),
                 const SizedBox(height: 10),
                 Container(
