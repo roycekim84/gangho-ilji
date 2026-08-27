@@ -3663,12 +3663,19 @@ class MainJianghu extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
               child: Row(
                 children: [
-                  ArtworkFrame(
-                    width: 58,
-                    height: 58,
-                    asset: bossImage,
-                    icon: Icons.whatshot,
-                    borderColor: const Color(0xffb36a50),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: .88, end: 1),
+                    duration: const Duration(milliseconds: 360),
+                    curve: Curves.easeOut,
+                    builder: (context, scale, child) =>
+                        Transform.scale(scale: scale, child: child),
+                    child: ArtworkFrame(
+                      width: 58,
+                      height: 58,
+                      asset: bossImage,
+                      icon: Icons.whatshot,
+                      borderColor: const Color(0xffb36a50),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
