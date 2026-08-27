@@ -2591,7 +2591,7 @@ class _GearEntry extends StatelessWidget {
             color: const Color(0xff211f1a),
             border: Border.all(
               color: equipped
-                  ? const Color(0xff8a6b37)
+                  ? gradeColor(gear.grade)
                   : const Color(0xff514431),
             ),
           ),
@@ -2601,26 +2601,11 @@ class _GearEntry extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Container(
+                    ArtworkFrame(
                       width: 39,
                       height: 39,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff302a20),
-                        border: Border.all(color: gradeColor(gear.grade)),
-                      ),
-                      child: gear.slot == '무기'
-                          ? ClipRect(
-                              child: Image.asset(
-                                gearArtwork(gear.slot),
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : ClipRect(
-                              child: Image.asset(
-                                gearArtwork(gear.slot),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                      asset: gearArtwork(gear.slot),
+                      borderColor: gradeColor(gear.grade),
                     ),
                     const SizedBox(width: 9),
                     Expanded(
@@ -2670,6 +2655,11 @@ class _GearEntry extends StatelessWidget {
                           color: Color(0xff9fc47d),
                           fontSize: 10,
                         ),
+                      ),
+                    if (!equipped && gear.locked)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Icon(Icons.lock, color: soft, size: 14),
                       ),
                   ],
                 ),
