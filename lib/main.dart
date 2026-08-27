@@ -4297,11 +4297,54 @@ class MainJianghu extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        '등장 적  ·  ${area.enemies.join(' · ')}',
-                        style: const TextStyle(color: paper, fontSize: 11),
+                      const Text(
+                        '등장 적',
+                        style: TextStyle(
+                          color: paper,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 6),
+                      Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: area.enemies
+                            .map(
+                              (enemy) => Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 7,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff201d17),
+                                  border: Border.all(
+                                    color: const Color(0xff514431),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.person_outline,
+                                      color: soft,
+                                      size: 13,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      enemy,
+                                      style: const TextStyle(
+                                        color: paper,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      const SizedBox(height: 9),
                       Text(
                         '지역 보스  ·  ${area.boss}',
                         style: const TextStyle(color: paper, fontSize: 11),
