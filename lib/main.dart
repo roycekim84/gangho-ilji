@@ -4086,11 +4086,43 @@ class MainJianghu extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                if (current)
-                                  const Text(
-                                    '현재',
-                                    style: TextStyle(color: gold, fontSize: 10),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
                                   ),
+                                  decoration: BoxDecoration(
+                                    color: current
+                                        ? const Color(0xff493823)
+                                        : cleared
+                                        ? const Color(0xff263326)
+                                        : const Color(0xff211f1a),
+                                    border: Border.all(
+                                      color: current
+                                          ? gold
+                                          : cleared
+                                          ? const Color(0xff76945c)
+                                          : const Color(0xff514431),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    current
+                                        ? '현재'
+                                        : cleared
+                                        ? '격파'
+                                        : available
+                                        ? '개방'
+                                        : '잠김',
+                                    style: TextStyle(
+                                      color: current
+                                          ? gold
+                                          : cleared
+                                          ? const Color(0xff9fc47d)
+                                          : soft,
+                                      fontSize: 9,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 3),
@@ -4103,6 +4135,15 @@ class MainJianghu extends StatelessWidget {
                               style: const TextStyle(color: soft, fontSize: 10),
                             ),
                             const SizedBox(height: 6),
+                            Text(
+                              '진행도  ${cleared
+                                  ? '100%'
+                                  : current
+                                  ? '68%'
+                                  : '0%'}',
+                              style: const TextStyle(color: soft, fontSize: 9),
+                            ),
+                            const SizedBox(height: 4),
                             LinearProgressIndicator(
                               value: cleared
                                   ? 1
