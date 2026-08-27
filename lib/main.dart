@@ -3920,6 +3920,54 @@ class MainJianghu extends StatelessWidget {
               '보스의 문을 열면 다음 여정이 이어집니다.',
               style: TextStyle(color: soft, fontSize: 10),
             ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 9, 10, 10),
+              decoration: BoxDecoration(
+                color: const Color(0xff29231c),
+                border: Border.all(color: const Color(0xff665338)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          '여정 진행',
+                          style: TextStyle(
+                            color: gold,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${game.unlocked + 1} / ${game.areas.length} 지역',
+                        style: const TextStyle(color: paper, fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 7),
+                  ClipRRect(
+                    borderRadius: BorderRadius.zero,
+                    child: LinearProgressIndicator(
+                      value: (game.unlocked + 1) / game.areas.length,
+                      minHeight: 5,
+                      backgroundColor: const Color(0xff15140f),
+                      valueColor: const AlwaysStoppedAnimation<Color>(gold),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    game.bosses.isEmpty
+                        ? '첫 수문장을 넘어 강호의 길을 여십시오.'
+                        : '격파한 지역 보스 ${game.bosses.length}명 · 다음 길을 추적 중',
+                    style: const TextStyle(color: soft, fontSize: 10),
+                  ),
+                ],
+              ),
+            ),
             ...List.generate(game.areas.length, (index) {
               final item = game.areas[index];
               final available = index <= game.unlocked;
@@ -4090,6 +4138,41 @@ class MainJianghu extends StatelessWidget {
                     color: soft,
                     fontSize: 12,
                     height: 1.35,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 9,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff201d17),
+                    border: Border.all(color: const Color(0xff665338)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.route, color: gold, size: 16),
+                      const SizedBox(width: 7),
+                      const Expanded(
+                        child: Text(
+                          '지역 탐사',
+                          style: TextStyle(color: paper, fontSize: 11),
+                        ),
+                      ),
+                      Text(
+                        cleared
+                            ? '100%'
+                            : (game.area == game.areas.indexOf(area)
+                                  ? '68%'
+                                  : '미개척'),
+                        style: TextStyle(
+                          color: cleared ? const Color(0xff9fc47d) : gold,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
