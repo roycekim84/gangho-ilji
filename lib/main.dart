@@ -3351,6 +3351,11 @@ class MainStatus extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Color(0xff1b1a15),
         border: Border(bottom: BorderSide(color: Color(0xff73582e), width: 1)),
+        image: DecorationImage(
+          image: AssetImage('assets/images/chronicle_paper.png'),
+          fit: BoxFit.cover,
+          opacity: .05,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3409,6 +3414,11 @@ class MainStatus extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          const SizedBox(width: 9),
+          const SizedBox(
+            height: 57,
+            child: VerticalDivider(color: Color(0xff4f432f), width: 1),
           ),
           const SizedBox(width: 9),
           Column(
