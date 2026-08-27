@@ -156,4 +156,35 @@ void main() {
     game.claimOffline();
     expect(game.silver, silverAtMinimum + 4);
   });
+
+  test('local save restores progression into a fresh game instance', () async {
+    SharedPreferences.setMockInitialValues({});
+    final saved = app.Game();
+    await saved.boot();
+    saved.start('복원시험자');
+    saved.area = 2;
+    saved.unlocked = 3;
+    saved.level = 17;
+    saved.silver = 4321;
+    saved.points = 4;
+    saved.nodes = {0, 1};
+    saved.bag.add(app.Gear('saved-gear', '복원 장비', '머리', '양품', 90, 4, 5));
+    await saved.save();
+
+    final restored = app.Game();
+    await restored.boot();
+
+    expect(restored.playing, isTrue);
+    expect(restored.hero, '복원시험자');
+    expect(restored.area, 2);
+    expect(restored.unlocked, 3);
+    expect(restored.level, 17);
+    expect(restored.silver, 4321);
+    expect(restored.points, 4);
+    expect(restored.nodes, containsAll(<int>[0, 1]));
+    expect(restored.bag.any((gear) => gear.id == 'saved-gear'), isTrue);
+
+    saved.dispose();
+    restored.dispose();
+  });
 }
