@@ -90,4 +90,45 @@ void main() {
     expect(game.bag.any((item) => item.id == 'first'), isFalse);
     expect(game.silver, greaterThan(silverBefore));
   });
+
+  test('martial slots and meridian nodes affect combat summaries', () {
+    final game = app.Game();
+    game.skills.addAll(
+      List.generate(
+        6,
+        (index) => app.Skill(
+          'skill$index',
+          '초식 $index',
+          '검법',
+          '범품',
+          1.2,
+          3,
+          '시험용 무공',
+        ),
+      ),
+    );
+    game.activeSkills.clear();
+    final masteryBefore = game.mastery;
+    for (var index = 0; index < 5; index++) {
+      game.skill('skill$index');
+    }
+    game.skill('skill5');
+
+    expect(game.activeSkills.length, 5);
+    expect(game.mastery, masteryBefore + 40);
+    expect(game.activeSkills, isNot(contains('skill5')));
+
+    game.nodePoints = 3;
+    final attackBefore = game.attack;
+    final defenseBefore = game.defense;
+    final criticalBefore = game.critical;
+    expect(game.canOpen(0), isTrue);
+    game.open(0);
+    expect(game.attack, attackBefore + 3);
+    expect(game.canOpen(1), isTrue);
+    game.open(1);
+    expect(game.defense, defenseBefore + 2);
+    game.open(2);
+    expect(game.critical, criticalBefore + 2);
+  });
 }
