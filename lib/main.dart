@@ -4177,6 +4177,7 @@ class MainJianghu extends StatelessWidget {
     builder: (_) => Consumer<Game>(
       builder: (context, game, _) {
         final area = game.place;
+        final areaIndex = game.areas.indexOf(area);
         final cleared = game.bosses.contains(area.id);
         final areaImage = areaArtwork(area.id);
         final bossImage = bossArtwork(area.id);
@@ -4377,6 +4378,46 @@ class MainJianghu extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        '발견 가능한 기연',
+                        style: TextStyle(
+                          color: gold,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      ...game.events
+                          .take(3)
+                          .map(
+                            (event) => Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.auto_awesome,
+                                    color: soft,
+                                    size: 13,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Expanded(
+                                    child: Text(
+                                      event.title,
+                                      style: const TextStyle(
+                                        color: paper,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                  const Text(
+                                    '낮은 확률',
+                                    style: TextStyle(color: soft, fontSize: 9),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                       if (bossImage != null) ...[
                         const SizedBox(height: 9),
                         Container(
@@ -4418,6 +4459,37 @@ class MainJianghu extends StatelessWidget {
                           ),
                         ),
                       ],
+                      const SizedBox(height: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 9,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xff201d17),
+                          border: Border.all(color: const Color(0xff665338)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.workspace_premium,
+                              color: gold,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 7),
+                            const Expanded(
+                              child: Text(
+                                '첫 처치 보상',
+                                style: TextStyle(color: paper, fontSize: 10),
+                              ),
+                            ),
+                            Text(
+                              'EXP ${(12 + areaIndex * 9) * 8}  ·  은자 ${(7 + areaIndex * 7) * 12}',
+                              style: const TextStyle(color: gold, fontSize: 9),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       Text(
                         cleared
