@@ -1333,19 +1333,11 @@ class MainWarrior extends StatelessWidget {
             padding: const EdgeInsets.all(11),
             child: Row(
               children: [
-                Container(
+                ArtworkFrame(
                   width: 73,
                   height: 84,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff403629),
-                    border: Border.all(color: gold),
-                  ),
-                  child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/hero_wanderer.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  asset: 'assets/images/hero_wanderer.png',
+                  borderColor: gold,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
