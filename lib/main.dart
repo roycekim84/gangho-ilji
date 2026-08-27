@@ -1720,19 +1720,11 @@ class MainSkills extends StatelessWidget {
             padding: const EdgeInsets.all(11),
             child: Row(
               children: [
-                Container(
+                const ArtworkFrame(
                   width: 55,
                   height: 55,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff403629),
-                    border: Border.all(color: gold),
-                  ),
-                  child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/skill_manual.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  asset: 'assets/images/skill_manual.png',
+                  borderColor: gold,
                 ),
                 const SizedBox(width: 11),
                 Expanded(
@@ -1804,17 +1796,19 @@ class MainSkills extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: 30,
+                        height: 30,
                         child: skill == null
                             ? const Icon(
                                 Icons.crop_square,
                                 color: soft,
                                 size: 20,
                               )
-                            : Image.asset(
-                                'assets/images/skill_manual.png',
-                                fit: BoxFit.cover,
+                            : ArtworkFrame(
+                                width: 30,
+                                height: 30,
+                                asset: 'assets/images/skill_manual.png',
+                                borderColor: gold,
                               ),
                       ),
                       const SizedBox(width: 8),
@@ -1870,31 +1864,17 @@ class MainSkills extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(9, 8, 8, 8),
                   child: Row(
                     children: [
-                      Container(
-                        width: 34,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff302a20),
-                          border: Border.all(
-                            color: equipped
-                                ? gold
-                                : known
-                                ? tint
-                                : const Color(0xff514b3e),
-                          ),
-                        ),
-                        child: known
-                            ? ClipRect(
-                                child: Image.asset(
-                                  'assets/images/skill_manual.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : const Icon(
-                                Icons.lock,
-                                color: Color(0xff514b3e),
-                                size: 18,
-                              ),
+                      ArtworkFrame(
+                        width: 38,
+                        height: 38,
+                        asset: known ? 'assets/images/skill_manual.png' : null,
+                        icon: Icons.lock,
+                        borderColor: equipped
+                            ? gold
+                            : known
+                            ? tint
+                            : const Color(0xff514b3e),
+                        opacity: known ? 1 : .55,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
