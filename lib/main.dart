@@ -5109,6 +5109,18 @@ class Ending extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 11),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: const Color(0xff3a3020),
+                  border: Border.all(color: gold),
+                ),
+                child: const Text(
+                  '강호 완주 기록 · 저장 완료',
+                  style: TextStyle(color: gold, fontSize: 9, letterSpacing: .6),
+                ),
+              ),
+              const SizedBox(height: 8),
               const Text(
                 '강호일지 · 종장',
                 style: TextStyle(
