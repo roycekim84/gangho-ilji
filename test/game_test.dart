@@ -187,4 +187,23 @@ void main() {
     saved.dispose();
     restored.dispose();
   });
+
+  test('fate choice applies its effect and exposes a dismissible result', () {
+    final game = app.Game();
+    final choice = <String, dynamic>{
+      'text': '낯선 노인을 돕는다',
+      'effect': 'silver',
+      'value': 77,
+    };
+    game.event = app.StoryEvent('갈림길', '비가 내리는 밤', [choice]);
+    final silverBefore = game.silver;
+
+    game.resolve(choice);
+
+    expect(game.event, isNull);
+    expect(game.eventResult, '낯선 노인을 돕는다');
+    expect(game.silver, silverBefore + 77);
+    game.dismissEventResult();
+    expect(game.eventResult, isNull);
+  });
 }
