@@ -1866,6 +1866,8 @@ class MainSkills extends StatelessWidget {
                                 height: 30,
                                 asset: skill.school == '검법'
                                     ? 'assets/images/skill_sword_manual.png'
+                                    : skill.school == '도법'
+                                    ? 'assets/images/skill_blade_manual.png'
                                     : 'assets/images/skill_manual.png',
                                 borderColor: gold,
                               ),
@@ -1929,6 +1931,8 @@ class MainSkills extends StatelessWidget {
                         asset: known
                             ? (skill.school == '검법'
                                   ? 'assets/images/skill_sword_manual.png'
+                                  : skill.school == '도법'
+                                  ? 'assets/images/skill_blade_manual.png'
                                   : 'assets/images/skill_manual.png')
                             : null,
                         icon: Icons.lock,
