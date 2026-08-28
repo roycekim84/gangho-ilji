@@ -3329,6 +3329,16 @@ class _MainChronicleState extends State<MainChronicle> {
             ],
           ),
         ),
+        const SizedBox(width: 6),
+        Opacity(
+          opacity: .62,
+          child: Image.asset(
+            'assets/images/chronicle_seal.png',
+            width: 18,
+            height: 18,
+            fit: BoxFit.cover,
+          ),
+        ),
       ],
     ),
   );
