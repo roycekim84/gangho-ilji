@@ -3507,8 +3507,12 @@ class MainMeter extends StatelessWidget {
             ),
             child: const SizedBox.expand(),
           ),
-          FractionallySizedBox(
-            widthFactor: value.clamp(0, 1),
+          TweenAnimationBuilder<double>(
+            tween: Tween(end: value.clamp(0, 1)),
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOut,
+            builder: (context, animatedValue, child) =>
+                FractionallySizedBox(widthFactor: animatedValue, child: child),
             child: DecoratedBox(decoration: BoxDecoration(color: color)),
           ),
           Positioned.fill(
