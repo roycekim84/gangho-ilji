@@ -291,6 +291,7 @@ class Game extends ChangeNotifier {
   Set<int> nodes = {};
   Timer? timer;
   StoryEvent? event;
+  String? eventResult;
   bool ready = false;
   bool playing = false;
   bool auto = true;
@@ -682,8 +683,14 @@ class Game extends ChangeNotifier {
     if (kind == 'heal') hp = min(maxHp, hp + value);
     if (kind == 'item') bag.add(randomGear(place.tier));
     log('기연의 결과: ' + choice['text']);
+    eventResult = choice['text'] as String;
     event = null;
     save();
+    notifyListeners();
+  }
+
+  void dismissEventResult() {
+    eventResult = null;
     notifyListeners();
   }
 
@@ -923,6 +930,7 @@ class _HomeState extends State<Home> {
         ),
         if (game.offline) Offline(game: game),
         if (game.event != null) EventCard(game: game),
+        if (game.eventResult != null) EventResultCard(game: game),
         if (game.ending) Ending(game: game),
       ],
     );
@@ -4723,6 +4731,62 @@ class _FighterBadge extends StatelessWidget {
           ),
         ),
       ],
+    ),
+  );
+}
+
+class EventResultCard extends StatelessWidget {
+  const EventResultCard({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: const Color(0xcc0b0b08),
+    child: Center(
+      child: Container(
+        margin: const EdgeInsets.all(18),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+        decoration: BoxDecoration(
+          color: const Color(0xff1c1914),
+          border: Border.all(color: const Color(0xff8a6b37)),
+          boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 18)],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const ArtworkFrame(
+              width: 50,
+              height: 50,
+              icon: Icons.auto_awesome,
+              borderColor: gold,
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              '기연의 결말',
+              style: TextStyle(
+                color: gold,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              game.eventResult ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: paper, fontSize: 13, height: 1.4),
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              height: 38,
+              child: OutlinedButton(
+                onPressed: game.dismissEventResult,
+                child: const Text('기록을 새긴다'),
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }
