@@ -2204,7 +2204,9 @@ class Meridian extends StatelessWidget {
                                 '경공',
                                 '암기',
                               ][index % 7],
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 220),
+                                curve: Curves.easeOut,
                                 width: nodeSize,
                                 height: nodeSize,
                                 decoration: BoxDecoration(
@@ -2642,11 +2644,19 @@ class _GearEntry extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ArtworkFrame(
-                      width: 39,
-                      height: 39,
-                      asset: gearArtwork(gear.slot),
-                      borderColor: gradeColor(gear.grade),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 220),
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: ScaleTransition(scale: animation, child: child),
+                      ),
+                      child: ArtworkFrame(
+                        key: ValueKey('${gear.id}-${equipped}-${gear.locked}'),
+                        width: 39,
+                        height: 39,
+                        asset: gearArtwork(gear.slot),
+                        borderColor: gradeColor(gear.grade),
+                      ),
                     ),
                     const SizedBox(width: 9),
                     Expanded(
