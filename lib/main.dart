@@ -1872,6 +1872,8 @@ class MainSkills extends StatelessWidget {
                                     ? 'assets/images/skill_fist_manual.png'
                                     : skill.school == '암기'
                                     ? 'assets/images/skill_hidden_manual.png'
+                                    : skill.school == '심법'
+                                    ? 'assets/images/skill_inner_manual.png'
                                     : 'assets/images/skill_manual.png',
                                 borderColor: gold,
                               ),
@@ -1941,6 +1943,8 @@ class MainSkills extends StatelessWidget {
                                   ? 'assets/images/skill_fist_manual.png'
                                   : skill.school == '암기'
                                   ? 'assets/images/skill_hidden_manual.png'
+                                  : skill.school == '심법'
+                                  ? 'assets/images/skill_inner_manual.png'
                                   : 'assets/images/skill_manual.png')
                             : null,
                         icon: Icons.lock,
