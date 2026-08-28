@@ -206,4 +206,25 @@ void main() {
     game.dismissEventResult();
     expect(game.eventResult, isNull);
   });
+
+  test('realm breakthroughs honor level, boss, energy, and mastery gates', () {
+    final game = app.Game();
+    game.level = 10;
+    game.bosses = {'a0'};
+    game.checkRealm();
+    expect(game.realm, '이류');
+
+    game.level = 24;
+    game.energy = 60;
+    game.bosses = {'a0', 'a1', 'a2'};
+    game.checkRealm();
+    expect(game.realm, '일류');
+
+    game.level = 40;
+    game.kills = 312;
+    game.bosses = {'a0', 'a1', 'a2', 'a3', 'a4', 'a5'};
+    game.checkRealm();
+    expect(game.mastery, greaterThanOrEqualTo(180));
+    expect(game.realm, '절정');
+  });
 }
