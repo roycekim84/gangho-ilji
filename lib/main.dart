@@ -298,6 +298,9 @@ class Game extends ChangeNotifier {
   bool fightingBoss = false;
   bool offline = false;
   bool ending = false;
+  String? bossVictoryNotice;
+  int bossVictoryExp = 0;
+  int bossVictorySilver = 0;
   String hero = '무명';
   String realm = '삼류';
   String foe = '들개';
@@ -513,6 +516,9 @@ class Game extends ChangeNotifier {
           gainSilver.toString(),
     );
     if (fightingBoss) {
+      bossVictoryNotice = foe;
+      bossVictoryExp = gainExp;
+      bossVictorySilver = gainSilver;
       bosses.add(place.id);
       unlocked = min(6, max(unlocked, area + 1));
       log('【' + place.boss + '】을 꺾고 새 길을 열었습니다!');
@@ -691,6 +697,11 @@ class Game extends ChangeNotifier {
 
   void dismissEventResult() {
     eventResult = null;
+    notifyListeners();
+  }
+
+  void dismissBossVictory() {
+    bossVictoryNotice = null;
     notifyListeners();
   }
 
@@ -931,6 +942,7 @@ class _HomeState extends State<Home> {
         if (game.offline) Offline(game: game),
         if (game.event != null) EventCard(game: game),
         if (game.eventResult != null) EventResultCard(game: game),
+        if (game.bossVictoryNotice != null) BossVictoryCard(game: game),
         if (game.ending) Ending(game: game),
       ],
     );
@@ -4731,6 +4743,79 @@ class _FighterBadge extends StatelessWidget {
           ),
         ),
       ],
+    ),
+  );
+}
+
+class BossVictoryCard extends StatelessWidget {
+  const BossVictoryCard({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: const Color(0xcc0b0b08),
+    child: Center(
+      child: Container(
+        margin: const EdgeInsets.all(18),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+        decoration: BoxDecoration(
+          color: const Color(0xff1c1914),
+          border: Border.all(color: const Color(0xff9fc47d)),
+          boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 18)],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ArtworkFrame(
+              width: 58,
+              height: 58,
+              asset: bossArtwork(game.place.id),
+              borderColor: gold,
+              opacity: .82,
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              '지역 보스 격파',
+              style: TextStyle(
+                color: Color(0xff9fc47d),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '【${game.bossVictoryNotice}】의 기세가 꺾였습니다.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: paper, fontSize: 12),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xff211f1a),
+                border: Border.all(color: const Color(0xff635239)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _EndingStat(label: '경험치', value: '+${game.bossVictoryExp}'),
+                  _EndingStat(label: '은자', value: '+${game.bossVictorySilver}'),
+                  const _EndingStat(label: '보상', value: '다음 길'),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              height: 38,
+              child: OutlinedButton(
+                onPressed: game.dismissBossVictory,
+                child: const Text('다음 여정으로'),
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }
