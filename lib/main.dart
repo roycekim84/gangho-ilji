@@ -1864,7 +1864,9 @@ class MainSkills extends StatelessWidget {
                             : ArtworkFrame(
                                 width: 30,
                                 height: 30,
-                                asset: 'assets/images/skill_manual.png',
+                                asset: skill.school == '검법'
+                                    ? 'assets/images/skill_sword_manual.png'
+                                    : 'assets/images/skill_manual.png',
                                 borderColor: gold,
                               ),
                       ),
@@ -1924,7 +1926,11 @@ class MainSkills extends StatelessWidget {
                       ArtworkFrame(
                         width: 38,
                         height: 38,
-                        asset: known ? 'assets/images/skill_manual.png' : null,
+                        asset: known
+                            ? (skill.school == '검법'
+                                  ? 'assets/images/skill_sword_manual.png'
+                                  : 'assets/images/skill_manual.png')
+                            : null,
                         icon: Icons.lock,
                         borderColor: equipped
                             ? gold
