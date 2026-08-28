@@ -1955,15 +1955,21 @@ class MainSkills extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Text(
-                        equipped
-                            ? '장착'
-                            : known
-                            ? '세팅'
-                            : '미습득',
-                        style: TextStyle(
-                          color: equipped ? const Color(0xff9fc47d) : soft,
-                          fontSize: 10,
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 220),
+                        transitionBuilder: (child, animation) =>
+                            FadeTransition(opacity: animation, child: child),
+                        child: Text(
+                          equipped
+                              ? '장착'
+                              : known
+                              ? '세팅'
+                              : '미습득',
+                          key: ValueKey('${skill.id}-$equipped-$known'),
+                          style: TextStyle(
+                            color: equipped ? const Color(0xff9fc47d) : soft,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                     ],
