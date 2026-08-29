@@ -38,4 +38,10 @@
 - `ArtworkFrame`에 등급 색상 기반 1.2px 프레임과 약한 광택을 적용해 장비 희귀도 대비를 강화했다.
 - `flutter test` 9개 통과, 웹 release build 성공. `flutter analyze`는 기존 info 106건(오류 없음).
 - commit `65ef5a5`, `git push origin main` 완료. Pages 대상 반영.
+
+## 2026-08-29 — 모바일 세로 viewport 시각 회귀 점검
+- GitHub Pages에서 390×844와 320×700 viewport로 강호 메인 자동 전투 화면을 확인했다.
+- 캐릭터 상태·지역·전투 상황·로그·자동전투·하단 탭이 첫 화면에 유지되며, 320px에서 지역명만 자연스럽게 줄바꿈된다.
+- 브라우저 콘솔 오류/경고 없음. viewport override는 점검 후 초기화했다.
+- 다음 점검 대상은 지역 선택과 장비 상세 화면이다.
 - `ArtworkFrame`에 등급 색상 기반 1.2px 프레임과 약한 광택을 추가해 장비 희귀도 대비를 강화했다.
