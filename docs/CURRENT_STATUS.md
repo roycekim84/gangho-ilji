@@ -10,4 +10,4 @@
 - 마지막 analyze: 기존 deprecated/preference info 104건, 오류 없음 (2026-08-29)
 - 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-08-29)
 - 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/`
-- 마지막 commit: 경맥 전체 노드 중앙 정렬 작업 진행 중
+- 마지막 commit: `cbcdfa0 fix: center meridian chart bounds`
