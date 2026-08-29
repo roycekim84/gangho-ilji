@@ -292,4 +292,13 @@ void main() {
     expect(game.mastery, greaterThanOrEqualTo(180));
     expect(game.realm, '절정');
   });
+
+  test('corrupted local save is ignored during boot', () async {
+    SharedPreferences.setMockInitialValues({'gangho_save': '{broken'});
+    final game = app.Game();
+    await game.boot();
+    expect(game.ready, isTrue);
+    expect(game.playing, isFalse);
+    game.dispose();
+  });
 }

@@ -151,3 +151,8 @@
 - 저장된 지역·해금 인덱스를 현재 콘텐츠 범위로 제한해 구버전/비정상 값으로 인한 목록 접근 오류를 예방했다.
 - 기존 저장 필드와 정상 저장/불러오기 동작은 유지했다.
 - `flutter test` 14개 통과, `flutter analyze` 오류 없음(info 103건), 웹 release build 성공.
+
+## 2026-08-29 — Phase 5 손상 슬롯 회귀 테스트·Pages smoke test
+- 손상된 `gangho_save` JSON을 무시하고 새 게임으로 부팅하는 회귀 테스트를 추가했다.
+- `flutter test` 15개 통과, `flutter analyze` 오류 없음(info 103건), 웹 release build 성공.
+- GitHub Pages `https://roycekim84.github.io/gangho-ilji/` 응답 HTTP 200을 확인했다.
