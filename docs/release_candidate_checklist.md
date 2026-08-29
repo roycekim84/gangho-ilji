@@ -1,6 +1,6 @@
 # 강호일지 알파 릴리스 후보 체크리스트
 
-최종 확인 기준: 2026-08-26
+최종 확인 기준: 2026-08-29
 
 ## 플레이 가능성
 
@@ -20,19 +20,26 @@
 
 ## UI/웹
 
-- [x] 모바일 세로 기준 390×844 레이아웃 검수
-- [x] 하단 5개 탭 전환
-- [x] 강호 메인 전투 로그 가독성
+- [x] 모바일 세로 기준 320×700·390×844 레이아웃 검수
+- [x] 데스크톱 중앙 제한 폭 레이아웃 검수
+- [x] 하단 5개 탭 전환 및 키보드 포커스
+- [x] 강호 메인 전투 로그 가독성·용어 통일
 - [x] 지역·보스·무인·무도·행낭·강호록 일러스트 연결
 - [x] 공통 무협 테마 토큰 적용
+- [x] 터치 44px 및 Semantics 라벨 검수
 - [x] 공개 GitHub Pages 접속 확인
 
 ## 자동 검증
 
-- `flutter analyze --no-fatal-infos` 통과 (기존 info 수준 린트만 존재)
-- `flutter test` 통과
-- `flutter build web --release --base-href /gangho-ilji/` 통과
-- 공개 주소 HTTP 200 확인: https://roycekim84.github.io/gangho-ilji/
+- [x] `flutter analyze --no-fatal-infos` 통과 (기존 info 수준 린트만 존재)
+- [x] `flutter test` 15개 통과
+- [x] `flutter build web --release --base-href /gangho-ilji/` 통과
+- [x] 공개 주소 HTTP 200 확인: https://roycekim84.github.io/gangho-ilji/
+
+## 잔여 수동 확인
+
+- [ ] 새 브라우저 프로필에서 새 게임부터 엔딩까지 1회 플레이
+- [ ] 릴리스 직전 최신 Pages 번들의 캐시 갱신 확인
 
 ## 알려진 후속 개선
 
