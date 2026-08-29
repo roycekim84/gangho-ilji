@@ -10,4 +10,4 @@
 - 마지막 analyze: 기존 deprecated/preference info 106건, 오류 없음 (2026-08-29)
 - 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-08-29)
 - 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/`
-- 마지막 commit: `462a555 feat: add jewelry equipment artwork`
+- 마지막 commit: `65ef5a5 feat: refine equipment rarity frames`
