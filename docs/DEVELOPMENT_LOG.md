@@ -156,3 +156,8 @@
 - 손상된 `gangho_save` JSON을 무시하고 새 게임으로 부팅하는 회귀 테스트를 추가했다.
 - `flutter test` 15개 통과, `flutter analyze` 오류 없음(info 103건), 웹 release build 성공.
 - GitHub Pages `https://roycekim84.github.io/gangho-ilji/` 응답 HTTP 200을 확인했다.
+
+## 2026-08-29 — Phase 5 데스크톱 웹 레이아웃 QA
+- 공개 Pages에서 데스크톱 viewport를 확인해 게임 화면이 중앙 제한 폭으로 유지되는지 점검했다.
+- 기연 선택 → 오프라인 보상 → 강호 메인 흐름과 하단 탭 고정 상태를 확인했다.
+- 넓은 화면에서 모바일 UI가 과도하게 확장되지 않았고, 콘솔 오류·경고가 없었다.
