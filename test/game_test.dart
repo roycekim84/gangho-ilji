@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:gangho_ilji/main.dart' as app;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -65,6 +66,34 @@ void main() {
     final meter = tester.getSemantics(find.byType(app.Meter));
     expect(meter.label, contains('HP  50 / 100'));
     expect(meter.value, 'HP  50 / 100');
+    semantics.dispose();
+  });
+
+  testWidgets('main battle actions expose contextual semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final game = app.Game();
+    game.areas.add(app.Area('test', '청죽림', '대나무 숲', 1, ['들개'], '숲의 수문장', 0));
+    game.enemies = [
+      {'name': '들개', 'hp': 10, 'attack': 1},
+    ];
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChangeNotifierProvider<app.Game>.value(
+          value: game,
+          child: const Scaffold(body: app.MainJianghu()),
+        ),
+      ),
+    );
+    expect(
+      tester.getSemantics(find.text('지역 변경').first).label,
+      contains('지역 변경'),
+    );
+    expect(
+      tester.getSemantics(find.text('정지').first).label,
+      contains('자동 전투 정지'),
+    );
     semantics.dispose();
   });
 

@@ -3725,35 +3725,47 @@ class MainJianghu extends StatelessWidget {
                 const SizedBox(width: 8),
                 SizedBox(
                   height: 44,
-                  child: OutlinedButton(
-                    onPressed: () => _showAreaDetail(context),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: paper,
-                      side: const BorderSide(color: Color(0xff665338)),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
+                  child: Semantics(
+                    button: true,
+                    label: '${game.place.name} 지역 상세 보기',
+                    child: ExcludeSemantics(
+                      child: OutlinedButton(
+                        onPressed: () => _showAreaDetail(context),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: paper,
+                          side: const BorderSide(color: Color(0xff665338)),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          textStyle: const TextStyle(fontSize: 11),
+                        ),
+                        child: const Text('상세'),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      textStyle: const TextStyle(fontSize: 11),
                     ),
-                    child: const Text('상세'),
                   ),
                 ),
                 const SizedBox(width: 5),
                 SizedBox(
                   height: 44,
-                  child: OutlinedButton(
-                    onPressed: () => _showMap(context),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: gold,
-                      side: const BorderSide(color: Color(0xff8a6b37)),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
+                  child: Semantics(
+                    button: true,
+                    label: '지역 변경: ${game.place.name}',
+                    child: ExcludeSemantics(
+                      child: OutlinedButton(
+                        onPressed: () => _showMap(context),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: gold,
+                          side: const BorderSide(color: Color(0xff8a6b37)),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 9),
+                          textStyle: const TextStyle(fontSize: 11),
+                        ),
+                        child: const Text('지역 변경'),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 9),
-                      textStyle: const TextStyle(fontSize: 11),
                     ),
-                    child: const Text('지역 변경'),
                   ),
                 ),
               ],
@@ -4033,23 +4045,30 @@ class MainJianghu extends StatelessWidget {
                 const Spacer(),
                 SizedBox(
                   height: 44,
-                  child: OutlinedButton(
-                    onPressed: game.toggleAuto,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: game.auto
-                          ? const Color(0xffd08e73)
-                          : const Color(0xff9fc47d),
-                      side: BorderSide(
-                        color: game.auto
-                            ? const Color(0xff87503d)
-                            : const Color(0xff657b4f),
+                  child: Semantics(
+                    button: true,
+                    toggled: game.auto,
+                    label: game.auto ? '자동 전투 정지' : '자동 전투 재개',
+                    child: ExcludeSemantics(
+                      child: OutlinedButton(
+                        onPressed: game.toggleAuto,
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: game.auto
+                              ? const Color(0xffd08e73)
+                              : const Color(0xff9fc47d),
+                          side: BorderSide(
+                            color: game.auto
+                                ? const Color(0xff87503d)
+                                : const Color(0xff657b4f),
+                          ),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                        ),
+                        child: Text(game.auto ? '정지' : '재개'),
                       ),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
                     ),
-                    child: Text(game.auto ? '정지' : '재개'),
                   ),
                 ),
               ],
