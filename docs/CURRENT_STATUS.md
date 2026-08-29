@@ -10,4 +10,4 @@
 - 마지막 analyze: 기존 deprecated/preference info 106건, 오류 없음 (2026-08-29)
 - 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-08-29)
 - 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/`
-- 마지막 commit: 하단 탭 포커스 순서 작업 진행 중
+- 마지막 commit: `03061de feat: define bottom navigation focus order`
