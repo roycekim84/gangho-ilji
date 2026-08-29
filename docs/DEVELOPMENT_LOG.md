@@ -33,3 +33,4 @@
 - 주요 변경 파일: `assets/images/item_necklace.png`, `assets/images/item_jade_tablet.png`, `lib/main.dart`, `docs/roadmap.md`, `docs/CURRENT_STATUS.md`
 - `flutter test` 9개 통과, `flutter build web --release --base-href /gangho-ilji/` 성공, `flutter analyze`는 기존 info 106건(오류 없음).
 - commit `462a555`, `git push origin main` 완료. GitHub Pages 배포 파이프라인 반영 대기.
+- `ArtworkFrame`에 등급 색상 기반 1.2px 프레임과 약한 광택을 추가해 장비 희귀도 대비를 강화했다.

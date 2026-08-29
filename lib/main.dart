@@ -4646,7 +4646,14 @@ class ArtworkFrame extends StatelessWidget {
     height: height,
     decoration: BoxDecoration(
       color: const Color(0xff403629),
-      border: Border.all(color: borderColor),
+      border: Border.all(color: borderColor, width: 1.2),
+      boxShadow: [
+        BoxShadow(
+          color: borderColor.withAlpha(38),
+          blurRadius: 3,
+          spreadRadius: 0.2,
+        ),
+      ],
     ),
     child: asset == null
         ? Icon(icon, color: borderColor, size: height * .55)
