@@ -89,6 +89,7 @@ const gearSuffixesBySlot = {
   '목걸이': ['목걸이', '주'],
   '옥패': ['패', '옥패'],
 };
+const meridianBranches = ['외공', '내공', '검맥', '도맥', '권맥', '경공', '암기'];
 
 String repairGearName(String name, String slot) {
   if (!gearNamePrefixes.any(name.startsWith)) return name;
@@ -2312,6 +2313,21 @@ class Meridian extends StatelessWidget {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+          child: Wrap(
+            spacing: 5,
+            runSpacing: 4,
+            children: [
+              for (var index = 0; index < meridianBranches.length; index++)
+                _MeridianLegend(
+                  color: _meridianBranchColor(index),
+                  label:
+                      '${meridianBranches[index]} · ${_meridianEffect(index)}',
+                ),
+            ],
+          ),
+        ),
         Expanded(
           child: Stack(
             fit: StackFit.expand,
@@ -2337,15 +2353,7 @@ class Meridian extends StatelessWidget {
                         final nodeSize = index == 0 ? 35.0 : 24.0;
                         final opened = game.nodes.contains(index);
                         final available = game.canOpen(index);
-                        final branch = const [
-                          '외공',
-                          '내공',
-                          '검맥',
-                          '도맥',
-                          '권맥',
-                          '경공',
-                          '암기',
-                        ][index % 7];
+                        final branch = meridianBranches[index % 7];
                         return Positioned(
                           left: center.dx - nodeSize / 2,
                           top: center.dy - nodeSize / 2,
