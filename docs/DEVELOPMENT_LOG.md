@@ -250,6 +250,11 @@
 - `TransformationController`를 도입해 0.7배로 시작하고, `constrained: false`와 중앙 정렬로 전체 노드가 첫 화면에 들어오도록 했다.
 - `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
 
+## 2026-08-30 — 경맥 뷰포트 기준 초기 변환 보정
+- 모바일에서 최소 축소 상태에서도 좌측·하단 외곽 노드가 잘리는 현상을 확인했다.
+- 뷰포트 크기를 기준으로 초기 변환 행렬의 배율과 이동값을 직접 계산해 차트 전체를 중앙에 배치했다.
+- `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

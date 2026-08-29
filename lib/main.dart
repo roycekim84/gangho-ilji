@@ -2240,6 +2240,7 @@ class Meridian extends StatefulWidget {
 
 class _MeridianState extends State<Meridian> {
   late final TransformationController _chartController;
+  bool _initialTransformApplied = false;
 
   @override
   void initState() {
@@ -2255,6 +2256,25 @@ class _MeridianState extends State<Meridian> {
   void dispose() {
     _chartController.dispose();
     super.dispose();
+  }
+
+  void _fitChartToViewport(BoxConstraints constraints) {
+    if (_initialTransformApplied || !constraints.hasBoundedWidth) return;
+    _initialTransformApplied = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      const chartSize = 520.0;
+      const scale = .7;
+      final dx = (constraints.maxWidth - chartSize * scale) / 2;
+      final dy = (constraints.maxHeight - chartSize * scale) / 2;
+      final transform = Matrix4.identity()
+        ..setEntry(0, 0, scale)
+        ..setEntry(1, 1, scale)
+        ..setEntry(2, 2, 1)
+        ..setEntry(0, 3, dx.clamp(0, double.infinity).toDouble())
+        ..setEntry(1, 3, dy.clamp(0, double.infinity).toDouble());
+      _chartController.value = transform;
+    });
   }
 
   @override
@@ -2372,103 +2392,114 @@ class _MeridianState extends State<Meridian> {
           ),
         ),
         Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Opacity(
-                opacity: .16,
-                child: Image.asset(
-                  'assets/images/meridian_texture.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              ClipRect(
-                child: InteractiveViewer(
-                  transformationController: _chartController,
-                  minScale: .7,
-                  maxScale: 2.8,
-                  // Keep the complete radial tree centered in the viewport
-                  // when the default (zoomed-out) scale is shown.
-                  alignment: Alignment.center,
-                  constrained: false,
-                  // Keep the chart inside its natural bounds so edge nodes
-                  // cannot be dragged beyond the tappable viewport.
-                  boundaryMargin: EdgeInsets.zero,
-                  clipBehavior: Clip.hardEdge,
-                  child: CustomPaint(
-                    painter: MeridianLines(game.nodes),
-                    child: SizedBox(
-                      width: 520,
-                      height: 520,
-                      child: Stack(
-                        children: List.generate(90, (index) {
-                          final center = _meridianNodeCenter(index);
-                          final nodeSize = index == 0 ? 35.0 : 24.0;
-                          final opened = game.nodes.contains(index);
-                          final available = game.canOpen(index);
-                          final branch = meridianBranches[index % 7];
-                          return Positioned(
-                            left: center.dx - nodeSize / 2,
-                            top: center.dy - nodeSize / 2,
-                            child: Semantics(
-                              button: true,
-                              enabled: available,
-                              label:
-                                  '$branch 경맥 노드 ${index + 1}, ${_meridianEffect(index)}',
-                              hint: opened
-                                  ? '이미 개방됨'
-                                  : available
-                                  ? '선택하여 개방'
-                                  : '선행 노드 필요',
-                              onTap: available ? () => game.open(index) : null,
-                              child: GestureDetector(
-                                onTap: () => game.open(index),
-                                child: Tooltip(
-                                  message:
-                                      '$branch · ${_meridianEffect(index)}',
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 220),
-                                    curve: Curves.easeOut,
-                                    width: nodeSize,
-                                    height: nodeSize,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: opened
-                                          ? (index == 0
-                                                ? gold
-                                                : _meridianBranchColor(index))
-                                          : available
-                                          ? const Color(0xff67563e)
-                                          : const Color(0xff29271f),
-                                      border: Border.all(
-                                        color: opened
-                                            ? _meridianBranchColor(index)
-                                            : soft,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        index == 0
-                                            ? '정'
-                                            : (index + 1).toString(),
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                          color: paper,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              _fitChartToViewport(constraints);
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  Opacity(
+                    opacity: .16,
+                    child: Image.asset(
+                      'assets/images/meridian_texture.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  ClipRect(
+                    child: InteractiveViewer(
+                      transformationController: _chartController,
+                      minScale: .7,
+                      maxScale: 2.8,
+                      // Keep the complete radial tree centered in the viewport
+                      // when the default (zoomed-out) scale is shown.
+                      alignment: Alignment.center,
+                      constrained: false,
+                      // Keep the chart inside its natural bounds so edge nodes
+                      // cannot be dragged beyond the tappable viewport.
+                      boundaryMargin: EdgeInsets.zero,
+                      clipBehavior: Clip.hardEdge,
+                      child: CustomPaint(
+                        painter: MeridianLines(game.nodes),
+                        child: SizedBox(
+                          width: 520,
+                          height: 520,
+                          child: Stack(
+                            children: List.generate(90, (index) {
+                              final center = _meridianNodeCenter(index);
+                              final nodeSize = index == 0 ? 35.0 : 24.0;
+                              final opened = game.nodes.contains(index);
+                              final available = game.canOpen(index);
+                              final branch = meridianBranches[index % 7];
+                              return Positioned(
+                                left: center.dx - nodeSize / 2,
+                                top: center.dy - nodeSize / 2,
+                                child: Semantics(
+                                  button: true,
+                                  enabled: available,
+                                  label:
+                                      '$branch 경맥 노드 ${index + 1}, ${_meridianEffect(index)}',
+                                  hint: opened
+                                      ? '이미 개방됨'
+                                      : available
+                                      ? '선택하여 개방'
+                                      : '선행 노드 필요',
+                                  onTap: available
+                                      ? () => game.open(index)
+                                      : null,
+                                  child: GestureDetector(
+                                    onTap: () => game.open(index),
+                                    child: Tooltip(
+                                      message:
+                                          '$branch · ${_meridianEffect(index)}',
+                                      child: AnimatedContainer(
+                                        duration: const Duration(
+                                          milliseconds: 220,
+                                        ),
+                                        curve: Curves.easeOut,
+                                        width: nodeSize,
+                                        height: nodeSize,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: opened
+                                              ? (index == 0
+                                                    ? gold
+                                                    : _meridianBranchColor(
+                                                        index,
+                                                      ))
+                                              : available
+                                              ? const Color(0xff67563e)
+                                              : const Color(0xff29271f),
+                                          border: Border.all(
+                                            color: opened
+                                                ? _meridianBranchColor(index)
+                                                : soft,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            index == 0
+                                                ? '정'
+                                                : (index + 1).toString(),
+                                            style: const TextStyle(
+                                              fontSize: 8,
+                                              color: paper,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ],
