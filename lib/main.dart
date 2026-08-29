@@ -1695,7 +1695,8 @@ class GameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 30,
+    // Keep the compact wuxia frame while meeting the 44px minimum touch target.
+    height: 44,
     child: OutlinedButton(onPressed: onPressed, child: Text(label)),
   );
 }
