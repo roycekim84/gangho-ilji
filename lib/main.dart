@@ -2358,7 +2358,9 @@ class Meridian extends StatelessWidget {
               InteractiveViewer(
                 minScale: .7,
                 maxScale: 2.8,
-                boundaryMargin: const EdgeInsets.all(180),
+                // Keep the chart inside its natural bounds so edge nodes
+                // cannot be dragged beyond the tappable viewport.
+                boundaryMargin: EdgeInsets.zero,
                 clipBehavior: Clip.none,
                 child: CustomPaint(
                   painter: MeridianLines(game.nodes),

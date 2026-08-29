@@ -224,6 +224,11 @@
 - 확대·축소·드래그와 노드 개방 동작은 유지했다.
 - `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
 
+## 2026-08-29 — 경맥 이동 경계 보정
+- 과도한 `boundaryMargin`으로 최대 이동 시 가장자리 노드가 화면 밖으로 밀리던 문제를 수정했다.
+- 자연 경계로 되돌려 좌우·하단 끝까지 이동해도 노드 중심이 선택 가능한 뷰포트에 남는다.
+- `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
