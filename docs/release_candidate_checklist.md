@@ -36,7 +36,7 @@
 - [x] `flutter build web --release --base-href /gangho-ilji/` 통과
 - [x] 공개 주소 HTTP 200 확인: https://roycekim84.github.io/gangho-ilji/
 
-## 잔여 자동 확인
+## 자동 확인
 
 - [x] 릴리스 직전 Pages 최신 번들·캐시 헤더 확인 (HTTP 200, `x-proxy-cache: MISS`)
 
