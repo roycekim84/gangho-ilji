@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 import 'package:gangho_ilji/main.dart' as app;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,6 +32,27 @@ void main() {
     expect(app.areaArtwork('unknown'), isNull);
     expect(app.bossArtwork('unknown'), isNull);
     expect(app.enemyArtwork('unknown'), endsWith('enemy_bandit.png'));
+  });
+
+  test('combat numbers use stable thousands separators', () {
+    expect(app.formatCount(0), '0');
+    expect(app.formatCount(999), '999');
+    expect(app.formatCount(1284), '1,284');
+    expect(app.formatCount(-4200), '-4,200');
+  });
+
+  testWidgets('bottom navigation exposes selected semantics', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Material(
+          child: app.GameNav(selectedIndex: 0, onDestinationSelected: (_) {}),
+        ),
+      ),
+    );
+    final navSemantics = tester.getSemantics(find.text('강호').first);
+    expect(navSemantics.label, contains('강호 탭'));
+    semantics.dispose();
   });
 
   test('boss victory unlocks the next area in the local progression loop', () {
@@ -96,15 +118,8 @@ void main() {
     game.skills.addAll(
       List.generate(
         6,
-        (index) => app.Skill(
-          'skill$index',
-          '초식 $index',
-          '검법',
-          '범품',
-          1.2,
-          3,
-          '시험용 무공',
-        ),
+        (index) =>
+            app.Skill('skill$index', '초식 $index', '검법', '범품', 1.2, 3, '시험용 무공'),
       ),
     );
     game.activeSkills.clear();
@@ -134,9 +149,7 @@ void main() {
 
   test('offline rewards clamp to the one-minute and eight-hour boundaries', () {
     final game = app.Game();
-    game.areas.add(
-      app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '수문장', 0),
-    );
+    game.areas.add(app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '수문장', 0));
     game.playing = true;
     game.area = 0;
     game.offline = true;
