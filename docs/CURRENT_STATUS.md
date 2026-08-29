@@ -10,4 +10,4 @@
 - 마지막 analyze: 기존 deprecated/preference info 106건, 오류 없음 (2026-08-29)
 - 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-08-29)
 - 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/`
-- 마지막 commit: 상태 게이지 접근성 작업 진행 중
+- 마지막 commit: `b0ae417 feat: add accessibility labels to combat meters`
