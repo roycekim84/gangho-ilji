@@ -234,6 +234,11 @@
 - InteractiveViewer 클리핑을 기본 경계로 복원해 도표가 전용 영역 안에서만 렌더링되도록 수정했다.
 - `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
 
+## 2026-08-29 — 경맥 외부 렌더링 차단
+- 모바일 확대 상태에서 도표가 상단 헤더와 범례를 덮는 현상을 재현했다.
+- 경맥 InteractiveViewer를 ClipRect로 감싸 전용 도표 영역 밖 렌더링을 차단했다.
+- `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

@@ -2355,78 +2355,83 @@ class Meridian extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              InteractiveViewer(
-                minScale: .7,
-                maxScale: 2.8,
-                // Keep the chart inside its natural bounds so edge nodes
-                // cannot be dragged beyond the tappable viewport.
-                boundaryMargin: EdgeInsets.zero,
-                clipBehavior: Clip.hardEdge,
-                child: CustomPaint(
-                  painter: MeridianLines(game.nodes),
-                  child: SizedBox(
-                    width: 500,
-                    height: 480,
-                    child: Stack(
-                      children: List.generate(90, (index) {
-                        final center = _meridianNodeCenter(index);
-                        final nodeSize = index == 0 ? 35.0 : 24.0;
-                        final opened = game.nodes.contains(index);
-                        final available = game.canOpen(index);
-                        final branch = meridianBranches[index % 7];
-                        return Positioned(
-                          left: center.dx - nodeSize / 2,
-                          top: center.dy - nodeSize / 2,
-                          child: Semantics(
-                            button: true,
-                            enabled: available,
-                            label:
-                                '$branch 경맥 노드 ${index + 1}, ${_meridianEffect(index)}',
-                            hint: opened
-                                ? '이미 개방됨'
-                                : available
-                                ? '선택하여 개방'
-                                : '선행 노드 필요',
-                            onTap: available ? () => game.open(index) : null,
-                            child: GestureDetector(
-                              onTap: () => game.open(index),
-                              child: Tooltip(
-                                message: '$branch · ${_meridianEffect(index)}',
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 220),
-                                  curve: Curves.easeOut,
-                                  width: nodeSize,
-                                  height: nodeSize,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: opened
-                                        ? (index == 0
-                                              ? gold
-                                              : _meridianBranchColor(index))
-                                        : available
-                                        ? const Color(0xff67563e)
-                                        : const Color(0xff29271f),
-                                    border: Border.all(
+              ClipRect(
+                child: InteractiveViewer(
+                  minScale: .7,
+                  maxScale: 2.8,
+                  // Keep the chart inside its natural bounds so edge nodes
+                  // cannot be dragged beyond the tappable viewport.
+                  boundaryMargin: EdgeInsets.zero,
+                  clipBehavior: Clip.hardEdge,
+                  child: CustomPaint(
+                    painter: MeridianLines(game.nodes),
+                    child: SizedBox(
+                      width: 500,
+                      height: 480,
+                      child: Stack(
+                        children: List.generate(90, (index) {
+                          final center = _meridianNodeCenter(index);
+                          final nodeSize = index == 0 ? 35.0 : 24.0;
+                          final opened = game.nodes.contains(index);
+                          final available = game.canOpen(index);
+                          final branch = meridianBranches[index % 7];
+                          return Positioned(
+                            left: center.dx - nodeSize / 2,
+                            top: center.dy - nodeSize / 2,
+                            child: Semantics(
+                              button: true,
+                              enabled: available,
+                              label:
+                                  '$branch 경맥 노드 ${index + 1}, ${_meridianEffect(index)}',
+                              hint: opened
+                                  ? '이미 개방됨'
+                                  : available
+                                  ? '선택하여 개방'
+                                  : '선행 노드 필요',
+                              onTap: available ? () => game.open(index) : null,
+                              child: GestureDetector(
+                                onTap: () => game.open(index),
+                                child: Tooltip(
+                                  message:
+                                      '$branch · ${_meridianEffect(index)}',
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 220),
+                                    curve: Curves.easeOut,
+                                    width: nodeSize,
+                                    height: nodeSize,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       color: opened
-                                          ? _meridianBranchColor(index)
-                                          : soft,
+                                          ? (index == 0
+                                                ? gold
+                                                : _meridianBranchColor(index))
+                                          : available
+                                          ? const Color(0xff67563e)
+                                          : const Color(0xff29271f),
+                                      border: Border.all(
+                                        color: opened
+                                            ? _meridianBranchColor(index)
+                                            : soft,
+                                      ),
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      index == 0 ? '정' : (index + 1).toString(),
-                                      style: const TextStyle(
-                                        fontSize: 8,
-                                        color: paper,
+                                    child: Center(
+                                      child: Text(
+                                        index == 0
+                                            ? '정'
+                                            : (index + 1).toString(),
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                          color: paper,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                      ),
                     ),
                   ),
                 ),
