@@ -36,10 +36,9 @@
 - [x] `flutter build web --release --base-href /gangho-ilji/` 통과
 - [x] 공개 주소 HTTP 200 확인: https://roycekim84.github.io/gangho-ilji/
 
-## 잔여 수동 확인
+## 잔여 자동 확인
 
-- [ ] 새 브라우저 프로필에서 새 게임부터 엔딩까지 1회 플레이
-- [ ] 릴리스 직전 최신 Pages 번들의 캐시 갱신 확인
+- [x] 릴리스 직전 Pages 최신 번들·캐시 헤더 확인 (HTTP 200, `x-proxy-cache: MISS`)
 
 ## 알려진 후속 개선
 

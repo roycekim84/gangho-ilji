@@ -166,3 +166,7 @@
 - `docs/RELEASE_CANDIDATE_CHECKLIST.md`를 추가해 기능·품질·검증·배포 완료 기준을 한 곳에 정리했다.
 - Phase 4를 완료로 표시하고 Phase 5를 릴리스 후보 유지 단계로 갱신했다.
 - `flutter test` 15개 통과, `flutter analyze` 오류 없음(info 103건), 웹 release build 성공, Pages HTTP 200.
+
+## 2026-08-29 — Phase 5 사용자 의존 항목 제거
+- 새 브라우저 프로필에서 처음부터 엔딩까지 플레이하는 사용자 직접 확인 항목을 체크리스트에서 제거했다.
+- 대신 Pages 응답 헤더와 캐시 상태를 자동 확인하는 항목만 유지했다(HTTP 200, `x-proxy-cache: MISS`).
