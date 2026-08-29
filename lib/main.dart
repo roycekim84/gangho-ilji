@@ -598,8 +598,18 @@ class Game extends ChangeNotifier {
   Gear randomGear(int tier) {
     const slots = ['무기', '머리', '의복', '손', '신발', '허리띠', '목걸이', '옥패'];
     const prefixes = ['청운', '흑철', '유성', '백호', '현무', '적염'];
-    const suffixes = ['검', '투구', '도포', '호완', '보', '요대', '옥', '패'];
     final slot = slots[random.nextInt(slots.length)];
+    const suffixesBySlot = {
+      '무기': ['검', '도', '창'],
+      '머리': ['투구', '관'],
+      '의복': ['도포', '장포'],
+      '손': ['호완', '수갑'],
+      '신발': ['보', '화'],
+      '허리띠': ['요대', '허리띠'],
+      '목걸이': ['목걸이', '주'],
+      '옥패': ['패', '옥패'],
+    };
+    final suffixes = suffixesBySlot[slot]!;
     final rank = min(3, tier + (random.nextInt(100) < 12 ? 1 : 0));
     return makeGear(
       prefixes[random.nextInt(prefixes.length)] +

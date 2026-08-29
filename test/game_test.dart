@@ -52,6 +52,28 @@ void main() {
     expect(game.logs.first, '청죽림에 발걸음을 옮겼습니다.');
   });
 
+  test('random gear names match their equipment slots', () {
+    final game = app.Game();
+    const suffixes = {
+      '무기': ['검', '도', '창'],
+      '머리': ['투구', '관'],
+      '의복': ['도포', '장포'],
+      '손': ['호완', '수갑'],
+      '신발': ['보', '화'],
+      '허리띠': ['요대', '허리띠'],
+      '목걸이': ['목걸이', '주'],
+      '옥패': ['패', '옥패'],
+    };
+    for (var i = 0; i < 120; i++) {
+      final gear = game.randomGear(1);
+      expect(
+        suffixes[gear.slot]!.any(gear.name.endsWith),
+        isTrue,
+        reason: '${gear.slot}: ${gear.name}',
+      );
+    }
+  });
+
   testWidgets('bottom navigation exposes selected semantics', (tester) async {
     final semantics = tester.ensureSemantics();
     await tester.pumpWidget(
