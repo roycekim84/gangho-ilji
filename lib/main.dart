@@ -2358,6 +2358,8 @@ class Meridian extends StatelessWidget {
               InteractiveViewer(
                 minScale: .7,
                 maxScale: 2.8,
+                boundaryMargin: const EdgeInsets.all(180),
+                clipBehavior: Clip.none,
                 child: CustomPaint(
                   painter: MeridianLines(game.nodes),
                   child: SizedBox(
