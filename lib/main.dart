@@ -2258,47 +2258,59 @@ class Meridian extends StatelessWidget {
                         final nodeSize = index == 0 ? 35.0 : 24.0;
                         final opened = game.nodes.contains(index);
                         final available = game.canOpen(index);
+                        final branch = const [
+                          '외공',
+                          '내공',
+                          '검맥',
+                          '도맥',
+                          '권맥',
+                          '경공',
+                          '암기',
+                        ][index % 7];
                         return Positioned(
                           left: center.dx - nodeSize / 2,
                           top: center.dy - nodeSize / 2,
-                          child: GestureDetector(
-                            onTap: () => game.open(index),
-                            child: Tooltip(
-                              message: const [
-                                '외공',
-                                '내공',
-                                '검맥',
-                                '도맥',
-                                '권맥',
-                                '경공',
-                                '암기',
-                              ][index % 7],
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 220),
-                                curve: Curves.easeOut,
-                                width: nodeSize,
-                                height: nodeSize,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: opened
-                                      ? (index == 0
-                                            ? gold
-                                            : _meridianBranchColor(index))
-                                      : available
-                                      ? const Color(0xff67563e)
-                                      : const Color(0xff29271f),
-                                  border: Border.all(
+                          child: Semantics(
+                            button: true,
+                            enabled: available,
+                            label: '$branch 경맥 노드 ${index + 1}',
+                            hint: opened
+                                ? '이미 개방됨'
+                                : available
+                                ? '선택하여 개방'
+                                : '선행 노드 필요',
+                            onTap: available ? () => game.open(index) : null,
+                            child: GestureDetector(
+                              onTap: () => game.open(index),
+                              child: Tooltip(
+                                message: branch,
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 220),
+                                  curve: Curves.easeOut,
+                                  width: nodeSize,
+                                  height: nodeSize,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
                                     color: opened
-                                        ? _meridianBranchColor(index)
-                                        : soft,
+                                        ? (index == 0
+                                              ? gold
+                                              : _meridianBranchColor(index))
+                                        : available
+                                        ? const Color(0xff67563e)
+                                        : const Color(0xff29271f),
+                                    border: Border.all(
+                                      color: opened
+                                          ? _meridianBranchColor(index)
+                                          : soft,
+                                    ),
                                   ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    index == 0 ? '정' : (index + 1).toString(),
-                                    style: const TextStyle(
-                                      fontSize: 8,
-                                      color: paper,
+                                  child: Center(
+                                    child: Text(
+                                      index == 0 ? '정' : (index + 1).toString(),
+                                      style: const TextStyle(
+                                        fontSize: 8,
+                                        color: paper,
+                                      ),
                                     ),
                                   ),
                                 ),
