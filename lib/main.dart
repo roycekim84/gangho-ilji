@@ -362,6 +362,12 @@ class Game extends ChangeNotifier {
   DateTime lastSeen = DateTime.now();
   DateTime? eventStartedAt;
   static const fateChoiceTimeout = Duration(seconds: 5);
+  int get fateSecondsRemaining {
+    if (eventStartedAt == null) return fateChoiceTimeout.inSeconds;
+    final remaining =
+        fateChoiceTimeout - DateTime.now().difference(eventStartedAt!);
+    return max(0, (remaining.inMilliseconds / 1000).ceil());
+  }
 
   Area get place => areas[area];
   int get need => 40 + level * 35;
@@ -527,6 +533,8 @@ class Game extends ChangeNotifier {
       if (eventStartedAt != null &&
           DateTime.now().difference(eventStartedAt!) >= fateChoiceTimeout) {
         skipEvent();
+      } else {
+        notifyListeners();
       }
       return;
     }
@@ -5279,6 +5287,17 @@ class EventCard extends StatelessWidget {
                   child: Text(
                     '어떤 선택을 하시겠습니까?',
                     style: TextStyle(color: soft, fontSize: 11),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '선택 대기 ${game.fateSecondsRemaining}초 · 미선택 시 자동으로 지나칩니다.',
+                    style: const TextStyle(
+                      color: Color(0xffd08b62),
+                      fontSize: 10,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 7),

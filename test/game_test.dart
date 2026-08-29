@@ -321,6 +321,11 @@ void main() {
     expect(game.logs.first, '기연을 지나쳤습니다.');
   });
 
+  test('fate countdown starts at five seconds', () {
+    final game = app.Game();
+    expect(game.fateSecondsRemaining, 5);
+  });
+
   test('realm breakthroughs honor level, boss, energy, and mastery gates', () {
     final game = app.Game();
     game.level = 10;
