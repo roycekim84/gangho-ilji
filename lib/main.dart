@@ -62,7 +62,8 @@ String gearArtwork(String slot) => switch (slot) {
   '손' => 'assets/images/item_bracers.png',
   '신발' => 'assets/images/item_boots.png',
   '허리띠' => 'assets/images/item_sash.png',
-  '목걸이' || '옥패' => 'assets/images/item_jade_pendant.png',
+  '목걸이' => 'assets/images/item_necklace.png',
+  '옥패' => 'assets/images/item_jade_tablet.png',
   _ => 'assets/images/item_armor.png',
 };
 

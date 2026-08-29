@@ -22,8 +22,8 @@ void main() {
     }
     expect(app.gearArtwork('무기'), endsWith('item_sword.png'));
     expect(app.gearArtwork('머리'), endsWith('item_helmet.png'));
-    expect(app.gearArtwork('목걸이'), endsWith('item_jade_pendant.png'));
-    expect(app.gearArtwork('옥패'), endsWith('item_jade_pendant.png'));
+    expect(app.gearArtwork('목걸이'), endsWith('item_necklace.png'));
+    expect(app.gearArtwork('옥패'), endsWith('item_jade_tablet.png'));
     expect(app.gearArtwork('의복'), endsWith('item_armor.png'));
   });
 

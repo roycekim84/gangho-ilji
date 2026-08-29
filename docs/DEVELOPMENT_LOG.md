@@ -27,3 +27,7 @@
 - 주요 변경 파일: `AGENTS.md`, `docs/roadmap.md`, `docs/CURRENT_STATUS.md`, `docs/GAME_QUALITY_GUIDE.md`, `docs/ART_GUIDE.md`, `docs/DEVELOPMENT_LOG.md`, `lib/main.dart`, `assets/images/item_bracers.png`, `assets/images/item_sash.png`.
 - `flutter test` 9개 통과, `flutter analyze` 오류 없음(정보성 lint 106건), 웹 release build 성공.
 - commit `18753ba`, origin/main push 완료, GitHub Pages 배포 대상 반영.
+## 2026-08-29 — 목걸이·옥패 장비 전용 아트
+- ImageGen으로 목걸이와 옥패를 서로 다른 실루엣의 전용 아이콘으로 생성했다.
+- `gearArtwork` 매핑을 슬롯별 파일로 분리하고 장비 계산·저장 구조는 유지했다.
+- 주요 변경 파일: `assets/images/item_necklace.png`, `assets/images/item_jade_tablet.png`, `lib/main.dart`, `docs/roadmap.md`, `docs/CURRENT_STATUS.md`
