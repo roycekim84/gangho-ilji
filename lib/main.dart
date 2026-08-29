@@ -389,7 +389,15 @@ class Game extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString('gangho_save');
     if (raw == null) return;
-    final value = jsonDecode(raw);
+    dynamic value;
+    try {
+      value = jsonDecode(raw);
+    } on FormatException {
+      // A corrupted local slot should fall back to a fresh game rather than
+      // blocking boot. The next save will replace it with valid JSON.
+      return;
+    }
+    if (value is! Map) return;
     playing = true;
     hero = value['hero'] ?? hero;
     realm = value['realm'] ?? realm;
@@ -397,7 +405,10 @@ class Game extends ChangeNotifier {
     exp = value['exp'] ?? exp;
     silver = value['silver'] ?? silver;
     area = value['area'] ?? area;
-    unlocked = value['unlocked'] ?? unlocked;
+    area = area.clamp(0, max(0, areas.length - 1)).toInt();
+    unlocked = (value['unlocked'] ?? unlocked)
+        .clamp(0, max(0, areas.length - 1))
+        .toInt();
     points = value['points'] ?? points;
     nodePoints = value['nodePoints'] ?? nodePoints;
     kills = value['kills'] ?? kills;
