@@ -239,6 +239,12 @@
 - 경맥 InteractiveViewer를 ClipRect로 감싸 전용 도표 영역 밖 렌더링을 차단했다.
 - `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
 
+## 2026-08-29 — 경맥 전체 노드 중앙 정렬
+- 축소 상태에서 경맥 중심축이 캔버스 중심보다 왼쪽으로 치우쳐 외곽 노드가 잘리는 현상을 확인했다.
+- 도표 캔버스를 520×520으로 확장하고 중심 좌표를 260,260으로 통일해 전체 노드가 중앙에 오도록 보정했다.
+- InteractiveViewer 정렬을 명시해 모바일 세로 뷰포트에서도 축소 시 전체 트리가 균형 있게 보이도록 했다.
+- `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

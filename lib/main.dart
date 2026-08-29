@@ -2359,6 +2359,9 @@ class Meridian extends StatelessWidget {
                 child: InteractiveViewer(
                   minScale: .7,
                   maxScale: 2.8,
+                  // Keep the complete radial tree centered in the viewport
+                  // when the default (zoomed-out) scale is shown.
+                  alignment: Alignment.center,
                   // Keep the chart inside its natural bounds so edge nodes
                   // cannot be dragged beyond the tappable viewport.
                   boundaryMargin: EdgeInsets.zero,
@@ -2366,8 +2369,8 @@ class Meridian extends StatelessWidget {
                   child: CustomPaint(
                     painter: MeridianLines(game.nodes),
                     child: SizedBox(
-                      width: 500,
-                      height: 480,
+                      width: 520,
+                      height: 520,
                       child: Stack(
                         children: List.generate(90, (index) {
                           final center = _meridianNodeCenter(index);
@@ -2445,12 +2448,14 @@ class Meridian extends StatelessWidget {
 }
 
 Offset _meridianNodeCenter(int index) {
-  if (index == 0) return const Offset(220, 225);
+  // The outer ring reaches radius 225; a 520x520 canvas leaves a 23px
+  // safety margin for the 24px node diameter on every side.
+  if (index == 0) return const Offset(260, 260);
   final ringIndex = index - 1;
   final angle = (ringIndex % 15) * pi * 2 / 15;
   final ring = ringIndex ~/ 15;
   final radius = 55 + ring * 34;
-  return Offset(220 + cos(angle) * radius, 225 + sin(angle) * radius);
+  return Offset(260 + cos(angle) * radius, 260 + sin(angle) * radius);
 }
 
 Color _meridianBranchColor(int index) => switch (index % 7) {
