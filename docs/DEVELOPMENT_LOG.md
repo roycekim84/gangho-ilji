@@ -161,3 +161,8 @@
 - 공개 Pages에서 데스크톱 viewport를 확인해 게임 화면이 중앙 제한 폭으로 유지되는지 점검했다.
 - 기연 선택 → 오프라인 보상 → 강호 메인 흐름과 하단 탭 고정 상태를 확인했다.
 - 넓은 화면에서 모바일 UI가 과도하게 확장되지 않았고, 콘솔 오류·경고가 없었다.
+
+## 2026-08-29 — Phase 5 릴리스 후보 체크리스트
+- `docs/RELEASE_CANDIDATE_CHECKLIST.md`를 추가해 기능·품질·검증·배포 완료 기준을 한 곳에 정리했다.
+- Phase 4를 완료로 표시하고 Phase 5를 릴리스 후보 유지 단계로 갱신했다.
+- `flutter test` 15개 통과, `flutter analyze` 오류 없음(info 103건), 웹 release build 성공, Pages HTTP 200.
