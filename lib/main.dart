@@ -2277,8 +2277,8 @@ class Meridian extends StatelessWidget {
               border: Border.all(color: const Color(0xff635239)),
             ),
             child: const Text(
-              '번호는 개방 순서이며, 색상은 분기를 뜻합니다. 외공은 공격력, 내공은 방어력, 검맥은 치명타에 직접 반영됩니다. 먼저 중앙 정 노드에서 이어지는 개방 가능 노드를 선택하세요.',
-              style: TextStyle(color: soft, fontSize: 10, height: 1.35),
+              '번호는 개방 순서, 색상은 분기입니다. 외공·내공·검맥은 전투 능력에 직접 반영됩니다. 중앙 정에서 이어지는 노드를 선택하고, 도표는 드래그해 이동할 수 있습니다.',
+              style: TextStyle(color: soft, fontSize: 9, height: 1.25),
             ),
           ),
         ),
@@ -2362,7 +2362,7 @@ class Meridian extends StatelessWidget {
                   painter: MeridianLines(game.nodes),
                   child: SizedBox(
                     width: 500,
-                    height: 600,
+                    height: 480,
                     child: Stack(
                       children: List.generate(90, (index) {
                         final center = _meridianNodeCenter(index);
@@ -2436,12 +2436,12 @@ class Meridian extends StatelessWidget {
 }
 
 Offset _meridianNodeCenter(int index) {
-  if (index == 0) return const Offset(220, 285);
+  if (index == 0) return const Offset(220, 225);
   final ringIndex = index - 1;
   final angle = (ringIndex % 15) * pi * 2 / 15;
   final ring = ringIndex ~/ 15;
   final radius = 55 + ring * 34;
-  return Offset(220 + cos(angle) * radius, 285 + sin(angle) * radius);
+  return Offset(220 + cos(angle) * radius, 225 + sin(angle) * radius);
 }
 
 Color _meridianBranchColor(int index) => switch (index % 7) {
