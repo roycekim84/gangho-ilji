@@ -871,7 +871,7 @@ class _StartState extends State<Start> {
                     const SizedBox(height: 11),
                     SizedBox(
                       width: double.infinity,
-                      height: 42,
+                      height: 44,
                       child: FilledButton(
                         onPressed: () =>
                             context.read<Game>().start(controller.text),
@@ -884,7 +884,7 @@ class _StartState extends State<Start> {
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
-                height: 36,
+                height: 44,
                 child: OutlinedButton.icon(
                   onPressed: () => showDialog(
                     context: context,
@@ -3697,7 +3697,7 @@ class MainJianghu extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 SizedBox(
-                  height: 28,
+                  height: 44,
                   child: OutlinedButton(
                     onPressed: () => _showAreaDetail(context),
                     style: OutlinedButton.styleFrom(
@@ -3714,7 +3714,7 @@ class MainJianghu extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 SizedBox(
-                  height: 28,
+                  height: 44,
                   child: OutlinedButton(
                     onPressed: () => _showMap(context),
                     style: OutlinedButton.styleFrom(
@@ -4001,7 +4001,7 @@ class MainJianghu extends StatelessWidget {
                 ),
                 const Spacer(),
                 SizedBox(
-                  height: 30,
+                  height: 44,
                   child: OutlinedButton(
                     onPressed: game.toggleAuto,
                     style: OutlinedButton.styleFrom(
@@ -4028,7 +4028,7 @@ class MainJianghu extends StatelessWidget {
         if (game.fightingBoss) ...[
           const SizedBox(height: 8),
           SizedBox(
-            height: 30,
+            height: 44,
             child: OutlinedButton(
               onPressed: game.auto ? null : game.toggleAuto,
               style: OutlinedButton.styleFrom(
@@ -4600,7 +4600,7 @@ class MainJianghu extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
-                  height: 42,
+                  height: 44,
                   child: OutlinedButton.icon(
                     onPressed: cleared
                         ? null
@@ -4866,7 +4866,7 @@ class BossVictoryCard extends StatelessWidget {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              height: 38,
+              height: 44,
               child: OutlinedButton(
                 onPressed: game.dismissBossVictory,
                 child: const Text('다음 여정으로'),
@@ -4922,7 +4922,7 @@ class EventResultCard extends StatelessWidget {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              height: 38,
+              height: 44,
               child: OutlinedButton(
                 onPressed: game.dismissEventResult,
                 child: const Text('기록을 새긴다'),
@@ -5049,7 +5049,7 @@ class Offline extends StatelessWidget {
           const SizedBox(height: 14),
           SizedBox(
             width: double.infinity,
-            height: 42,
+            height: 44,
             child: FilledButton(
               onPressed: game.claimOffline,
               child: const Text('모두 받기'),
@@ -5406,7 +5406,7 @@ class Ending extends StatelessWidget {
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
-                height: 42,
+                height: 44,
                 child: FilledButton(
                   onPressed: game.closeEnding,
                   child: const Text('강호로 돌아간다'),
