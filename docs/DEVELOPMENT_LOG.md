@@ -31,3 +31,5 @@
 - ImageGen으로 목걸이와 옥패를 서로 다른 실루엣의 전용 아이콘으로 생성했다.
 - `gearArtwork` 매핑을 슬롯별 파일로 분리하고 장비 계산·저장 구조는 유지했다.
 - 주요 변경 파일: `assets/images/item_necklace.png`, `assets/images/item_jade_tablet.png`, `lib/main.dart`, `docs/roadmap.md`, `docs/CURRENT_STATUS.md`
+- `flutter test` 9개 통과, `flutter build web --release --base-href /gangho-ilji/` 성공, `flutter analyze`는 기존 info 106건(오류 없음).
+- commit `462a555`, `git push origin main` 완료. GitHub Pages 배포 파이프라인 반영 대기.
