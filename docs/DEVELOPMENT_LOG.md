@@ -245,6 +245,11 @@
 - InteractiveViewer 정렬을 명시해 모바일 세로 뷰포트에서도 축소 시 전체 트리가 균형 있게 보이도록 했다.
 - `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
 
+## 2026-08-29 — 경맥 초기 축소 배율 보정
+- `minScale`은 초기 배율을 설정하지 않는다는 점을 확인해 첫 진입 시 1.0배로 열리던 문제를 수정했다.
+- `TransformationController`를 도입해 0.7배로 시작하고, `constrained: false`와 중앙 정렬로 전체 노드가 첫 화면에 들어오도록 했다.
+- `flutter test` 20개 통과, `flutter analyze` 오류 없음(info 104건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

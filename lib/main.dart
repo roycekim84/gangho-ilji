@@ -2230,9 +2230,33 @@ class Skills extends StatelessWidget {
   }
 }
 
-class Meridian extends StatelessWidget {
+class Meridian extends StatefulWidget {
   const Meridian({super.key, required this.back});
   final VoidCallback back;
+
+  @override
+  State<Meridian> createState() => _MeridianState();
+}
+
+class _MeridianState extends State<Meridian> {
+  late final TransformationController _chartController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start at a fit-to-viewport scale. InteractiveViewer's minScale only
+    // constrains future zooming; it does not apply that scale on first open.
+    _chartController = TransformationController(
+      Matrix4.diagonal3Values(.7, .7, 1),
+    );
+  }
+
+  @override
+  void dispose() {
+    _chartController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
@@ -2242,7 +2266,10 @@ class Meridian extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
           child: Row(
             children: [
-              IconButton(onPressed: back, icon: const Icon(Icons.arrow_back)),
+              IconButton(
+                onPressed: widget.back,
+                icon: const Icon(Icons.arrow_back),
+              ),
               Expanded(
                 child: Text(
                   '경맥도',
@@ -2357,11 +2384,13 @@ class Meridian extends StatelessWidget {
               ),
               ClipRect(
                 child: InteractiveViewer(
+                  transformationController: _chartController,
                   minScale: .7,
                   maxScale: 2.8,
                   // Keep the complete radial tree centered in the viewport
                   // when the default (zoomed-out) scale is shown.
                   alignment: Alignment.center,
+                  constrained: false,
                   // Keep the chart inside its natural bounds so edge nodes
                   // cannot be dragged beyond the tappable viewport.
                   boundaryMargin: EdgeInsets.zero,
