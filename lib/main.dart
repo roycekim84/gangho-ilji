@@ -1157,13 +1157,18 @@ class Jianghu extends StatelessWidget {
                           line.contains('격파') ||
                           line.contains('획득') ||
                           line.contains('돌파');
+                      final damage = line.contains('피해');
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2),
                         child: Text(
                           line,
                           style: TextStyle(
                             fontSize: 12,
-                            color: positive ? const Color(0xff7ec88c) : paper,
+                            color: positive
+                                ? const Color(0xff7ec88c)
+                                : damage
+                                ? const Color(0xffd7a06b)
+                                : paper,
                           ),
                         ),
                       );
@@ -3813,7 +3818,8 @@ class MainJianghu extends StatelessWidget {
                         MainMeter(
                           value: game.foeHp / game.foeMaxHp,
                           color: const Color(0xffb45745),
-                          label: '기혈 ${max(0, game.foeHp)} / ${game.foeMaxHp}',
+                          label:
+                              '기혈 ${formatCount(max(0, game.foeHp))} / ${formatCount(game.foeMaxHp)}',
                         ),
                       ],
                     ),
@@ -3879,9 +3885,9 @@ class MainJianghu extends StatelessWidget {
                   color: const Color(0xff7e3d36),
                   label:
                       '적 기혈  ' +
-                      max(0, game.foeHp).toString() +
+                      formatCount(max(0, game.foeHp)) +
                       ' / ' +
-                      game.foeMaxHp.toString(),
+                      formatCount(game.foeMaxHp),
                 ),
               ],
             ),
@@ -3930,6 +3936,7 @@ class MainJianghu extends StatelessWidget {
                           line.contains('돌파');
                       final critical = line.contains('치명타');
                       final dodge = line.contains('흘려냈') || line.contains('회피');
+                      final damage = line.contains('피해');
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Row(
@@ -3954,6 +3961,8 @@ class MainJianghu extends StatelessWidget {
                                       ? const Color(0xff9fc47d)
                                       : dodge
                                       ? const Color(0xff75aaa4)
+                                      : damage
+                                      ? const Color(0xffd7a06b)
                                       : paper,
                                   fontSize: 11,
                                   height: 1.15,
