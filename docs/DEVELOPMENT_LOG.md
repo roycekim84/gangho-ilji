@@ -22,3 +22,8 @@
 ## 2026-08-29 — Phase 3 허리띠 장비 전용 아트
 - ImageGen으로 무협 허리띠 아이콘을 생성해 `assets/images/item_sash.png`로 추가했다.
 - 허리띠 슬롯이 전용 아트를 사용하도록 `gearArtwork` 매핑을 확장했다.
+
+## 2026-08-29 — 자율 진행 문서·장비 아트 묶음 검증
+- 주요 변경 파일: `AGENTS.md`, `docs/roadmap.md`, `docs/CURRENT_STATUS.md`, `docs/GAME_QUALITY_GUIDE.md`, `docs/ART_GUIDE.md`, `docs/DEVELOPMENT_LOG.md`, `lib/main.dart`, `assets/images/item_bracers.png`, `assets/images/item_sash.png`.
+- `flutter test` 9개 통과, `flutter analyze` 오류 없음(정보성 lint 106건), 웹 release build 성공.
+- commit `18753ba`, origin/main push 완료, GitHub Pages 배포 대상 반영.
