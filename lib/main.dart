@@ -5050,7 +5050,7 @@ class Offline extends StatelessWidget {
                       child: _OfflineMetric(
                         icon: Icons.gavel,
                         label: '처치',
-                        value: '${minutes * unit}명',
+                        value: '${formatCount(minutes * unit)}명',
                         color: const Color(0xffd08b62),
                       ),
                     ),
@@ -5058,7 +5058,7 @@ class Offline extends StatelessWidget {
                       child: _OfflineMetric(
                         icon: Icons.auto_awesome,
                         label: '경험치',
-                        value: '+${minutes * unit ~/ 2}',
+                        value: '+${formatCount(minutes * unit ~/ 2)}',
                         color: successGreen,
                       ),
                     ),
@@ -5066,7 +5066,7 @@ class Offline extends StatelessWidget {
                       child: _OfflineMetric(
                         icon: Icons.monetization_on,
                         label: '은자',
-                        value: '+${minutes * unit}',
+                        value: '+${formatCount(minutes * unit)}',
                         color: gold,
                       ),
                     ),
@@ -5261,11 +5261,11 @@ class EventCard extends StatelessWidget {
                   final effect = choice['effect'] as String;
                   final value = choice['value'] as int;
                   final reward = switch (effect) {
-                    'silver' => '은자 $value 획득',
-                    'exp' => '경험치 $value 획득',
+                    'silver' => '은자 ${formatCount(value)} 획득',
+                    'exp' => '경험치 ${formatCount(value)} 획득',
                     'item' => '장비 발견 가능',
-                    'heal' => '기혈 $value 회복',
-                    'stat' => '능력치 +$value',
+                    'heal' => '기혈 ${formatCount(value)} 회복',
+                    'stat' => '능력치 +${formatCount(value)}',
                     _ => '결과를 알 수 없음',
                   };
                   return Padding(
