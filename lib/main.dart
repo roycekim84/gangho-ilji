@@ -1831,6 +1831,12 @@ class MainSkills extends StatelessWidget {
     final active = game.skills
         .where((skill) => game.activeSkills.contains(skill.id))
         .toList();
+    final knownSkills = game.skills.where((skill) {
+      final index = game.skills.indexOf(skill);
+      return game.activeSkills.contains(skill.id) ||
+          game.level >= 5 + index * 3;
+    }).toList();
+    final lockedSkills = game.skills.length - knownSkills.length;
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
       children: [
@@ -1988,11 +1994,21 @@ class MainSkills extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const GameSectionHeader(title: '보유 무공', trailing: '습득 가능한 초식'),
-        ...game.skills.map((skill) {
+        GameSectionHeader(
+          title: '보유 무공',
+          trailing: '${knownSkills.length} / ${game.skills.length}',
+        ),
+        if (lockedSkills > 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 7),
+            child: Text(
+              '잠긴 무공 ${lockedSkills}개 · 레벨을 올리면 해금됩니다.',
+              style: const TextStyle(color: soft, fontSize: 10),
+            ),
+          ),
+        ...knownSkills.map((skill) {
           final equipped = game.activeSkills.contains(skill.id);
-          final known =
-              equipped || game.level >= 5 + game.skills.indexOf(skill) * 3;
+          final known = knownSkills.contains(skill);
           final tint = skill.grade == '보물'
               ? const Color(0xffdfb35e)
               : skill.grade == '명품'
