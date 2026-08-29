@@ -1190,7 +1190,7 @@ class Jianghu extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: game.toggleAuto,
                 icon: Icon(game.auto ? Icons.pause : Icons.play_arrow),
-                label: Text(game.auto ? '자동전투 중' : '전투 재개'),
+                label: Text(game.auto ? '자동 전투 중' : '전투 재개'),
               ),
             ),
             const SizedBox(width: 8),
@@ -4035,7 +4035,7 @@ class MainJianghu extends StatelessWidget {
                 ),
                 const SizedBox(width: 7),
                 Text(
-                  game.auto ? '자동전투 중' : '전투 정지',
+                  game.auto ? '자동 전투 중' : '전투 정지',
                   style: const TextStyle(
                     color: paper,
                     fontWeight: FontWeight.bold,
