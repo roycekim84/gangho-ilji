@@ -42,6 +42,16 @@ void main() {
     expect(app.formatCount(-4200), '-4,200');
   });
 
+  test('area travel log uses a natural destination sentence', () {
+    final game = app.Game();
+    game.areas.add(app.Area('test', '청죽림', '대나무 숲', 1, ['들개'], '숲의 수문장', 0));
+    game.enemies = [
+      {'name': '들개', 'hp': 10, 'attack': 1},
+    ];
+    game.goArea(0);
+    expect(game.logs.first, '청죽림에 발걸음을 옮겼습니다.');
+  });
+
   testWidgets('bottom navigation exposes selected semantics', (tester) async {
     final semantics = tester.ensureSemantics();
     await tester.pumpWidget(

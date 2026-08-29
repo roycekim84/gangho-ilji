@@ -613,7 +613,7 @@ class Game extends ChangeNotifier {
     if (index > unlocked) return;
     area = index;
     spawn();
-    log(areas[index].name + '(으)로 발걸음을 옮깁니다.');
+    log(areas[index].name + '에 발걸음을 옮겼습니다.');
     save();
     notifyListeners();
   }
@@ -4629,7 +4629,7 @@ class MainJianghu extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'EXP ${(12 + areaIndex * 9) * 8}  ·  은자 ${(7 + areaIndex * 7) * 12}',
+                              'EXP ${formatCount((12 + areaIndex * 9) * 8)}  ·  은자 ${formatCount((7 + areaIndex * 7) * 12)}',
                               style: const TextStyle(color: gold, fontSize: 9),
                             ),
                           ],
