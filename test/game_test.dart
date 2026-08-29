@@ -55,6 +55,19 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('combat meter exposes its numeric value', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: app.Meter(value: .5, color: Colors.red, text: 'HP  50 / 100'),
+      ),
+    );
+    final meter = tester.getSemantics(find.byType(app.Meter));
+    expect(meter.label, contains('HP  50 / 100'));
+    expect(meter.value, 'HP  50 / 100');
+    semantics.dispose();
+  });
+
   test('boss victory unlocks the next area in the local progression loop', () {
     final game = app.Game();
     game.areas.addAll([
