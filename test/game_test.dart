@@ -74,6 +74,12 @@ void main() {
     }
   });
 
+  test('legacy gear names can be repaired to their saved slot', () {
+    expect(app.repairGearName('현무도포', '머리'), '현무투구');
+    expect(app.repairGearName('백호호완', '손'), '백호호완');
+    expect(app.repairGearName('해진 도포', '의복'), '해진 도포');
+  });
+
   testWidgets('bottom navigation exposes selected semantics', (tester) async {
     final semantics = tester.ensureSemantics();
     await tester.pumpWidget(

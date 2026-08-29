@@ -78,6 +78,26 @@ String gearArtwork(String slot) => switch (slot) {
   _ => 'assets/images/item_armor.png',
 };
 
+const gearNamePrefixes = ['청운', '흑철', '유성', '백호', '현무', '적염'];
+const gearSuffixesBySlot = {
+  '무기': ['검', '도', '창'],
+  '머리': ['투구', '관'],
+  '의복': ['도포', '장포'],
+  '손': ['호완', '수갑'],
+  '신발': ['보', '화'],
+  '허리띠': ['요대', '허리띠'],
+  '목걸이': ['목걸이', '주'],
+  '옥패': ['패', '옥패'],
+};
+
+String repairGearName(String name, String slot) {
+  if (!gearNamePrefixes.any(name.startsWith)) return name;
+  final suffixes = gearSuffixesBySlot[slot];
+  if (suffixes == null || suffixes.any(name.endsWith)) return name;
+  final prefix = gearNamePrefixes.firstWhere(name.startsWith);
+  return prefix + suffixes.first;
+}
+
 Color gearGradeColor(String grade) => switch (grade) {
   '보물' => const Color(0xffdfb35e),
   '명품' => const Color(0xffae8bc2),
@@ -421,8 +441,18 @@ class Game extends ChangeNotifier {
     bosses = Set<String>.from(value['bosses'] ?? []);
     activeSkills = Set<String>.from(value['activeSkills'] ?? activeSkills);
     nodes = Set<int>.from(value['nodes'] ?? []);
-    bag = (value['bag'] as List? ?? []).map((x) => Gear.fromJson(x)).toList();
-    worn = (value['worn'] as List? ?? []).map((x) => Gear.fromJson(x)).toList();
+    bag = (value['bag'] as List? ?? []).map((x) => Gear.fromJson(x)).map((
+      gear,
+    ) {
+      gear.name = repairGearName(gear.name, gear.slot);
+      return gear;
+    }).toList();
+    worn = (value['worn'] as List? ?? []).map((x) => Gear.fromJson(x)).map((
+      gear,
+    ) {
+      gear.name = repairGearName(gear.name, gear.slot);
+      return gear;
+    }).toList();
     ending = value['ending'] ?? false;
     lastSeen = DateTime.tryParse(value['lastSeen'] ?? '') ?? DateTime.now();
     refreshHp();
@@ -597,22 +627,11 @@ class Game extends ChangeNotifier {
 
   Gear randomGear(int tier) {
     const slots = ['무기', '머리', '의복', '손', '신발', '허리띠', '목걸이', '옥패'];
-    const prefixes = ['청운', '흑철', '유성', '백호', '현무', '적염'];
     final slot = slots[random.nextInt(slots.length)];
-    const suffixesBySlot = {
-      '무기': ['검', '도', '창'],
-      '머리': ['투구', '관'],
-      '의복': ['도포', '장포'],
-      '손': ['호완', '수갑'],
-      '신발': ['보', '화'],
-      '허리띠': ['요대', '허리띠'],
-      '목걸이': ['목걸이', '주'],
-      '옥패': ['패', '옥패'],
-    };
-    final suffixes = suffixesBySlot[slot]!;
+    final suffixes = gearSuffixesBySlot[slot]!;
     final rank = min(3, tier + (random.nextInt(100) < 12 ? 1 : 0));
     return makeGear(
-      prefixes[random.nextInt(prefixes.length)] +
+      gearNamePrefixes[random.nextInt(gearNamePrefixes.length)] +
           suffixes[random.nextInt(suffixes.length)],
       slot,
       rank,
