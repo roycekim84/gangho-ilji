@@ -361,7 +361,7 @@ class Game extends ChangeNotifier {
   int lastSkill = 0;
   DateTime lastSeen = DateTime.now();
   DateTime? eventStartedAt;
-  static const fateChoiceTimeout = Duration(seconds: 30);
+  static const fateChoiceTimeout = Duration(seconds: 5);
 
   Area get place => areas[area];
   int get need => 40 + level * 35;
@@ -2251,6 +2251,21 @@ class Meridian extends StatelessWidget {
           style: TextStyle(color: soft, fontSize: 12),
         ),
         Padding(
+          padding: const EdgeInsets.fromLTRB(12, 7, 12, 2),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xff211f1a),
+              border: Border.all(color: const Color(0xff635239)),
+            ),
+            child: const Text(
+              '번호는 개방 순서이며, 색상은 분기를 뜻합니다. 외공은 공격력, 내공은 방어력, 검맥은 치명타에 직접 반영됩니다. 먼저 중앙 정 노드에서 이어지는 개방 가능 노드를 선택하세요.',
+              style: TextStyle(color: soft, fontSize: 10, height: 1.35),
+            ),
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
@@ -2337,7 +2352,8 @@ class Meridian extends StatelessWidget {
                           child: Semantics(
                             button: true,
                             enabled: available,
-                            label: '$branch 경맥 노드 ${index + 1}',
+                            label:
+                                '$branch 경맥 노드 ${index + 1}, ${_meridianEffect(index)}',
                             hint: opened
                                 ? '이미 개방됨'
                                 : available
@@ -2347,7 +2363,7 @@ class Meridian extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () => game.open(index),
                               child: Tooltip(
-                                message: branch,
+                                message: '$branch · ${_meridianEffect(index)}',
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 220),
                                   curve: Curves.easeOut,
@@ -2412,6 +2428,13 @@ Color _meridianBranchColor(int index) => switch (index % 7) {
   4 => const Color(0xffc2775f),
   5 => const Color(0xff8aaa78),
   _ => const Color(0xff9a9b72),
+};
+
+String _meridianEffect(int index) => switch (index % 7) {
+  0 => '공격력 +3',
+  1 => '방어력 +2',
+  2 => '치명타 +2%',
+  _ => '분기 확장 노드',
 };
 
 class _MeridianStat extends StatelessWidget {
