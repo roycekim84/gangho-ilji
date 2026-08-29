@@ -3624,48 +3624,54 @@ class GameNav extends StatelessWidget {
       border: Border(top: BorderSide(color: Color(0xff73582e))),
     ),
     padding: const EdgeInsets.only(top: 4, bottom: 3),
-    child: Row(
-      children: List.generate(entries.length, (index) {
-        final selected = index == selectedIndex;
-        return Expanded(
-          child: Semantics(
-            button: true,
-            selected: selected,
-            label: '${entries[index][1]} 탭${selected ? ' (선택됨)' : ''}',
-            child: InkWell(
-              onTap: () => onDestinationSelected(index),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    entries[index][0] as IconData,
-                    size: 19,
-                    color: selected ? gold : soft,
+    child: FocusTraversalGroup(
+      policy: OrderedTraversalPolicy(),
+      child: Row(
+        children: List.generate(entries.length, (index) {
+          final selected = index == selectedIndex;
+          return Expanded(
+            child: FocusTraversalOrder(
+              order: NumericFocusOrder(index.toDouble()),
+              child: Semantics(
+                button: true,
+                selected: selected,
+                label: '${entries[index][1]} 탭${selected ? ' (선택됨)' : ''}',
+                child: InkWell(
+                  onTap: () => onDestinationSelected(index),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        entries[index][0] as IconData,
+                        size: 19,
+                        color: selected ? gold : soft,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        entries[index][1] as String,
+                        style: TextStyle(
+                          color: selected ? gold : soft,
+                          fontSize: 10,
+                          fontWeight: selected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 150),
+                        height: 2,
+                        width: selected ? 24 : 0,
+                        color: gold,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    entries[index][1] as String,
-                    style: TextStyle(
-                      color: selected ? gold : soft,
-                      fontSize: 10,
-                      fontWeight: selected
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    height: 2,
-                    width: selected ? 24 : 0,
-                    color: gold,
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     ),
   );
 }
