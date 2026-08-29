@@ -1024,34 +1024,38 @@ class Meter extends StatelessWidget {
   final Color color;
   final String text;
   @override
-  Widget build(BuildContext context) => Stack(
-    children: [
-      Container(
-        height: 14,
-        decoration: BoxDecoration(
-          color: Colors.black45,
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-      FractionallySizedBox(
-        widthFactor: value.clamp(0, 1),
-        child: Container(
+  Widget build(BuildContext context) => Semantics(
+    label: text,
+    value: text,
+    child: Stack(
+      children: [
+        Container(
           height: 14,
           decoration: BoxDecoration(
-            color: color,
+            color: Colors.black45,
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-      ),
-      Positioned.fill(
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 9, color: Colors.white),
+        FractionallySizedBox(
+          widthFactor: value.clamp(0, 1),
+          child: Container(
+            height: 14,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
         ),
-      ),
-    ],
+        Positioned.fill(
+          child: Center(
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 9, color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }
 
