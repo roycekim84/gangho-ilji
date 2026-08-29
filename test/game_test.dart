@@ -294,10 +294,8 @@ void main() {
     game.resolve(choice);
 
     expect(game.event, isNull);
-    expect(game.eventResult, '낯선 노인을 돕는다');
     expect(game.silver, silverBefore + 77);
-    game.dismissEventResult();
-    expect(game.eventResult, isNull);
+    expect(game.logs.first, '기연의 결과: 낯선 노인을 돕는다');
   });
 
   test('skipping a fate event resumes the automatic battle flow', () {
