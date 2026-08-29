@@ -360,6 +360,8 @@ class Game extends ChangeNotifier {
   int energy = 8;
   int lastSkill = 0;
   DateTime lastSeen = DateTime.now();
+  DateTime? eventStartedAt;
+  static const fateChoiceTimeout = Duration(seconds: 30);
 
   Area get place => areas[area];
   int get need => 40 + level * 35;
@@ -520,7 +522,14 @@ class Game extends ChangeNotifier {
   }
 
   void tick() {
-    if (!ready || !playing || !auto || event != null || ending) return;
+    if (!ready || !playing || !auto || ending) return;
+    if (event != null) {
+      if (eventStartedAt != null &&
+          DateTime.now().difference(eventStartedAt!) >= fateChoiceTimeout) {
+        skipEvent();
+      }
+      return;
+    }
     fight();
   }
 
@@ -587,6 +596,7 @@ class Game extends ChangeNotifier {
     }
     if (!fightingBoss && random.nextInt(100) < 7)
       event = events[random.nextInt(events.length)];
+    eventStartedAt = DateTime.now();
     while (exp >= need) {
       exp -= need;
       level++;
@@ -746,6 +756,7 @@ class Game extends ChangeNotifier {
     log('기연의 결과: ' + choice['text']);
     eventResult = choice['text'] as String;
     event = null;
+    eventStartedAt = null;
     save();
     notifyListeners();
   }
@@ -759,6 +770,7 @@ class Game extends ChangeNotifier {
     if (event == null) return;
     log('기연을 지나쳤습니다.');
     event = null;
+    eventStartedAt = null;
     save();
     notifyListeners();
   }

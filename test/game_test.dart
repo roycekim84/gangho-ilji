@@ -310,6 +310,19 @@ void main() {
     expect(game.logs.first, '기연을 지나쳤습니다.');
   });
 
+  test('unselected fate events auto-dismiss after the choice window', () {
+    final game = app.Game();
+    game.ready = true;
+    game.playing = true;
+    game.event = app.StoryEvent('갈림길', '비가 내리는 밤', const []);
+    game.eventStartedAt = DateTime.now().subtract(
+      app.Game.fateChoiceTimeout + const Duration(seconds: 1),
+    );
+    game.tick();
+    expect(game.event, isNull);
+    expect(game.logs.first, '기연을 지나쳤습니다.');
+  });
+
   test('realm breakthroughs honor level, boss, energy, and mastery gates', () {
     final game = app.Game();
     game.level = 10;
