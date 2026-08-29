@@ -300,6 +300,16 @@ void main() {
     expect(game.eventResult, isNull);
   });
 
+  test('skipping a fate event resumes the automatic battle flow', () {
+    final game = app.Game();
+    game.event = app.StoryEvent('갈림길', '비가 내리는 밤', [
+      {'text': '지나간다', 'effect': 'none', 'value': 0},
+    ]);
+    game.skipEvent();
+    expect(game.event, isNull);
+    expect(game.logs.first, '기연을 지나쳤습니다.');
+  });
+
   test('realm breakthroughs honor level, boss, energy, and mastery gates', () {
     final game = app.Game();
     game.level = 10;

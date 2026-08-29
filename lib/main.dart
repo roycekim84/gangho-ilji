@@ -755,6 +755,14 @@ class Game extends ChangeNotifier {
     notifyListeners();
   }
 
+  void skipEvent() {
+    if (event == null) return;
+    log('기연을 지나쳤습니다.');
+    event = null;
+    save();
+    notifyListeners();
+  }
+
   void dismissBossVictory() {
     bossVictoryNotice = null;
     notifyListeners();
@@ -5370,6 +5378,20 @@ class EventCard extends StatelessWidget {
                     ),
                   );
                 }),
+                SizedBox(
+                  width: double.infinity,
+                  height: 44,
+                  child: TextButton(
+                    onPressed: game.skipEvent,
+                    style: TextButton.styleFrom(
+                      foregroundColor: soft,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                    child: const Text('지금은 지나친다'),
+                  ),
+                ),
               ],
             ),
           ),
