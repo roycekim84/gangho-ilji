@@ -18,6 +18,17 @@ const hpColor = Color(0xffa9473e);
 const innerEnergyColor = Color(0xff4f8c87);
 const successGreen = Color(0xff9fc47d);
 
+String formatCount(int value) {
+  final sign = value < 0 ? '-' : '';
+  final digits = value.abs().toString();
+  final groups = <String>[];
+  for (var end = digits.length; end > 0; end -= 3) {
+    final start = max(0, end - 3);
+    groups.insert(0, digits.substring(start, end));
+  }
+  return sign + groups.join(',');
+}
+
 String? areaArtwork(String id) => switch (id) {
   'luoyang' => 'assets/images/area_luoyang.png',
   'bamboo' => 'assets/images/area_bamboo.png',
@@ -479,7 +490,7 @@ class Game extends ChangeNotifier {
     } else {
       final damage = max(1, foeAttack - defense ~/ 6);
       hp -= damage;
-      log(foe + '의 공격, ' + damage.toString() + ' 피해.');
+      log(foe + '의 공격, ' + formatCount(damage) + ' 피해.');
     }
     var damage = max(1, attack - area * 5 + random.nextInt(8));
     if (random.nextInt(100) < critical) {
@@ -494,10 +505,10 @@ class Game extends ChangeNotifier {
       final skill = usable[random.nextInt(usable.length)];
       damage = (damage * skill.multiplier).round();
       lastSkill = kills + logs.length;
-      log(skill.name + ' 발동! ' + damage.toString() + ' 피해.');
+      log(skill.name + ' 발동! ' + formatCount(damage) + ' 피해.');
     }
     foeHp -= damage;
-    log(hero + '의 반격, ' + damage.toString() + ' 피해.');
+    log(hero + '의 반격, ' + formatCount(damage) + ' 피해.');
     if (hp <= 0) {
       hp = maxHp;
       log('기혈이 다해 객잔에서 정신을 차렸습니다.');
@@ -515,9 +526,9 @@ class Game extends ChangeNotifier {
     log(
       foe +
           ' 격파! 경험치 +' +
-          gainExp.toString() +
+          formatCount(gainExp) +
           ', 은자 +' +
-          gainSilver.toString(),
+          formatCount(gainSilver),
     );
     if (fightingBoss) {
       bossVictoryNotice = foe;
@@ -3471,9 +3482,9 @@ class MainStatus extends StatelessWidget {
                   color: hpColor,
                   label:
                       'HP  ' +
-                      game.hp.toString() +
+                      formatCount(game.hp) +
                       ' / ' +
-                      game.maxHp.toString(),
+                      formatCount(game.maxHp),
                 ),
                 const SizedBox(height: 5),
                 MainMeter(
@@ -3481,9 +3492,9 @@ class MainStatus extends StatelessWidget {
                   color: innerEnergyColor,
                   label:
                       '내력  ' +
-                      energyNow.toString() +
+                      formatCount(energyNow) +
                       ' / ' +
-                      energyMax.toString(),
+                      formatCount(energyMax),
                 ),
               ],
             ),
@@ -3499,7 +3510,7 @@ class MainStatus extends StatelessWidget {
             children: [
               const Text('은자', style: TextStyle(color: soft, fontSize: 10)),
               Text(
-                game.silver.toString(),
+                formatCount(game.silver),
                 style: const TextStyle(
                   color: gold,
                   fontSize: 16,
