@@ -486,11 +486,11 @@ class Game extends ChangeNotifier {
   void fight() {
     final dodged = random.nextInt(100) < agility ~/ 3;
     if (dodged) {
-      log(hero + '이(가) 공격을 흘려냈습니다.');
+      log('적의 공격을 흘려냈습니다.');
     } else {
       final damage = max(1, foeAttack - defense ~/ 6);
       hp -= damage;
-      log(foe + '의 공격, ' + formatCount(damage) + ' 피해.');
+      log('적의 공격으로 ' + formatCount(damage) + ' 피해를 입었습니다.');
     }
     var damage = max(1, attack - area * 5 + random.nextInt(8));
     if (random.nextInt(100) < critical) {
@@ -508,7 +508,7 @@ class Game extends ChangeNotifier {
       log(skill.name + ' 발동! ' + formatCount(damage) + ' 피해.');
     }
     foeHp -= damage;
-    log(hero + '의 반격, ' + formatCount(damage) + ' 피해.');
+    log('반격으로 ' + formatCount(damage) + ' 피해를 입혔습니다.');
     if (hp <= 0) {
       hp = maxHp;
       log('기혈이 다해 객잔에서 정신을 차렸습니다.');
