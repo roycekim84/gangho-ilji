@@ -2264,7 +2264,13 @@ class _MeridianState extends State<Meridian> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       const chartSize = 520.0;
-      const scale = .7;
+      final scale = min(
+        .7,
+        min(
+          constraints.maxWidth / chartSize,
+          constraints.maxHeight / chartSize,
+        ),
+      ).clamp(.5, .7).toDouble();
       final dx = (constraints.maxWidth - chartSize * scale) / 2;
       final dy = (constraints.maxHeight - chartSize * scale) / 2;
       final transform = Matrix4.identity()
@@ -2408,7 +2414,7 @@ class _MeridianState extends State<Meridian> {
                   ClipRect(
                     child: InteractiveViewer(
                       transformationController: _chartController,
-                      minScale: .7,
+                      minScale: .5,
                       maxScale: 2.8,
                       // Keep the complete radial tree centered in the viewport
                       // when the default (zoomed-out) scale is shown.
