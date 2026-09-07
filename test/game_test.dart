@@ -298,6 +298,20 @@ void main() {
     expect(game.logs.first, '기연의 결과: 낯선 노인을 돕는다');
   });
 
+  test('fate experience reward immediately applies level progression', () {
+    final game = app.Game();
+    game.playing = true;
+    game.level = 1;
+    game.exp = game.need - 1;
+    final pointsBefore = game.points;
+    game.resolve({'text': '수련한다', 'effect': 'exp', 'value': 1});
+
+    expect(game.level, 2);
+    expect(game.exp, 0);
+    expect(game.points, pointsBefore + 3);
+    expect(game.nodePoints, 1);
+  });
+
   test('skipping a fate event resumes the automatic battle flow', () {
     final game = app.Game();
     game.event = app.StoryEvent('갈림길', '비가 내리는 밤', [

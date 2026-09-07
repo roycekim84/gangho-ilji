@@ -575,10 +575,24 @@ class Game extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _grantExp(int amount) {
+    exp += amount;
+    while (exp >= need) {
+      exp -= need;
+      level++;
+      points += 3;
+      nodePoints++;
+      refreshHp();
+      log('레벨 ' + level.toString() + ' 달성! 능력치 3, 경맥점 1 획득.');
+      checkRealm();
+    }
+  }
+
   void victory() {
-    final gainExp = (12 + area * 9) * (fightingBoss ? 8 : 1);
-    final gainSilver = (7 + area * 7) * (fightingBoss ? 12 : 1);
-    exp += gainExp;
+    final wasBoss = fightingBoss;
+    final gainExp = (12 + area * 9) * (wasBoss ? 8 : 1);
+    final gainSilver = (7 + area * 7) * (wasBoss ? 12 : 1);
+    _grantExp(gainExp);
     silver += gainSilver;
     kills++;
     log(
@@ -588,7 +602,7 @@ class Game extends ChangeNotifier {
           ', 은자 +' +
           formatCount(gainSilver),
     );
-    if (fightingBoss) {
+    if (wasBoss) {
       bossVictoryNotice = foe;
       bossVictoryExp = gainExp;
       bossVictorySilver = gainSilver;
@@ -602,18 +616,9 @@ class Game extends ChangeNotifier {
       bag.add(gear);
       log('◆ ' + gear.grade + ' 장비 「' + gear.name + '」을 얻었습니다.');
     }
-    if (!fightingBoss && random.nextInt(100) < 7)
+    if (!wasBoss && random.nextInt(100) < 7)
       event = events[random.nextInt(events.length)];
     eventStartedAt = DateTime.now();
-    while (exp >= need) {
-      exp -= need;
-      level++;
-      points += 3;
-      nodePoints++;
-      refreshHp();
-      log('레벨 ' + level.toString() + ' 달성! 능력치 3, 경맥점 1 획득.');
-      checkRealm();
-    }
     spawn();
     save();
   }
@@ -757,7 +762,7 @@ class Game extends ChangeNotifier {
     final kind = choice['effect'];
     final value = choice['value'] as int;
     if (kind == 'silver') silver += value;
-    if (kind == 'exp') exp += value;
+    if (kind == 'exp') _grantExp(value);
     if (kind == 'stat') insight += value;
     if (kind == 'heal') hp = min(maxHp, hp + value);
     if (kind == 'item') bag.add(randomGear(place.tier));
