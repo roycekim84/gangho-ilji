@@ -29,6 +29,10 @@ String formatCount(int value) {
   return sign + groups.join(',');
 }
 
+int _safeInt(dynamic value, [int fallback = 0]) => value is num
+    ? value.toInt()
+    : int.tryParse(value?.toString() ?? '') ?? fallback;
+
 String? areaArtwork(String id) => switch (id) {
   'luoyang' => 'assets/images/area_luoyang.png',
   'bamboo' => 'assets/images/area_bamboo.png',
@@ -323,6 +327,7 @@ class Game extends ChangeNotifier {
   List<Gear> worn = [];
   List<String> logs = ['강호에 발을 들일 준비가 되었습니다.'];
   Set<String> bosses = {};
+  Map<String, int> areaKills = {};
   Set<String> activeSkills = {'falling_leaf', 'iron_fist', 'breath'};
   Set<int> nodes = {};
   Timer? timer;
@@ -370,6 +375,9 @@ class Game extends ChangeNotifier {
   }
 
   Area get place => areas[area];
+  double get areaProgress => bosses.contains(place.id)
+      ? 1
+      : min(0.99, (areaKills[place.id] ?? 0) / 20);
   int get need => 40 + level * 35;
   int get attack =>
       12 +
@@ -447,6 +455,12 @@ class Game extends ChangeNotifier {
     vitality = value['vitality'] ?? vitality;
     energy = value['energy'] ?? energy;
     bosses = Set<String>.from(value['bosses'] ?? []);
+    final savedAreaKills = value['areaKills'];
+    if (savedAreaKills is Map) {
+      areaKills = savedAreaKills.map(
+        (key, value) => MapEntry(key.toString(), _safeInt(value)),
+      );
+    }
     activeSkills = Set<String>.from(value['activeSkills'] ?? activeSkills);
     nodes = Set<int>.from(value['nodes'] ?? []);
     bag = (value['bag'] as List? ?? []).map((x) => Gear.fromJson(x)).map((
@@ -488,6 +502,7 @@ class Game extends ChangeNotifier {
       'vitality': vitality,
       'energy': energy,
       'bosses': bosses.toList(),
+      'areaKills': areaKills,
       'activeSkills': activeSkills.toList(),
       'nodes': nodes.toList(),
       'bag': bag.map((x) => x.toJson()).toList(),
@@ -595,6 +610,9 @@ class Game extends ChangeNotifier {
     _grantExp(gainExp);
     silver += gainSilver;
     kills++;
+    if (!wasBoss) {
+      areaKills[place.id] = (areaKills[place.id] ?? 0) + 1;
+    }
     log(
       foe +
           ' 격파! 경험치 +' +
@@ -3877,7 +3895,7 @@ class MainJianghu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = context.watch<Game>();
-    final progress = game.bosses.contains(game.place.id) ? 1.0 : 0.68;
+    final progress = game.areaProgress;
     final bossImage = bossArtwork(game.place.id);
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),

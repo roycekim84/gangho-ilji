@@ -165,6 +165,25 @@ void main() {
     expect(game.fightingBoss, isFalse);
   });
 
+  test('area progress reflects local defeats and boss completion', () {
+    final game = app.Game();
+    game.areas.add(app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '첫 수문장', 0));
+    game.enemies = [
+      {'name': '들개', 'hp': 1, 'attack': 1},
+    ];
+    game.bossData = [
+      {'name': '첫 수문장', 'hp': 999, 'attack': 1},
+    ];
+    game.playing = true;
+    game.ready = true;
+    game.spawn();
+    game.fight();
+
+    expect(game.areaProgress, closeTo(.05, .001));
+    game.bosses.add('a0');
+    expect(game.areaProgress, 1);
+  });
+
   test('equipment replacement and lock state protect inventory items', () {
     final game = app.Game();
     final first = app.Gear('first', '낡은 검', '무기', '범품', 80, 5, 1);
