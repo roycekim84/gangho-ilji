@@ -246,6 +246,14 @@ void main() {
     expect(game.critical, criticalBefore + 2);
   });
 
+  test('individual martial mastery increases when a skill is used', () {
+    final game = app.Game();
+    expect(game.masteryFor('falling_leaf'), 0);
+    game.recordSkillUse('falling_leaf');
+    game.recordSkillUse('falling_leaf');
+    expect(game.masteryFor('falling_leaf'), 2);
+  });
+
   test('offline rewards clamp to the one-minute and eight-hour boundaries', () {
     final game = app.Game();
     game.areas.add(app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '수문장', 0));

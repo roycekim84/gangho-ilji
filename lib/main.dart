@@ -43,6 +43,12 @@ Set<int> _safeIntSet(dynamic value) => value is List
     ? value.map(_safeInt).where((item) => item >= 0 && item < 90).toSet()
     : <int>{};
 
+Map<String, int> _safeIntMap(dynamic value) => value is Map
+    ? value.map(
+        (key, value) => MapEntry(key.toString(), max(0, _safeInt(value))),
+      )
+    : <String, int>{};
+
 String? areaArtwork(String id) => switch (id) {
   'luoyang' => 'assets/images/area_luoyang.png',
   'bamboo' => 'assets/images/area_bamboo.png',
@@ -339,6 +345,7 @@ class Game extends ChangeNotifier {
   Set<String> bosses = {};
   Map<String, int> areaKills = {};
   Set<String> activeSkills = {'falling_leaf', 'iron_fist', 'breath'};
+  Map<String, int> skillMastery = {};
   Set<int> nodes = {};
   Timer? timer;
   StoryEvent? event;
@@ -402,6 +409,7 @@ class Game extends ChangeNotifier {
       nodes.where((id) => id % 7 == 1).length * 2;
   int get critical => 5 + insight + nodes.where((id) => id % 7 == 2).length * 2;
   int get mastery => kills ~/ 2 + activeSkills.length * 8;
+  int masteryFor(String skillId) => skillMastery[skillId] ?? 0;
 
   Future<void> boot() async {
     final rawAreas =
@@ -475,6 +483,7 @@ class Game extends ChangeNotifier {
     activeSkills = _safeStringSet(value['activeSkills']);
     if (activeSkills.isEmpty)
       activeSkills = {'falling_leaf', 'iron_fist', 'breath'};
+    skillMastery = _safeIntMap(value['skillMastery']);
     nodes = _safeIntSet(value['nodes']);
     bag = (value['bag'] is List ? value['bag'] as List : const [])
         .whereType<Map>()
@@ -522,6 +531,7 @@ class Game extends ChangeNotifier {
       'bosses': bosses.toList(),
       'areaKills': areaKills,
       'activeSkills': activeSkills.toList(),
+      'skillMastery': skillMastery,
       'nodes': nodes.toList(),
       'bag': bag.map((x) => x.toJson()).toList(),
       'worn': worn.map((x) => x.toJson()).toList(),
@@ -595,6 +605,7 @@ class Game extends ChangeNotifier {
         kills + logs.length - lastSkill >= usable.first.cooldown) {
       final skill = usable[random.nextInt(usable.length)];
       damage = (damage * skill.multiplier).round();
+      recordSkillUse(skill.id);
       lastSkill = kills + logs.length;
       log(skill.name + ' 발동! ' + formatCount(damage) + ' 피해.');
     }
@@ -773,6 +784,11 @@ class Game extends ChangeNotifier {
       return;
     save();
     notifyListeners();
+  }
+
+  void recordSkillUse(String id) {
+    skillMastery[id] = masteryFor(id) + 1;
+    save();
   }
 
   bool canOpen(int id) =>
@@ -2134,7 +2150,8 @@ class MainSkills extends StatelessWidget {
                                   skill.multiplier.toString() +
                                   '  ·  재사용 ' +
                                   skill.cooldown.toString() +
-                                  '초',
+                                  '초  ·  숙련 ' +
+                                  game.masteryFor(skill.id).toString(),
                               style: const TextStyle(color: soft, fontSize: 10),
                             ),
                           ],
