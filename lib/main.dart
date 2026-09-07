@@ -33,6 +33,16 @@ int _safeInt(dynamic value, [int fallback = 0]) => value is num
     ? value.toInt()
     : int.tryParse(value?.toString() ?? '') ?? fallback;
 
+String _safeString(dynamic value, [String fallback = '']) =>
+    value is String ? value : fallback;
+
+Set<String> _safeStringSet(dynamic value) =>
+    value is List ? value.whereType<String>().toSet() : <String>{};
+
+Set<int> _safeIntSet(dynamic value) => value is List
+    ? value.map(_safeInt).where((item) => item >= 0 && item < 90).toSet()
+    : <int>{};
+
 String? areaArtwork(String id) => switch (id) {
   'luoyang' => 'assets/images/area_luoyang.png',
   'bamboo' => 'assets/images/area_bamboo.png',
@@ -293,14 +303,14 @@ class Gear {
     'locked': locked,
   };
   factory Gear.fromJson(Map<String, dynamic> value) => Gear(
-    value['id'],
-    value['name'],
-    value['slot'],
-    value['grade'],
-    value['quality'],
-    value['attack'],
-    value['defense'],
-    value['locked'] ?? false,
+    _safeString(value['id']),
+    _safeString(value['name'], '이름 없는 장비'),
+    _safeString(value['slot'], '의복'),
+    _safeString(value['grade'], '범품'),
+    _safeInt(value['quality'], 70).clamp(0, 100).toInt(),
+    _safeInt(value['attack']),
+    _safeInt(value['defense']),
+    value['locked'] is bool ? value['locked'] as bool : false,
   );
 }
 
@@ -435,48 +445,56 @@ class Game extends ChangeNotifier {
     }
     if (value is! Map) return;
     playing = true;
-    hero = value['hero'] ?? hero;
-    realm = value['realm'] ?? realm;
-    level = value['level'] ?? level;
-    exp = value['exp'] ?? exp;
-    silver = value['silver'] ?? silver;
-    area = value['area'] ?? area;
+    hero = _safeString(value['hero'], hero);
+    realm = _safeString(value['realm'], realm);
+    level = max(1, _safeInt(value['level'], level));
+    exp = max(0, _safeInt(value['exp'], exp));
+    silver = max(0, _safeInt(value['silver'], silver));
+    area = _safeInt(value['area'], area);
     area = area.clamp(0, max(0, areas.length - 1)).toInt();
-    unlocked = (value['unlocked'] ?? unlocked)
-        .clamp(0, max(0, areas.length - 1))
-        .toInt();
-    points = value['points'] ?? points;
-    nodePoints = value['nodePoints'] ?? nodePoints;
-    kills = value['kills'] ?? kills;
-    strength = value['strength'] ?? strength;
-    bone = value['bone'] ?? bone;
-    agility = value['agility'] ?? agility;
-    insight = value['insight'] ?? insight;
-    vitality = value['vitality'] ?? vitality;
-    energy = value['energy'] ?? energy;
-    bosses = Set<String>.from(value['bosses'] ?? []);
+    unlocked = _safeInt(
+      value['unlocked'],
+      unlocked,
+    ).clamp(0, max(0, areas.length - 1)).toInt();
+    points = max(0, _safeInt(value['points'], points));
+    nodePoints = max(0, _safeInt(value['nodePoints'], nodePoints));
+    kills = max(0, _safeInt(value['kills'], kills));
+    strength = max(0, _safeInt(value['strength'], strength));
+    bone = max(0, _safeInt(value['bone'], bone));
+    agility = max(0, _safeInt(value['agility'], agility));
+    insight = max(0, _safeInt(value['insight'], insight));
+    vitality = max(0, _safeInt(value['vitality'], vitality));
+    energy = max(0, _safeInt(value['energy'], energy));
+    bosses = _safeStringSet(value['bosses']);
     final savedAreaKills = value['areaKills'];
     if (savedAreaKills is Map) {
       areaKills = savedAreaKills.map(
         (key, value) => MapEntry(key.toString(), _safeInt(value)),
       );
     }
-    activeSkills = Set<String>.from(value['activeSkills'] ?? activeSkills);
-    nodes = Set<int>.from(value['nodes'] ?? []);
-    bag = (value['bag'] as List? ?? []).map((x) => Gear.fromJson(x)).map((
-      gear,
-    ) {
-      gear.name = repairGearName(gear.name, gear.slot);
-      return gear;
-    }).toList();
-    worn = (value['worn'] as List? ?? []).map((x) => Gear.fromJson(x)).map((
-      gear,
-    ) {
-      gear.name = repairGearName(gear.name, gear.slot);
-      return gear;
-    }).toList();
-    ending = value['ending'] ?? false;
-    lastSeen = DateTime.tryParse(value['lastSeen'] ?? '') ?? DateTime.now();
+    activeSkills = _safeStringSet(value['activeSkills']);
+    if (activeSkills.isEmpty)
+      activeSkills = {'falling_leaf', 'iron_fist', 'breath'};
+    nodes = _safeIntSet(value['nodes']);
+    bag = (value['bag'] is List ? value['bag'] as List : const [])
+        .whereType<Map>()
+        .map((x) => Gear.fromJson(Map<String, dynamic>.from(x)))
+        .map((gear) {
+          gear.name = repairGearName(gear.name, gear.slot);
+          return gear;
+        })
+        .toList();
+    worn = (value['worn'] is List ? value['worn'] as List : const [])
+        .whereType<Map>()
+        .map((x) => Gear.fromJson(Map<String, dynamic>.from(x)))
+        .map((gear) {
+          gear.name = repairGearName(gear.name, gear.slot);
+          return gear;
+        })
+        .toList();
+    ending = value['ending'] is bool ? value['ending'] as bool : false;
+    lastSeen =
+        DateTime.tryParse(_safeString(value['lastSeen'])) ?? DateTime.now();
     refreshHp();
     spawn();
   }
