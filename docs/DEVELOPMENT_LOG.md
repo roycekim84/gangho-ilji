@@ -343,6 +343,11 @@
 - 기록 행의 우측 메타 정보를 Flexible·말줄임으로 감싸 320px 폭에서 긴 장비명·등급 조합이 overflow되지 않도록 했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
 
+## 2026-09-09 — 하단 네비게이션 터치 영역 보완
+- 5개 하단 탭의 InkWell 콘텐츠 높이를 44px로 고정해 작은 화면에서도 충분한 터치 영역을 제공했다.
+- 기존 선택 강조선, 색상, 포커스 순서와 Semantics 라벨은 유지했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
