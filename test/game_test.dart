@@ -135,6 +135,52 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('core screens render without overflow at 320 by 700', (
+    tester,
+  ) async {
+    final game = app.Game();
+    game.ready = true;
+    game.playing = true;
+    game.areas.add(app.Area('a0', '낙양 외곽', '시험의 길', 1, ['들개'], '첫 수문장', 0));
+    game.enemies = [
+      {'name': '들개', 'hp': 50, 'attack': 1},
+    ];
+    game.spawn();
+    game.skills.add(
+      app.Skill('falling_leaf', '낙엽일검', '검법', '양품', 1.2, 3, '시험용 무공'),
+    );
+
+    final errors = <FlutterErrorDetails>[];
+    final previousHandler = FlutterError.onError;
+    FlutterError.onError = errors.add;
+    try {
+      for (final child in const [
+        app.MainJianghu(),
+        app.MainWarrior(),
+        app.MainMartial(),
+        app.MainBag(),
+        app.MainChronicle(),
+      ]) {
+        await tester.pumpWidget(
+          MediaQuery(
+            data: const MediaQueryData(size: Size(320, 700)),
+            child: ChangeNotifierProvider<app.Game>.value(
+              value: game,
+              child: MaterialApp(home: Scaffold(body: child)),
+            ),
+          ),
+        );
+        await tester.pump();
+      }
+    } finally {
+      FlutterError.onError = previousHandler;
+    }
+    expect(
+      errors.where((error) => error.exceptionAsString().contains('overflowed')),
+      isEmpty,
+    );
+  });
+
   test('boss victory unlocks the next area in the local progression loop', () {
     final game = app.Game();
     game.areas.addAll([
