@@ -674,7 +674,7 @@ class Game extends ChangeNotifier {
       bag.add(gear);
       log('◆ ' + gear.grade + ' 장비 「' + gear.name + '」을 얻었습니다.');
     }
-    if (!wasBoss && random.nextInt(100) < 7)
+    if (!wasBoss && events.isNotEmpty && random.nextInt(100) < 7)
       event = events[random.nextInt(events.length)];
     eventStartedAt = DateTime.now();
     spawn();
@@ -915,6 +915,38 @@ class Start extends StatefulWidget {
 
 class _StartState extends State<Start> {
   final controller = TextEditingController(text: '독고진');
+  late final Future<bool> saveSlotFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    saveSlotFuture = _hasSaveSlot();
+  }
+
+  Future<bool> _hasSaveSlot() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey('gangho_save');
+  }
+
+  void _showSettings(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('설정'),
+        content: const Text(
+          '강호일지는 이 기기의 로컬 저장 슬롯 하나에 진행 상황을 기록합니다.\n\n'
+          '앱을 다시 열면 마지막 기록을 자동으로 이어갑니다. 저장 데이터는 기기와 브라우저에 귀속됩니다.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('닫기'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => InkPaper(
     child: Stack(
@@ -956,6 +988,35 @@ class _StartState extends State<Start> {
               const Text(
                 '이름 없는 무인이 강호의 끝을 향해 걷습니다.',
                 style: TextStyle(color: soft, fontSize: 11),
+              ),
+              const SizedBox(height: 6),
+              FutureBuilder<bool>(
+                future: saveSlotFuture,
+                builder: (context, snapshot) {
+                  final hasSave = snapshot.data ?? false;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        hasSave ? Icons.save : Icons.save_outlined,
+                        size: 13,
+                        color: hasSave ? gold : soft,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        snapshot.connectionState == ConnectionState.waiting
+                            ? '저장 슬롯 확인 중…'
+                            : hasSave
+                            ? '저장 슬롯 있음 · 자동 이어하기'
+                            : '저장 슬롯 없음 · 새 강호를 시작하세요',
+                        style: TextStyle(
+                          color: hasSave ? gold : soft,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 12),
               Row(
@@ -1025,6 +1086,16 @@ class _StartState extends State<Start> {
                   ),
                   icon: const Icon(Icons.menu_book, size: 15),
                   label: const Text('강호의 법도  ·  플레이 안내'),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                height: 44,
+                child: OutlinedButton.icon(
+                  onPressed: () => _showSettings(context),
+                  icon: const Icon(Icons.settings_outlined, size: 15),
+                  label: const Text('설정  ·  저장 방식 안내'),
                 ),
               ),
               const Spacer(),

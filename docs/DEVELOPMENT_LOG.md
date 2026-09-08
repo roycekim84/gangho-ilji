@@ -312,6 +312,11 @@
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 210건), 웹 release build 성공.
 - `789ae14` 커밋을 `main`에 push했으며 GitHub Pages 배포는 queued 상태로 확인했다.
 
+## 2026-09-08 — 시작 화면 저장 안내·전투 예외 방어
+- 시작 화면에 로컬 저장 슬롯 상태와 자동 이어하기 방식을 표시하고 설정 안내 진입점을 추가했다.
+- 이벤트 콘텐츠가 비어 있는 테스트·복구 상황에서 전투 승리 시 무작위 기연 선택이 호출되지 않도록 방어했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
