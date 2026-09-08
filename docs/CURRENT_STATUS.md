@@ -8,6 +8,6 @@
 - 기술 부채/임시 구현: 단일 `lib/main.dart` 중심 구조, 장비·지역 일부 아이콘 fallback, 실제 이미지 기반 시각 회귀 자동화 미구축.
 - 마지막 테스트: `flutter test` 24개 통과 (2026-09-08)
 - 마지막 analyze: 기존 deprecated/preference info 105건, 오류 없음 (2026-09-07)
-- 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-08-29)
+- 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-09-08)
 - 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/`
 - 마지막 commit: 320×700 화면 overflow 회귀 점검 작업 진행 중
