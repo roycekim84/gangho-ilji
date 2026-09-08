@@ -323,6 +323,30 @@ void main() {
     expect(game.silver, silverAtMinimum + 4);
   });
 
+  test('offline reward claim is idempotent after the first tap', () {
+    final game = app.Game();
+    game.areas.add(app.Area('a0', '낙양 외곽', '시험의 길', 1, ['들개'], '첫 수문장', 0));
+    game.enemies = [
+      {'name': '들개', 'hp': 50, 'attack': 1},
+    ];
+    game.playing = true;
+    game.offline = true;
+    game.lastSeen = DateTime.now().subtract(const Duration(minutes: 3));
+    final killsBefore = game.kills;
+    final silverBefore = game.silver;
+
+    game.claimOffline();
+    final killsAfterFirst = game.kills;
+    final silverAfterFirst = game.silver;
+    game.claimOffline();
+
+    expect(killsAfterFirst, killsBefore + 3);
+    expect(silverAfterFirst, greaterThan(silverBefore));
+    expect(game.kills, killsAfterFirst);
+    expect(game.silver, silverAfterFirst);
+    expect(game.offline, isFalse);
+  });
+
   test('local save restores progression into a fresh game instance', () async {
     SharedPreferences.setMockInitialValues({});
     final saved = app.Game();

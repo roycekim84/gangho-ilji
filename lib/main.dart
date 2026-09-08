@@ -354,6 +354,7 @@ class Game extends ChangeNotifier {
   bool auto = true;
   bool fightingBoss = false;
   bool offline = false;
+  bool claimingOffline = false;
   bool ending = false;
   String? bossVictoryNotice;
   int bossVictoryExp = 0;
@@ -840,6 +841,8 @@ class Game extends ChangeNotifier {
   }
 
   void claimOffline() {
+    if (!offline || claimingOffline) return;
+    claimingOffline = true;
     final minutes = min(
       480,
       max(1, DateTime.now().difference(lastSeen).inMinutes),
@@ -850,6 +853,7 @@ class Game extends ChangeNotifier {
     kills += minutes;
     if (random.nextBool()) bag.add(randomGear(place.tier));
     offline = false;
+    claimingOffline = false;
     log('오프라인 ' + minutes.toString() + '분의 수련 보상을 받았습니다.');
     save();
     notifyListeners();
