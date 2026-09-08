@@ -1849,7 +1849,15 @@ class MainWarrior extends StatelessWidget {
                         width: 36,
                         height: 36,
                         child: item == null
-                            ? Icon(Icons.crop_square, color: soft, size: 20)
+                            ? Opacity(
+                                opacity: .28,
+                                child: ArtworkFrame(
+                                  width: 36,
+                                  height: 36,
+                                  asset: gearArtwork(slot),
+                                  borderColor: const Color(0xff514431),
+                                ),
+                              )
                             : ArtworkFrame(
                                 width: 36,
                                 height: 36,
