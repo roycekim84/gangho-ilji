@@ -3966,69 +3966,90 @@ class MainJianghu extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 9, 12, 10),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(Icons.location_on, color: gold, size: 18),
-                const SizedBox(width: 7),
-                Expanded(
-                  child: Text(
-                    game.place.name,
-                    style: const TextStyle(
-                      color: paper,
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Text(
-                  '진행도 ' + (progress * 100).round().toString() + '%',
-                  style: const TextStyle(color: soft, fontSize: 11),
-                ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  height: 44,
-                  child: Semantics(
-                    button: true,
-                    label: '${game.place.name} 지역 상세 보기',
-                    child: ExcludeSemantics(
-                      child: OutlinedButton(
-                        onPressed: () => _showAreaDetail(context),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: paper,
-                          side: const BorderSide(color: Color(0xff665338)),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          textStyle: const TextStyle(fontSize: 11),
+                Row(
+                  children: [
+                    const Icon(Icons.location_on, color: gold, size: 18),
+                    const SizedBox(width: 7),
+                    Expanded(
+                      child: Text(
+                        game.place.name,
+                        style: const TextStyle(
+                          color: paper,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
                         ),
-                        child: const Text('상세'),
                       ),
                     ),
-                  ),
+                    Text(
+                      '진행도 ' + (progress * 100).round().toString() + '%',
+                      style: const TextStyle(color: soft, fontSize: 11),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 5),
-                SizedBox(
-                  height: 44,
-                  child: Semantics(
-                    button: true,
-                    label: '지역 변경: ${game.place.name}',
-                    child: ExcludeSemantics(
-                      child: OutlinedButton(
-                        onPressed: () => _showMap(context),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: gold,
-                          side: const BorderSide(color: Color(0xff8a6b37)),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
+                const SizedBox(height: 7),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 44,
+                        child: Semantics(
+                          button: true,
+                          label: '${game.place.name} 지역 상세 보기',
+                          child: ExcludeSemantics(
+                            child: OutlinedButton(
+                              onPressed: () => _showAreaDetail(context),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: paper,
+                                side: const BorderSide(
+                                  color: Color(0xff665338),
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                textStyle: const TextStyle(fontSize: 11),
+                              ),
+                              child: const Text('지역 상세'),
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 9),
-                          textStyle: const TextStyle(fontSize: 11),
                         ),
-                        child: const Text('지역 변경'),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: SizedBox(
+                        height: 44,
+                        child: Semantics(
+                          button: true,
+                          label: '지역 변경: ${game.place.name}',
+                          child: ExcludeSemantics(
+                            child: OutlinedButton(
+                              onPressed: () => _showMap(context),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: gold,
+                                side: const BorderSide(
+                                  color: Color(0xff8a6b37),
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 9,
+                                ),
+                                textStyle: const TextStyle(fontSize: 11),
+                              ),
+                              child: const Text('지역 변경'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

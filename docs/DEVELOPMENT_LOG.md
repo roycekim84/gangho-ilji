@@ -306,6 +306,11 @@
 - 경맥 범례 설명을 실제 전투 효과와 일치시켰다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info 105건), 웹 release build 성공.
 
+## 2026-09-08 — 강호 메인 지역 헤더 반응형 보완
+- 지역명·진행도와 액션 버튼을 2행 구조로 정리해 320px 폭에서도 버튼이 눌리거나 잘리지 않도록 했다.
+- 기존 지역 상세·지역 변경 액션과 Semantics 라벨은 유지했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 210건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
