@@ -328,6 +328,11 @@
 - 계열별 비급·슬롯별 장비 아트 매핑 회귀 기대값을 테스트에 추가했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
 
+## 2026-09-08 — Pages 최신 번들 smoke test
+- GitHub Pages HTML과 `flutter_bootstrap.js` 응답이 HTTP 200인지 확인했다.
+- 주인공·강호록 종이·행낭 보관함·무공 비급 핵심 아트 asset도 HTTP 200으로 확인했다.
+- 커밋 `a696534` Actions 배포가 success 상태임을 확인했다.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
