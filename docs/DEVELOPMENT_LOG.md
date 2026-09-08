@@ -317,6 +317,11 @@
 - 이벤트 콘텐츠가 비어 있는 테스트·복구 상황에서 전투 승리 시 무작위 기연 선택이 호출되지 않도록 방어했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
 
+## 2026-09-08 — 강호록 전용 아트 연결
+- 무공록 행에 계열별 비급 표지를, 병기록 행에 슬롯별 장비 아트를 연결해 범용 아이콘 fallback을 줄였다.
+- 기존 인물록·기연록의 의미 아이콘과 강호록 도장 장식은 유지했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

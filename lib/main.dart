@@ -98,6 +98,15 @@ String gearArtwork(String slot) => switch (slot) {
   _ => 'assets/images/item_armor.png',
 };
 
+String skillArtwork(String school) => switch (school) {
+  '검법' => 'assets/images/skill_sword_manual.png',
+  '도법' => 'assets/images/skill_blade_manual.png',
+  '권법' => 'assets/images/skill_fist_manual.png',
+  '암기' => 'assets/images/skill_hidden_manual.png',
+  '심법' => 'assets/images/skill_inner_manual.png',
+  _ => 'assets/images/skill_manual.png',
+};
+
 const gearNamePrefixes = ['청운', '흑철', '유성', '백호', '현무', '적염'];
 const gearSuffixesBySlot = {
   '무기': ['검', '도', '창'],
@@ -3526,6 +3535,7 @@ class _MainChronicleState extends State<MainChronicle> {
               '${skill.school} · ${skill.grade}',
               active ? '장착 중 · 숙련 ${game.mastery}' : skill.description,
               active ? gold : soft,
+              asset: skillArtwork(skill.school),
             );
           }).toList(),
         );
@@ -3541,6 +3551,7 @@ class _MainChronicleState extends State<MainChronicle> {
                   '${gear.grade} · ${gear.slot}',
                   '공격 ${gear.attack}  방어 ${gear.defense}  품질 ${gear.quality}%',
                   gold,
+                  asset: gearArtwork(gear.slot),
                 ),
               )
               .toList(),
@@ -3659,8 +3670,9 @@ class _MainChronicleState extends State<MainChronicle> {
     String title,
     String meta,
     String detail,
-    Color color,
-  ) => Container(
+    Color color, {
+    String? asset,
+  }) => Container(
     padding: const EdgeInsets.symmetric(vertical: 9),
     decoration: const BoxDecoration(
       border: Border(bottom: BorderSide(color: Color(0xff3a3327))),
@@ -3668,7 +3680,13 @@ class _MainChronicleState extends State<MainChronicle> {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ArtworkFrame(width: 28, height: 28, icon: icon, borderColor: color),
+        ArtworkFrame(
+          width: 28,
+          height: 28,
+          asset: asset,
+          icon: icon,
+          borderColor: color,
+        ),
         const SizedBox(width: 9),
         Expanded(
           child: Column(
