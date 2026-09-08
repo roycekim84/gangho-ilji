@@ -296,6 +296,11 @@
 - 7개 지역을 순서대로 이동하며 각 보스를 처치하고 최종 엔딩 상태까지 도달하는 자동 스모크 테스트를 추가했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info 105건), 웹 release build 성공.
 
+## 2026-09-08 — GitHub Pages 배포 smoke test
+- 공개 페이지 HTML과 Flutter bootstrap 응답이 HTTP 200인지 확인했다.
+- 주인공·경맥 핵심 이미지 asset 응답도 HTTP 200으로 확인했다.
+- 커밋 `0322623` Actions 배포가 queued → success로 완료되어 최신 번들이 공개됐다.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
