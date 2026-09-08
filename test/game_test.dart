@@ -300,6 +300,45 @@ void main() {
     expect(game.masteryFor('falling_leaf'), 2);
   });
 
+  test('individual martial mastery survives save and reload', () async {
+    SharedPreferences.setMockInitialValues({});
+    final game = app.Game();
+    game.playing = true;
+    game.recordSkillUse('falling_leaf');
+    game.recordSkillUse('falling_leaf');
+    await game.save();
+
+    final restored = app.Game();
+    await restored.boot();
+    expect(restored.masteryFor('falling_leaf'), 2);
+    restored.dispose();
+    game.dispose();
+  });
+
+  test('all seven bosses can be cleared through the ending', () async {
+    SharedPreferences.setMockInitialValues({});
+    final game = app.Game();
+    await game.boot();
+    game.playing = true;
+    game.ready = true;
+    game.strength = 1000;
+    game.bossData = [
+      for (final area in game.areas) {'name': area.boss, 'hp': 1, 'attack': 0},
+    ];
+
+    for (var index = 0; index < game.areas.length; index++) {
+      game.unlocked = index;
+      game.goArea(index);
+      game.challenge();
+      game.fight();
+      expect(game.bosses, contains(game.areas[index].id));
+    }
+
+    expect(game.ending, isTrue);
+    expect(game.bosses.length, 7);
+    game.dispose();
+  });
+
   test('offline rewards clamp to the one-minute and eight-hour boundaries', () {
     final game = app.Game();
     game.areas.add(app.Area('a0', '첫 길', '시험의 길', 1, ['들개'], '수문장', 0));
