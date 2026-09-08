@@ -9,5 +9,5 @@
 - 마지막 테스트: `flutter test` 27개 통과 (2026-09-08)
 - 마지막 analyze: 오류 없음 (info/deprecation 210건, 2026-09-08)
 - 마지막 빌드: `flutter build web --release --base-href /gangho-ilji/` 성공 (2026-09-08)
-- 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/` (커밋 `0322623`, Actions 성공)
+- 마지막 배포: GitHub Pages `https://roycekim84.github.io/gangho-ilji/` (커밋 `eb7cbe4` 성공, 최신 `789ae14` Actions queued)
 - 마지막 commit: `ff8e31c` 경맥 분기 효과 전투 반영

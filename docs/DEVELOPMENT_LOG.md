@@ -310,6 +310,7 @@
 - 지역명·진행도와 액션 버튼을 2행 구조로 정리해 320px 폭에서도 버튼이 눌리거나 잘리지 않도록 했다.
 - 기존 지역 상세·지역 변경 액션과 Semantics 라벨은 유지했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 210건), 웹 release build 성공.
+- `789ae14` 커밋을 `main`에 push했으며 GitHub Pages 배포는 queued 상태로 확인했다.
 
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
