@@ -402,12 +402,14 @@ class Game extends ChangeNotifier {
       strength * 2 +
       energy ~/ 2 +
       worn.fold<int>(0, (sum, item) => sum + item.attack) +
-      nodes.where((id) => id % 7 == 0).length * 3;
+      nodes.where((id) => id % 7 == 0).length * 3 +
+      nodes.where((id) => id % 7 == 3).length * 2;
   int get defense =>
       4 +
       bone * 2 +
       worn.fold<int>(0, (sum, item) => sum + item.defense) +
-      nodes.where((id) => id % 7 == 1).length * 2;
+      nodes.where((id) => id % 7 == 1).length * 2 +
+      nodes.where((id) => id % 7 == 4).length * 2;
   int get critical => 5 + insight + nodes.where((id) => id % 7 == 2).length * 2;
   int get mastery => kills ~/ 2 + activeSkills.length * 8;
   int masteryFor(String skillId) => skillMastery[skillId] ?? 0;
@@ -586,7 +588,9 @@ class Game extends ChangeNotifier {
   }
 
   void fight() {
-    final dodged = random.nextInt(100) < agility ~/ 3;
+    final dodged =
+        random.nextInt(100) <
+        min(45, agility ~/ 3 + nodes.where((id) => id % 7 == 5).length * 2);
     if (dodged) {
       log('적의 공격을 흘려냈습니다.');
     } else {
@@ -594,7 +598,13 @@ class Game extends ChangeNotifier {
       hp -= damage;
       log('적의 공격으로 ' + formatCount(damage) + ' 피해를 입었습니다.');
     }
-    var damage = max(1, attack - area * 5 + random.nextInt(8));
+    var damage = max(
+      1,
+      attack +
+          nodes.where((id) => id % 7 == 6).length -
+          area * 5 +
+          random.nextInt(8),
+    );
     if (random.nextInt(100) < critical) {
       damage = (damage * 1.7).round();
       log('치명타!');
@@ -2600,7 +2610,10 @@ String _meridianEffect(int index) => switch (index % 7) {
   0 => '공격력 +3',
   1 => '방어력 +2',
   2 => '치명타 +2%',
-  _ => '분기 확장 노드',
+  3 => '도맥 공격력 +2',
+  4 => '권맥 방어력 +2',
+  5 => '경공 회피 +2%',
+  _ => '암기 위력 +1',
 };
 
 class _MeridianStat extends StatelessWidget {
