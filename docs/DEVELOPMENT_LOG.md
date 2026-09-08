@@ -338,6 +338,11 @@
 - 장착 슬롯의 등급 프레임과 이름 표시는 기존 동작을 유지했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
 
+## 2026-09-08 — 강호록 좁은 폭 텍스트 방어
+- 강호록 요약·행적의 처치 수치를 공통 숫자 포맷으로 통일했다.
+- 기록 행의 우측 메타 정보를 Flexible·말줄임으로 감싸 320px 폭에서 긴 장비명·등급 조합이 overflow되지 않도록 했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.

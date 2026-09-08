@@ -3449,7 +3449,7 @@ class _MainChronicleState extends State<MainChronicle> {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      'Lv.${game.level} · ${game.realm} · ${game.kills}명 격파',
+                      'Lv.${game.level} · ${game.realm} · ${formatCount(game.kills)}명 격파',
                       style: const TextStyle(color: soft, fontSize: 11),
                     ),
                   ],
@@ -3631,7 +3631,7 @@ class _MainChronicleState extends State<MainChronicle> {
               _recordRow(
                 Icons.gavel,
                 '쓰러뜨린 적',
-                '${game.kills}명',
+                '${formatCount(game.kills)}명',
                 '검 끝에 이름 없는 승리가 쌓입니다.',
                 const Color(0xffd9b071),
               ),
@@ -3729,7 +3729,15 @@ class _MainChronicleState extends State<MainChronicle> {
                       ),
                     ),
                   ),
-                  Text(meta, style: const TextStyle(color: soft, fontSize: 10)),
+                  Flexible(
+                    child: Text(
+                      meta,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(color: soft, fontSize: 10),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 3),
