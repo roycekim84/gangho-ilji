@@ -27,6 +27,11 @@ void main() {
     expect(app.gearArtwork('목걸이'), endsWith('item_necklace.png'));
     expect(app.gearArtwork('옥패'), endsWith('item_jade_tablet.png'));
     expect(app.gearArtwork('의복'), endsWith('item_armor.png'));
+    expect(app.skillArtwork('검법'), endsWith('skill_sword_manual.png'));
+    expect(app.skillArtwork('도법'), endsWith('skill_blade_manual.png'));
+    expect(app.skillArtwork('권법'), endsWith('skill_fist_manual.png'));
+    expect(app.skillArtwork('암기'), endsWith('skill_hidden_manual.png'));
+    expect(app.skillArtwork('심법'), endsWith('skill_inner_manual.png'));
   });
 
   test('unknown content falls back safely', () {

@@ -2936,7 +2936,12 @@ class _MainBagState extends State<MainBag> {
                     color: const Color(0xff403629),
                     border: Border.all(color: gold),
                   ),
-                  child: const Icon(Icons.inventory_2, color: gold, size: 29),
+                  child: Image.asset(
+                    'assets/images/item_treasure_chest.png',
+                    width: 37,
+                    height: 37,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 const SizedBox(width: 11),
                 Expanded(
@@ -3415,7 +3420,12 @@ class _MainChronicleState extends State<MainChronicle> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.history_edu, color: gold, size: 28),
+              Image.asset(
+                'assets/images/chronicle_seal.png',
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -3477,37 +3487,44 @@ class _MainChronicleState extends State<MainChronicle> {
                   padding: EdgeInsets.only(
                     right: i == labels.length - 1 ? 0 : 5,
                   ),
-                  child: GestureDetector(
-                    onTap: () => setState(() => section = i),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: section == i
-                            ? const Color(0xff473822)
-                            : const Color(0xff1b1a15),
-                        border: Border.all(
-                          color: section == i ? gold : const Color(0xff4b4030),
+                  child: Semantics(
+                    button: true,
+                    selected: section == i,
+                    label: '${labels[i]} 기록 탭',
+                    child: GestureDetector(
+                      onTap: () => setState(() => section = i),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: section == i
+                              ? const Color(0xff473822)
+                              : const Color(0xff1b1a15),
+                          border: Border.all(
+                            color: section == i
+                                ? gold
+                                : const Color(0xff4b4030),
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            icons[i],
-                            color: section == i ? gold : soft,
-                            size: 20,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            labels[i],
-                            style: TextStyle(
-                              color: section == i ? paper : soft,
-                              fontSize: 10,
-                              fontWeight: section == i
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              icons[i],
+                              color: section == i ? gold : soft,
+                              size: 20,
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 4),
+                            Text(
+                              labels[i],
+                              style: TextStyle(
+                                color: section == i ? paper : soft,
+                                fontSize: 10,
+                                fontWeight: section == i
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
