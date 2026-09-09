@@ -2107,25 +2107,19 @@ class MainSkills extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: skill == null
-                            ? const Icon(
-                                Icons.crop_square,
-                                color: soft,
-                                size: 20,
+                            ? Opacity(
+                                opacity: .24,
+                                child: ArtworkFrame(
+                                  width: 30,
+                                  height: 30,
+                                  asset: 'assets/images/skill_manual.png',
+                                  borderColor: const Color(0xff514431),
+                                ),
                               )
                             : ArtworkFrame(
                                 width: 30,
                                 height: 30,
-                                asset: skill.school == '검법'
-                                    ? 'assets/images/skill_sword_manual.png'
-                                    : skill.school == '도법'
-                                    ? 'assets/images/skill_blade_manual.png'
-                                    : skill.school == '권법'
-                                    ? 'assets/images/skill_fist_manual.png'
-                                    : skill.school == '암기'
-                                    ? 'assets/images/skill_hidden_manual.png'
-                                    : skill.school == '심법'
-                                    ? 'assets/images/skill_inner_manual.png'
-                                    : 'assets/images/skill_manual.png',
+                                asset: skillArtwork(skill.school),
                                 borderColor: gold,
                               ),
                       ),

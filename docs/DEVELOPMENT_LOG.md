@@ -348,6 +348,11 @@
 - 기존 선택 강조선, 색상, 포커스 순서와 Semantics 라벨은 유지했다.
 - `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
 
+## 2026-09-09 — 무도 빈 초식 슬롯 실루엣 보완
+- 미장착 무공 슬롯에도 전용 비급 표지를 낮은 불투명도로 표시해 다섯 초식 위치를 명확히 했다.
+- 장착 무공은 계열별 비급 아트와 기존 발동 로직을 그대로 유지했다.
+- `flutter test` 27개 통과, `flutter analyze` 오류 없음(info/deprecation 105건), 웹 release build 성공.
+
 ## 2026-08-29 — Phase 5 릴리스 후보 완료
 - Pages 최신 번들의 HTTP 200·캐시 MISS·수정 시각을 자동 확인해 릴리스 후보 기준을 충족했다.
 - 로드맵 Phase 5와 릴리스 체크리스트를 완료 상태로 갱신했다.
